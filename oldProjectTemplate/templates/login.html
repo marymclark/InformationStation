@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+
+{% block intro %}
+<div class="row">
+    <div class="col-md-12 h-pad-20">
+        <div align="center wow fadeIn">
+            <h1>Welcome back!</h1>
+            {% from "_formhelpers.html" import render_field %}
+            <form method=post action="/login">
+              <dl>
+                {{ render_field(form.username) }}
+                {{ render_field(form.password) }}
+              </dl>
+              <p><input type=submit value=Login class="btn btn-success">
+            </form>
+            <a href="/" style="color:#fff;">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
