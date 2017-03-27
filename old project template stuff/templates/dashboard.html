@@ -1,0 +1,374 @@
+{% extends "layout.html" %}
+
+{% block title %} DASHBOARD {% endblock %}
+
+{% block links %}
+{% endblock %}
+
+{% block static %}
+    {% block header %}
+    <aside id="welcome" class="cta-quote welcome" style="background: #002b5a;
+                  background-image: -webkit-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: -moz-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: -o-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);">
+        <div class="container wow fadeIn">
+            {% if session['user']['account_type_id'] == 2 %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <div class="row h-pad-20 t-pad-10" align="center">
+                                {% if session['user']['profile_img'] == None %}
+                                <img src="/static/img/profile_default.png" class="img-responsive h-pad-20">
+                                {% else %}
+                                <div class="thumbnail thumb">
+                                    <img src="{{ session['user']['profile_img'] }}" class="img-responsive img-square">
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Username</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    <h5 class="w-400 transform-none">{{ session['user']['username'] }}</h5>
+                                </div>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Name</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    <h5 class="w-400 transform-none">
+                                        {{ session['user']['first_name'] }}&nbsp;
+                                        {% if session['user']['middle_name']|length > 0 %}
+                                            {{ session['user']['middle_name'] }}&nbsp;
+                                        {% endif %}
+                                        {{ session['user']['last_name'] }}</h5>
+                                </div>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Registered</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    <h5 class="w-400 transform-none">{{ session['user']['registration_date'] }}</h5>
+                                </div>
+                            </div>
+                            <div class="row t-pad-10" align="right">
+                                <a href="#edit-profile-img" role="button" class="btn btn-success btn-sm active lh-sm rounded-15tl" data-toggle="modal">
+                                    <i class="fa fa-file-image-o em15 lh-01"></i>
+                                </a>
+                                <a href="#edit-name" role="button" class="btn btn-success btn-sm active lh-sm rounded-15br" data-toggle="modal">
+                                    <i class="fa fa-wrench em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                             <div class="row h-pad-20">
+                                <h5>Contact Info</h5>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Email</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    <h5 class="w-400 transform-none">{{ session['user']['email_address'] }}</h5>
+                                </div>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Phone</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    <h5 class="w-400 transform-none">{{ session['user']['phone_number'] }}</h5>
+                                </div>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">LinkedIn</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    {% if session['user']['link_linkedin'] != None %}
+                                    <a href="{{ session['user']['link_linkedin'] }}" target="_blank">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    {% else %}
+                                    <h5 class="w-400 transform-none">{{ session['user']['link_linkedin'] }}</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row h-pad-10">
+                                <div class="col-md-4" align="left">
+                                    <h5 class="color-lt">Website</h5>
+                                </div>
+                                <div class="col-md-8" align="right">
+                                    {% if session['user']['link_website'] != None %}
+                                    <a href="{{ session['user']['link_website'] }}" target="_blank">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                    {% else %}
+                                    <h5 class="w-400 transform-none">{{ session['user']['link_website'] }}</h5>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row t-pad-10" align="right">
+                                <a href="#edit-contact" role="button" class="btn btn-success btn-sm active lh-sm rounded-15c" data-toggle="modal">
+                                    <i class="fa fa-wrench em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>School</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-wrench em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Major</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-file-pdf-o em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <div class="row h-pad-20">
+                                <h5>Resume</h5>
+                            </div>
+                            <div class="row h-pad-10 t-pad-10">
+                                <div class="col-md-12" align="center">
+
+                                    {% if session['user']['resume_link'] != None %}
+                                    <a href="#display-resume" data-toggle="modal" role="button" class="btn btn-primary btn-lg active rounded-15">
+                                        <i class="fa fa-eye em15 lh-01"></i>
+                                    </a>
+                                    {% else %}
+                                    <a href="#edit-resume" data-toggle="modal" role="button" class="btn btn-primary btn-lg active rounded-15">
+                                        <i class="fa fa-upload em15 lh-01"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row t-pad-10" align="right">
+                                <a href="#edit-resume" data-toggle="modal" role="button" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-wrench em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>
+                                {% if session['user']['account_type_id'] == 2 %}
+                                Student 
+                                {% endif %}
+                                {% if session['user']['account_type_id'] == 3 %}
+                                Employer 
+                                {% endif %}
+                                Dashboard
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 pad mar-5 v-pad-10 h-pad-15">
+                            <form class="search">
+                                <input class="searchTerm" placeholder="" />
+                                <input class="searchButton" type="submit" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Getting Started</h5>
+                            {% block guide %}
+                            <p>Welcome to your dashboard! View our detailed student guide <a href="/student-guide">here</a>!</p>
+                            {% endblock %}
+                        </div>
+                    </div>
+                    <div class="row mar-5" ng-controller="ChatController">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Live Feed</h5>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="message-pane" class="chat-history chat-thread">
+                                                <div class="row" ng-repeat="msg in messages | filter:chatfilter">
+                                                    <div class="col-md-2" align="right">
+                                                        <span class="message-author" ng-bind="msg.author"></span>
+                                                    </div>
+                                                    <div class="col-md-6" align="left">
+                                                        <span class="message-text" ng-bind="msg.txt"></span>
+                                                    </div>
+                                                    <div class="col-md-4" align="right">
+                                                        <span class="message-time" am-time-ago="msg.time"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row b-pad-10">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                              <input type="text" ng-keyup="$event.keyCode == 13 && send()" ng-model="text" class="form-control chat-prompt" aria-label="..." style="  height: 29px;
+                                                                                                                            border-color: rgba(25,147,147,0.6);
+                                                                                                                            border-radius: 0px 0px 0px 5px !important;
+                                                                                                                            background-color: lightcyan;">
+                                              <div class="input-group-btn">
+                                                  <form id="chat" ng-submit="send()" style="display: inline;">
+                                                      <input type="submit" ng-disabled="!text" value=Send class="btn btn-success btn-sm active lh-sm">
+                                                  </form>
+                                                  <form ng-submit="find()" style="display: inline;">
+                                                        <button type="submit" ng-disabled="!text" class="btn btn-primary btn-sm active lh-sm rounded-5br" style=" height: 29px;
+                                                                                                                                            width: 29px;">
+                                                            <div ng-if="!filter">
+                                                                <i class="fa fa-search" style=" position: relative;
+                                                                                            font-size: 15px;
+                                                                                            /* line-height: 29px; */
+                                                                                            top: -7px;
+                                                                                            left: -7px;"></i>
+                                                            </div>
+                                                            <div ng-if="filter">
+                                                                <i class="fa fa-times" style=" position: relative;
+                                                                                            font-size: 15px;
+                                                                                            /* line-height: 29px; */
+                                                                                            top: -7px;
+                                                                                            left: -7px;"></i>
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                              </div>
+                                            </div>
+                                            <!--<textarea name="message-to-send" id="message-to-send" class="w100 box rounded-5 h-pad-15" placeholder ="Type your message" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-3" align="right">-->
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Submitted Applications</h5>
+                            <p>You have not submitted any applications!</p>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Open Positions</h5>
+                            <p>There are no open positions for your major!</p>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Bookmarks</h5>
+                            <p>You have no bookmarked employers or positions!</p>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Experience</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-plus em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Skills</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-plus em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Interests</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-plus em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mar-5">
+                        <div class="col-md-12 sexy-content rounded-15">
+                            <h5>Plain-Text Resume</h5>
+                            <p>Not Available</p>
+                            <div class="row t-pad-10" align="right">
+                                <a href="" data-modal="#edit-profile" class="btn btn-success btn-sm active lh-sm rounded-15c">
+                                    <i class="fa fa-plus em15 lh-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </aside>
+
+    <!-- Modals -->
+    {% from "_modalhelpers.html" import render_edit_modal_before_body, render_edit_modal_after_footer, render_pdf_modal %}
+    {% from "_formhelpers.html" import render_field %}
+    
+    <!-- Upload Photo -->
+    {{ render_edit_modal_before_body('profile-img','Upload Profile Image') }}
+    {{ render_field(form.profile_img) }}
+    {{ render_edit_modal_after_footer() }}
+
+    <!-- Upload Resume -->
+    {{ render_edit_modal_before_body('resume','Upload Resume') }}
+    {{ render_field(form.resume) }}
+    {{ render_edit_modal_after_footer() }}
+
+    <!-- Name -->
+    {{ render_edit_modal_before_body('name','Update Name') }}
+    {{ render_field(form.first) }}
+    {{ render_field(form.middle) }}
+    {{ render_field(form.last) }}
+    {{ render_edit_modal_after_footer() }}
+
+    <!-- Contact -->
+    {{ render_edit_modal_before_body('contact','Update Name') }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.phone) }}
+    {{ render_field(form.linkedin) }}
+    {{ render_field(form.website) }}
+    {{ render_edit_modal_after_footer() }}
+
+    <!-- Display PDF -->
+    {% if session['user']['resume_link'] != None %}
+    {{ render_pdf_modal('display-resume','Resume') }}
+    {% endif %}
+
+    
+    {% endblock %}
+{% endblock %}
