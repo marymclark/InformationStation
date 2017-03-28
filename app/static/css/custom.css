@@ -1,0 +1,13 @@
+/* Custom CSS for the application
+maintain Bootstrap's mobile-first patterns */
+
+#form-container {
+    margin: 70px auto 20px auto;
+}
+
+/* @screen-sm-min: */
+ @media (min-width: 768px) { 
+    #form-container {
+        margin: 130px auto 30px auto;
+    }
+}
