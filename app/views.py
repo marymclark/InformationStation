@@ -2,6 +2,23 @@
 
 from flask import render_template
 from app import app
+from json import load
+
+# Global variables
+
+endorsements = [] 
+
+# Helper functions
+
+def getEndorsements():
+    global endorsements
+    if not endorsements: # If the endorsements list is empty
+        with open('app/data/endorsements.json') as file:
+            data = load(file)["data"]
+        endorsements = data
+    return endorsements
+
+# Routing
 
 @app.route('/')
 def index():
@@ -9,12 +26,15 @@ def index():
 
 @app.route('/forms/continuation')
 def continuationForm():
-    return render_template("forms/continuation.html")
+    endorsements = getEndorsements()
+    return render_template("forms/continuation.html", data={"endorsements":endorsements})
 
 @app.route('/forms/internship')
 def internshipForm():
-    return render_template("forms/internship.html")
+    endorsements = getEndorsements()
+    return render_template("forms/internship.html", data={"endorsements":endorsements})
 
 @app.route('/forms/admission')
 def admissionForm():
-    return render_template("forms/admission.html")
+    endorsements = getEndorsements()
+    return render_template("forms/admission.html", data={"endorsements":endorsements})

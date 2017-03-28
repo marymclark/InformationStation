@@ -1,0 +1,39 @@
+{
+    "description": "Endorsement breakdown for the application, to be used on all forms.",
+    "data": [
+        "Elementary (Pre K-6)",
+        {"Secondary (6-12)": [
+            "English",
+            "Mathematics",
+            "Social Studies",
+            {"Science": [
+                "Biology",
+                "Chemistry",
+                "Earth Science",
+                "Physics"
+            ]}
+        ]},
+        {"Pre K-12": [
+            "English",
+            {"Foreign Language": [
+                "Latin",
+                "Spanish",
+                "German",
+                "French"
+            ]},
+            "Visual Arts",
+            "Performaing Arts",
+            {"Music": [
+                "Instrumental",
+                "Vocal"
+            ]}
+        ]},
+        {"Special Ed. General Curriculum (K-12)": [
+            "English",
+            "Mathetmatics",
+            "Social Studies",
+            "Science"
+        ]},
+        "Special Ed. Adapated Curriculum (K-12)"
+    ]
+}
