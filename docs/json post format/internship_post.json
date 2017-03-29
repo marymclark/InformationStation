@@ -1,0 +1,32 @@
+// Example of the format of the internship application
+
+{
+    "endorsementArea" : {
+        "level"      : "Secondary (6-12)",
+        "area"       : "Science",
+        "sub"        : "Biology", 
+    },
+    "tests"      : true,
+    "practicums": [
+        { "division" : "",
+          "name"     : "",
+          "grade"    : "",
+          "subject"  : ""
+        },
+        { "division" : "",
+          "name"     : "",
+          "grade"    : "",
+          "subject"  : ""
+        } //... etc.
+    ],
+    "relationships": [
+        { "name"     : "",
+          "school"   : "",
+          "rel"      : ""
+        },
+        { "name"     : "",
+          "school"   : "",
+          "rel"      : ""
+        } //... etc.
+    ]
+}

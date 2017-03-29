@@ -1,6 +1,8 @@
 /* Custom CSS for the application
 maintain Bootstrap's mobile-first patterns */
 
+/* BASE */
+
 #form-container {
     margin: 70px auto 20px auto;
 }
@@ -10,4 +12,24 @@ maintain Bootstrap's mobile-first patterns */
     #form-container {
         margin: 130px auto 30px auto;
     }
+}
+
+/* FORMS */
+
+.form-check-label {
+    font-weight: normal;
+}
+
+form .btn-block {
+    margin: 0 6px;
+    width: calc(100% - 12px);
+}
+
+/* TODO figure out how to override bootstrap with !important */
+form table {
+    margin-bottom: 0 !important;
+}
+
+.form-control {
+    margin-bottom: 5px !important; 
 }

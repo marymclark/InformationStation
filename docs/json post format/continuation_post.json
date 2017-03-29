@@ -1,0 +1,19 @@
+// Example of possible JSON structure for submitting continuation form
+
+{
+    "endorsementArea" : {
+        "level"  : "Secondary (6-12)",
+        "area"   : "Science",
+        "sub"    : "Biology"
+    },
+    "testRequirements" : [ // These may need to be added to another table? Also would be null (empty) if no, and this data if yes
+        { "exam" : "Praxis II", 
+          "date" : "22-APR-2017"}, // Not sure how date will be formatted   
+        { "exam" : "VCLA",
+          "date" : "3-MAY-2017"} //... etc? Might only need like 2
+    ],
+    "gradMonth"  : "May", // Probably only need to have May and December here
+    "gradYear"   : "2018",
+    "continue"   : false,
+    "reason"     : "Financial"
+}

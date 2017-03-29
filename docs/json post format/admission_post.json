@@ -1,0 +1,96 @@
+// Possible JSON structure for admission form
+
+{
+    "local" : {
+        "streetAddress1" : "",
+        "streetAddress2" : "",
+        "city"           : "",
+        "state"          : "", // obv virginia but still gonna keep it in
+        "zip"            : "",
+        "phone"          : ""
+    }
+    "permanent" : {
+        "streetAddress1" : "",
+        "streetAddress2" : "",
+        "city"           : "",
+        "state"          : "",
+        "zip"            : "",
+        "phone"          : ""
+    },
+    "endorsementArea" : { // called pathway, but this is the endorsementArea used in like every form, so we'll call it endorsement area on the backend
+        "level"  : "Secondary (6-12)",
+        "area"   : "Science",
+        "sub"    : "Biology"
+    }
+    "scores" : { // TODO Talk to Dr. McCall about the scores formatting
+        "test"   : "",
+        "reading": "", 
+    }
+    "status" : {
+        "year"      : "Junior",
+        "semester"  : "2" // second semester, 1 1st, etc?
+    }
+    "degree"     : "BA" // BA, BS, BLS, undeclared (UNDC)
+    "major"      : "Math" // If they say they're not declared, this is also UNDC (maybe)
+    "advisor"    : "Lorem Ipsum",
+    "gradMonth"  : "May", // Probably only need to have May and December here
+    "gradYear"   : "2018",
+    "gpa"        : "3.6",
+    "credits"    : "95",
+    "infoSession": { // NULL if they say no
+        "month"  : "Feb",
+        "year"   : "2017" 
+    }
+    "transcripts": [
+        { "college"   : "",
+          "city"      : "",
+          "state"     : "",
+          "startDate" : "",
+          "endDate"   : "",
+          "gpa"       : "",
+          "degree"    : "", // optional, only if earned?
+          "name"      : ""  // name when enrolled...?
+        },
+        { "college"   : "",
+          "city"      : "",
+          "state"     : "",
+          "startDate" : "",
+          "endDate"   : "",
+          "gpa"       : "",
+          "degree"    : "", 
+          "name"      : ""  // ... etc.
+        }
+    ],
+    "applied"    : { // NULL if they say no
+        "month"  : "Feb",
+        "year"   : "2017" 
+    },
+    "crime"        : false,
+    "felony"       : false,
+    "misdemeanor"  : false,
+    "otherCountry" : false,
+    "demographic": { // THIS IS OPTIONAL
+        "gender"   : "",
+        "birth"    : "17-MAR-1995",
+        "race"     : ""
+    }
+    "leadership" : [
+        { "name" : "",
+          "desc" : ""
+        },
+        { "name" : "",
+          "desc" : ""
+        } // etc.
+    ],
+    "prevExperience" : [
+        { "name" : "",
+          "desc" : ""
+        },
+        { "name" : "",
+          "desc" : ""
+        } // etc.
+    ],
+    "essay" : "" // or attached
+}
+
+// Also need file upload on this one.

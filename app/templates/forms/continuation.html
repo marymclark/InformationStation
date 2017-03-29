@@ -5,46 +5,54 @@
 <form>
     <div class="form-group">
         <label for="endorsementArea">Teaching Endorsement Sought</label>
+        <div class="row">
         {% set endorsements = data["endorsements"] %}
-        <select class="form-control" id="endorsementArea1">
-            {% for cat1 in endorsements %}
-                <option>
-                {% if cat1 is mapping %}
-                {% for key in cat1 %}
-                    {{ key }}
+        <div class="col-sm-4">
+            <select class="form-control" id="endorsementArea1">
+                {% for cat1 in endorsements %}
+                    <option>
+                    {% if cat1 is mapping %}
+                    {% for key in cat1 %}
+                        {{ key }}
+                    {% endfor %}
+                    {% else %}
+                        {{ cat1 }}
+                    {% endif %}
+                    </option>
                 {% endfor %}
-                {% else %}
-                    {{ cat1 }}
-                {% endif %}
-                </option>
-            {% endfor %}
-        </select>
-        <select class="form-control" id="endorsementArea2">
-            {% for cat1 in endorsements %}
-                <option>
-                {% if cat1 is mapping %}
-                {% for key in cat1 %}
-                    {{ key }}
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control col-sm-4" id="endorsementArea2">
+                {% for cat1 in endorsements %}
+                    <option>
+                    {% if cat1 is mapping %}
+                    {% for key in cat1 %}
+                        {{ key }}
+                    {% endfor %}
+                    {% else %}
+                        {{ cat1 }}
+                    {% endif %}
+                    </option>
                 {% endfor %}
-                {% else %}
-                    {{ cat1 }}
-                {% endif %}
-                </option>
-            {% endfor %}
-        </select>
-        <select class="form-control" id="endorsementArea3">
-            {% for cat1 in endorsements %}
-                <option>
-                {% if cat1 is mapping %}
-                {% for key in cat1 %}
-                    {{ key }}
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control col-sm-4" id="endorsementArea3">
+                {% for cat1 in endorsements %}
+                    <option>
+                    {% if cat1 is mapping %}
+                    {% for key in cat1 %}
+                        {{ key }}
+                    {% endfor %}
+                    {% else %}
+                        {{ cat1 }}
+                    {% endif %}
+                    </option>
                 {% endfor %}
-                {% else %}
-                    {{ cat1 }}
-                {% endif %}
-                </option>
-            {% endfor %}
-        </select>
+            </select>
+        </div>
+        </div>
     </div>
 
     <fieldset class="form-group">
