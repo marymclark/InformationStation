@@ -1,8 +1,49 @@
+{% extends "forms/form_base.html" %}
+
+{% block form %}
+
 <form>
     <div class="form-group">
         <label for="endorsementArea">Teaching Endorsement Sought</label>
-        <select class="form-control" id="endorsementArea">
-            <option>Sample Option</option>
+        {% set endorsements = data["endorsements"] %}
+        <select class="form-control" id="endorsementArea1">
+            {% for cat1 in endorsements %}
+                <option>
+                {% if cat1 is mapping %}
+                {% for key in cat1 %}
+                    {{ key }}
+                {% endfor %}
+                {% else %}
+                    {{ cat1 }}
+                {% endif %}
+                </option>
+            {% endfor %}
+        </select>
+        <select class="form-control" id="endorsementArea2">
+            {% for cat1 in endorsements %}
+                <option>
+                {% if cat1 is mapping %}
+                {% for key in cat1 %}
+                    {{ key }}
+                {% endfor %}
+                {% else %}
+                    {{ cat1 }}
+                {% endif %}
+                </option>
+            {% endfor %}
+        </select>
+        <select class="form-control" id="endorsementArea3">
+            {% for cat1 in endorsements %}
+                <option>
+                {% if cat1 is mapping %}
+                {% for key in cat1 %}
+                    {{ key }}
+                {% endfor %}
+                {% else %}
+                    {{ cat1 }}
+                {% endif %}
+                </option>
+            {% endfor %}
         </select>
     </div>
 
@@ -26,7 +67,7 @@
         <div class="form-check">
             <label class="form-check-label">
                 <input type="radio" class="form-check-input" name="testsRemaining" id="yes" value="True">
-                Yes, I need to complete an exam.
+                Yes, I have exams to complete.
             </label>
         </div>
 
@@ -87,3 +128,5 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
+
+{% endblock %}
