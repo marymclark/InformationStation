@@ -1,0 +1,148 @@
+{% extends "layout.html" %}
+
+{% block static %}
+    {% block header %}
+    <header style="background: #002b5a;
+                  background-image: -webkit-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: -moz-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: -o-radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);
+                  background-image: radial-gradient(top, circle cover, #4d6b8b, #002b5a 80%);">
+        <div class="intro-content">
+            {% block intro %}
+            <img src="static/img/profile.png" class="img-responsive img-centered" alt="">
+            <div class="brand-name">Application Station</div>
+            <hr class="colored">
+            <div class="brand-name-subtext">
+                <a href="/login" class="btn btn-primary active" role="button" aria-pressed="true">Login</a>
+                <a href="/register" class="btn btn-success active" role="button" aria-pressed="true">Register</a>
+            </div>
+            {% endblock %}
+        </div>
+        <div class="scroll-down">
+           
+            
+        </div>
+        
+    </header>
+    {% endblock %}
+    {% block sections %}
+    <aside id="welcome" class="cta-quote welcome" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/people/employer.jpg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote">Welcome to <strong>Eagle Jobs</strong>. We're here to help you find
+                        <span class="text-primary">exactly</span> what you were looking for.</span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="#contact">Let's Find It</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+    <aside id="students" class="cta-quote students" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/students.jpg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote">Welcome <strong>Students</strong>! 
+                        Using EagleJobs will help you find your next best job. As a student, you will be able to create a profile, upload a resume,
+                        search for jobs or employers and more!
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+     <aside id="employers" class="cta-quote employers" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/employerwriting.jpg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote">Welcome <strong>Employers</strong>! 
+                        Using EagleJobs will help you find the best candidates for any job openings you may have.
+                        As an employer, you can create a company profile, upload job postings, search for
+                        potential job candidates and more!
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+    <aside id="dashboards" class="cta-quote dashboards" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/dashboard.jpg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote"> 
+                         <h1>Dashboards</h1> 
+                        EagleJobs provides you with a dashboard, where you can access all the features included 
+                        for each type of user. Your user profile will be displayed on your dashboard, as well as 
+                        the ability to search at the top. Students and employers will have different newsfeeds containing
+                        important information pertaining to each individual user. Bookmarks will be displayed,
+                        and you can even edit your profile directly on the dashboard!
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+     <aside id="profiles" class="cta-quote profiles" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/profile_desc.jpeg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote"> 
+                    <h1>Profiles</h1> 
+                        On EagleJobs, students and employers have different features for
+                        their respective profiles. Students are able to display information
+                        an employer may want to know, while Employer profiles allow companies 
+                        to share their mission statement, as well as other relevant information about the company.
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+     <aside id="bookmarks" class="cta-quote bookmarks" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/bookmarks.jpeg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote"> 
+                        <h1>Bookmarks</h1> 
+                        Bookmarks are a special feature for EagleJobs users, which
+                        allows users to save results from searches. Students are able
+                        to save specific job postings and Employers are able to save 
+                        student profiles they may consider to be good candidates for a job.
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+     <aside id="searches" class="cta-quote searches" style="background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(static/img/search_records.jpeg) center center no-repeat;background-size: cover;">
+        <div class="container wow fadeIn">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <span class="quote"> 
+                       <h1>Search</h1> 
+                       EagleJobs contains a ton of information! Luckily, users are able to search through most of it.
+                       Depending on your user type, you will be able to search based on various pieces of information such 
+                       as job type or student skills.
+                        </span>
+                    <hr class=" colored">
+                    <a class="btn btn-outline-light page-scroll" href="/register">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+    
+    {% endblock %}
+{% endblock %}
+    
