@@ -15,6 +15,7 @@ The application's dependencies can be found in the requirements.txt file. These 
 
 	#Log into the postgres account with your new password
 	psql -U postgres -h localhost
+	\i coeas.sql
 
 Lastly, run the Flask application by setting the `FLASK_APP` environment variable to the main file and run the app:
 
