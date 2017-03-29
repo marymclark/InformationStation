@@ -20,5 +20,4 @@ The application's dependencies can be found in the requirements.txt file. These 
 Lastly, run the Flask application by setting the `FLASK_APP` environment variable to the main file and run the app:
 
 	export FLASK_APP=run.py
-	flask run
-
+	flask run # append with --host '0.0.0.0' --port '8080' in Cloud9

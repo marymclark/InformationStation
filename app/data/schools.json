@@ -1,13 +1,9 @@
-// TODO this entire document
-// Needs to be formatted like this example
-
 {
     "description": "School districts names, grades, etc.",
     "data": [
-        "Fauquier" : [
-            { "name"  : "Auburn Middle School" 
-              "level" : "MS"
-            }
-        ]
+        {"Fauquier" : [
+            { "name"  : "Auburn Middle School",
+              "level" : "MS" }
+        ]}
     ]
 }

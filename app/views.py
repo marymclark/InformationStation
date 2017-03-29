@@ -1,40 +1,50 @@
-# Direct to all the forms
+# Views to display all forms
 
-from flask import render_template
+from flask import render_template, jsonify
 from app import app
 from json import load
 
-# Global variables
+# Data API
 
-endorsements = [] 
-
-# Helper functions
-
+@app.route('/api/endorsements')
 def getEndorsements():
-    global endorsements
-    if not endorsements: # If the endorsements list is empty
+    try:
         with open('app/data/endorsements.json') as file:
-            data = load(file)["data"]
-        endorsements = data
-    return endorsements
+            return jsonify(load(file))
+    except:
+        return jsonify({"error": "Failed to get file"})
+
+@app.route('/api/schools')
+def getSchools():
+    try:
+        with open('app/data/schools.json') as file:
+            return jsonify(load(file))
+    except:
+        return jsonify({"error": "Failed to get file"})
 
 # Routing
 
+# Index
 @app.route('/')
 def index():
     return render_template("index.html")
+    
+# Admin Dashboard...?
+@app.route('/dashboard')
+def dashboard():
+    return "This will be the dashboard...later"
 
+# Continuation Form
 @app.route('/forms/continuation')
 def continuationForm():
-    endorsements = getEndorsements()
-    return render_template("forms/continuation.html", data={"endorsements":endorsements})
+    return render_template("forms/continuation.html")
 
+# Internship Form
 @app.route('/forms/internship')
 def internshipForm():
-    endorsements = getEndorsements()
-    return render_template("forms/internship.html", data={"endorsements":endorsements})
+    return render_template("forms/internship.html")
 
+# Admission Form
 @app.route('/forms/admission')
 def admissionForm():
-    endorsements = getEndorsements()
-    return render_template("forms/admission.html", data={"endorsements":endorsements})
+    return render_template("forms/admission.html")
