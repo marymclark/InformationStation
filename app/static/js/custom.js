@@ -23,8 +23,8 @@ function buildEndorsementArea() {
         // When something in the first level is chosen, 
         // update a second dropdown with the first level's subcategories
         $("#endorsementArea1").change(function() {
-            var index = $("#endorsementArea1").val();
-            let selection = data[index]; 
+            var index1 = $("#endorsementArea1").val();
+            let selection = data[index1]; 
             if (selection.subcategories != undefined) { // If subcategories exist
                 // Build second_level
                 var second_level = [];
@@ -40,20 +40,55 @@ function buildEndorsementArea() {
                 
                 // Empty and add new elements
                 $("#endorsementArea2").empty();
+                if ($('#endorsementArea3').length) {
+                    $("#endorsementArea3").empty();
+                }
                 for (var key in second_level) {
                     $("#endorsementArea2").append('<option value="'+key+'">'+second_level[key]+'</option>');
                 }
+                
+                // Listen for changes in the second area
+                // When something in the second level is chosen,
+                // update a third dropdown with the first level's subcategories
+                $("#endorsementArea2").change(function() {
+                    var index2 = $("#endorsementArea2").val();
+                    let selection = data[index1].subcategories[index2]; 
+                    if (selection.subcategories != undefined) {
+                        var third_level = [];
+                        for (var key in selection.subcategories) {
+                            third_level.push(selection.subcategories[key].title);
+                        }
+                        console.log("third_level:"+third_level);
+                        
+                        // Create if doesn't already exist
+                        if (!$('#endorsementArea3').length) { // If endorsementarea2 isn't already there
+                            $("#endorsementArea").append('<div class="col-sm-4"><select class="form-control" id="endorsementArea3"></select></div>');
+                        }
+                        
+                        // Empty and add new elements
+                        $("#endorsementArea3").empty();
+                        for (var key in third_level) {
+                            $("#endorsementArea3").append('<option value="'+key+'">'+third_level[key]+'</option>');
+                        }
+                    }
+                    else {
+                        console.log("No subcategories.");
+                        // Clear
+                        $("#endorsementArea3").empty();
+                        // Hide the dropdown
+                    }
+                });
             } 
             else {
                 console.log("No subcategories.");
                 // Clear
                 $("#endorsementArea2").empty();
+                if ($('#endorsementArea3').length) {
+                    $("#endorsementArea3").empty();
+                }
                 // Hide the dropdown
             }
         });
-        
-        // When something in the second level is chosen,
-        // update a third dropdown with the first level's subcategories
     });
 }
 
