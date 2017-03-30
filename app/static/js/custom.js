@@ -40,8 +40,10 @@ function buildEndorsementArea() {
                 
                 // Empty and add new elements
                 $("#endorsementArea2").empty();
+                $("#endorsementArea2").show();
                 if ($('#endorsementArea3').length) {
                     $("#endorsementArea3").empty();
+                    $("#endorsementArea3").hide();
                 }
                 for (var key in second_level) {
                     $("#endorsementArea2").append('<option value="'+key+'">'+second_level[key]+'</option>');
@@ -67,15 +69,16 @@ function buildEndorsementArea() {
                         
                         // Empty and add new elements
                         $("#endorsementArea3").empty();
+                        $("#endorsementArea3").show();
                         for (var key in third_level) {
                             $("#endorsementArea3").append('<option value="'+key+'">'+third_level[key]+'</option>');
                         }
                     }
                     else {
                         console.log("No subcategories.");
-                        // Clear
+                        // Clear and Hide
                         $("#endorsementArea3").empty();
-                        // Hide the dropdown
+                        $("#endorsementArea3").hide();
                     }
                 });
             } 
@@ -83,8 +86,10 @@ function buildEndorsementArea() {
                 console.log("No subcategories.");
                 // Clear
                 $("#endorsementArea2").empty();
+                $("#endorsementArea2").hide();
                 if ($('#endorsementArea3').length) {
                     $("#endorsementArea3").empty();
+                    $("#endorsementArea3").hide();
                 }
                 // Hide the dropdown
             }
