@@ -1,8 +1,9 @@
 {
     "description": "School districts names, grades, etc.",
     "data": [
-        {"Fauquier" : [
-            { "name"  : "Auburn Middle School",
+        {"district": "Fauquier", 
+          "schools": [
+            { "school": "Auburn Middle School",
               "level" : "MS" }
         ]}
     ]

@@ -1,67 +1,45 @@
 {
     "description": "Endorsement breakdown for the application, to be used on all forms.",
     "data": [
-        {"title": "Elementary (Pre K-6)",
-	     "subcategories": []},
+        {"title": "Elementary (Pre K-6)"},
         {"title": "Secondary (6-12)",
          "subcategories": [
-            {"title": "English",
-	         "subcategories": []},
-            {"title": "Mathematics",
-	         "subcategories": []},
-            {"title": "Social Studies",
-	         "subcategories": []},
+            {"title": "English"},
+            {"title": "Mathematics"},
+            {"title": "Social Studies"},
             {"title": "Science",
 		     "subcategories": [
-                {"title": "Biology",
-	             "subcategories": []},
-                {"title": "Chemistry",
-	             "subcategories": []},
-                {"title": "Earth Science",
-	             "subcategories": []},
-	            {"title": "Physics",
-	             "subcategories": []}
+                {"title": "Biology"},
+                {"title": "Chemistry"},
+                {"title": "Earth Science"},
+	            {"title": "Physics"}
             ]}
         ]},
         {"title": "Pre K-12",
          "subcategories": [
-            {"title": "English",
-	         "subcategories": []},
+            {"title": "English"},
             {"title": "Foreign Language",
              "subcategories": [
-                {"title": "Latin",
-	             "subcategories": []},
-                {"title": "Spanish",
-	             "subcategories": []},
-                {"title": "German",
-	             "subcategories": []},
-                {"title": "French",
-                 "subcategories": []}
+                {"title": "Latin"},
+                {"title": "Spanish"},
+                {"title": "German"},
+                {"title": "French"}
             ]},
-            {"title": "Visual Arts",
-	         "subcategories": []},
-            {"title": "Performaing Arts",
-	         "subcategories": []},
+            {"title": "Visual Arts"},
+            {"title": "Performaing Arts"},
             {"title": "Music",
 		     "subcategories": [
-                {"title": "Instrumental",
-    	         "subcategories": []},
-    	        {"title": "Vocal",
-    	         "subcategories": []}
+                {"title": "Instrumental"},
+    	        {"title": "Vocal"}
             ]}
         ]},
         {"title": "Special Ed. General Curriculum (K-12)",
 		 "subcategories": [
-            {"title": "English",
-	         "subcategories": []},
-            {"title": "Mathetmatics",
-	         "subcategories": []},
-            {"title": "Social Studies",
-	         "subcategories": []},
-	        {"title": "Science",
-	         "subcategories": []}
+            {"title": "English"},
+            {"title": "Mathetmatics"},
+            {"title": "Social Studies"},
+	        {"title": "Science"}
         ]},
-        {"title": "Special Ed. Adapated Curriculum (K-12)",
-		 "subcategories": []}
+        {"title": "Special Ed. Adapated Curriculum (K-12)"}
     ]
 }

@@ -12,7 +12,7 @@ def getEndorsements():
         with open('app/data/endorsements.json') as file:
             return jsonify(load(file))
     except:
-        return jsonify({"error": "Failed to get file"})
+        return jsonify({"error": "Failed to get file"}) # TODO change this to a response object that has a 400-something error code
 
 @app.route('/api/schools')
 def getSchools():
