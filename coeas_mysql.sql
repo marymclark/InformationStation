@@ -45,14 +45,8 @@ Contains the following tables:
         * youthhistory
 */
 
-\c postgres;
-
-drop database if exists coeas;
-\c postgres;
-
-
-create database coeas;
-\c coeas;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone="+00:00";
 
 CREATE TABLE users (
     userid SERIAL,
@@ -63,47 +57,14 @@ CREATE TABLE users (
     lastlogindate date,
     
     PRIMARY KEY (userid)
-);
-
-
-
-/*  POST BAC FORM TABLES */
-
-
+) ENGINE = MyISAM;
 
 CREATE TABLE userform (
     userid int references users(userid),
     formid SERIAL,
     
     PRIMARY KEY(userid, formid)
-);
-
-/*CREATE TABLE postbac_endorsement(
-    formid int,
-    endorsementid serial,
-    elementary_preK6 boolean,
-    english boolean,
-    mathematics boolean,
-    socialstudies boolean,
-    biology boolean,
-    chemistry boolean,
-    earthscience boolean,
-    physics boolean,
-    latin boolean,
-    spanish boolean,
-    german boolean,
-    french boolean,
-    visualarts boolean,
-    instrumentalmusic boolean,
-    vocalmusic boolean,
-    english_SPED boolean,
-    mathematics_SPED boolean,
-    socialstudies_SPED boolean,
-    science_SPED boolean,
-    adaptedcurriculum_SPED boolean,
-    
-    PRIMARY KEY(endorsementid)
-); */
+) ENGINE = MyISAM;
 
 CREATE TABLE endorsement (
     userid int NOT NULL,
@@ -112,7 +73,7 @@ CREATE TABLE endorsement (
     endorsementarea text,
     
     PRIMARY KEY(endorsementid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE practicum_grades(
     userid int NOT NULL,
@@ -122,7 +83,7 @@ CREATE TABLE practicum_grades(
     grade int,
     
     PRIMARY KEY(practicumgradesid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE practicumhistory(
     userid int NOT NULL,
@@ -133,7 +94,7 @@ CREATE TABLE practicumhistory(
     gradeandsubject int references practicum_grades(practicumgradesid),
     
     PRIMARY KEY(practicumid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE postbac_relationships(
     userid int NOT NULL,
@@ -144,26 +105,20 @@ CREATE TABLE postbac_relationships(
     relationshiptype text,
     
     PRIMARY KEY(relationshipid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE form_postbac (
     userid int NOT NULL,
     formid int NOT NULL,
     endorsementarea int references endorsement(endorsementid),
-    requirementssatisfied boolean,
+    requirementssatisfied bool,
     practicuminfo int references practicumhistory(practicumid),
     relationships int references postbac_relationships(relationshipid),
     preferedcountry text,
     preferedgradelevel int,
     
     PRIMARY KEY(formid)
-);
-
-
-
-/* 5th YEAR FORM TABLES */
-
-
+) ENGINE = MyISAM;
 
 CREATE TABLE fifthyear_examsneeded (
     userid int NOT NULL,
@@ -173,17 +128,17 @@ CREATE TABLE fifthyear_examsneeded (
     examdate date,
     
     PRIMARY KEY (examsid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE fifthyear_masters (
     userid int NOT NULL,
     formid int NOT NULL,
     mastersid SERIAL, 
-    continuestudy boolean,
+    continuestudy bool,
     reasonfordiscontinue text,
     
     PRIMARY KEY (mastersid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE form_fifthyear (
     userid int NOT NULL,
@@ -198,11 +153,7 @@ CREATE TABLE form_fifthyear (
     
     PRIMARY KEY (formid)
     
-);
-
-
-/* UNDERGRADUATE ADMISSION FORM TABLES */
-
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores_praxis (
     userid int NOT NULL,
@@ -214,7 +165,7 @@ CREATE TABLE testscores_praxis (
     composite int,
     
     PRIMARY KEY (praxisid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores_sat (
     userid int NOT NULL,
@@ -225,7 +176,7 @@ CREATE TABLE testscores_sat (
     total int,
     
     PRIMARY KEY (satid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores_act (
     userid int NOT NULL,
@@ -236,7 +187,7 @@ CREATE TABLE testscores_act (
     composite int,
     
     PRIMARY KEY (actid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores_vcla (
     userid int NOT NULL,
@@ -246,7 +197,7 @@ CREATE TABLE testscores_vcla (
     writing int,
     
     PRIMARY KEY (vclaid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores_actmath (
     userid int NOT NULL,
@@ -255,7 +206,7 @@ CREATE TABLE testscores_actmath (
     math int,
     
     PRIMARY KEY (actmathid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE testscores (
     userid int NOT NULL,
@@ -268,7 +219,7 @@ CREATE TABLE testscores (
     actmath int references testscores_actmath(actmathid),
     
     PRIMARY KEY (testscoresid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE transferinfo (
     userid int NOT NULL,
@@ -284,7 +235,7 @@ CREATE TABLE transferinfo (
     enrolledname text,
     
     PRIMARY KEY (transferinfoid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE leadershiphistory (
     userid int NOT NULL,
@@ -294,7 +245,7 @@ CREATE TABLE leadershiphistory (
     positiondescription text,
     
     PRIMARY KEY (leadershipid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE youthhistory (
     userid int NOT NULL,
@@ -304,7 +255,7 @@ CREATE TABLE youthhistory (
     positiondescription text,
     
     PRIMARY KEY (youthid)
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE studentinfo (
     userid int NOT NULL,
@@ -313,7 +264,7 @@ CREATE TABLE studentinfo (
     umwstatus text,
     studenttype text,
     majorprogram text,
-    declared boolean,
+    declared bool,
     majoradvisor text,
     monthyeargrad text,
     currentgpa float,
@@ -321,10 +272,10 @@ CREATE TABLE studentinfo (
     informationsessionattendancedate date,
     transferstudentinfo int references transferinfo(transferinfoid),
     applieddate date,
-    convictbool boolean,
-    felonybool boolean,
-    misdemeanorbool boolean,
-    anothercountrycrimebool boolean,
+    convictbool bool,
+    felonybool bool,
+    misdemeanorbool bool,
+    anothercountrycrimebool bool,
     preferedgender text,
     birthday date,
     preferedrace text,
@@ -333,7 +284,7 @@ CREATE TABLE studentinfo (
     
     PRIMARY KEY (studentinfoid)
     
-);
+) ENGINE = MyISAM;
 
 CREATE TABLE form_undergradadmission (
     userid int NOT NULL,
@@ -348,4 +299,5 @@ CREATE TABLE form_undergradadmission (
     studentinfo int references studentinfo(studentinfoid),
     
     PRIMARY KEY(formid)
-);
+) ENGINE = MyISAM;
+
