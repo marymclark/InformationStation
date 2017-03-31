@@ -1,10 +1,18 @@
 # Views to display all forms
 
 from flask import render_template, jsonify
-from app import app
 from json import load
+import datetime
+from app import app
 
-# Data API
+# Helper Functions
+
+# Get the next few years that users can choose from
+def nextFiveYears():
+    year = datetime.datetime.now().year
+    return [year+i for i in range(0,5)]
+
+# Data for Javascript
 
 @app.route('/api/endorsements')
 def getEndorsements():
@@ -37,7 +45,9 @@ def dashboard():
 # Continuation Form
 @app.route('/forms/continuation')
 def continuationForm():
-    return render_template("forms/continuation.html")
+    # Reason for not continuing
+    reasons = ['Financial','Grades','Study Abroad','Moving out of Area','Personal','No longer interested in teaching','Other']
+    return render_template("forms/continuation.html",years=nextFiveYears(),reasons=reasons)
 
 # Internship Form
 @app.route('/forms/internship')

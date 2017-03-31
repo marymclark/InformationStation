@@ -4,14 +4,13 @@
 function buildEndorsementArea() {
     // Import JSON object with endorsements
     $.getJSON("/api/endorsements", function(data) {
-        // Get the first level
-        data = data['data']; // Get the actual data we need
-        
+        // Build the first level
+        data = data['data']; 
         var first_level = [];
         for (var key in data) {
             first_level.push(data[key].title);
         }
-        console.log("first_level:"+first_level);
+        //console.log("first_level:"+first_level);
         
         // Create a dropdown from that first level
         $("#endorsementArea").append('<div class="col-sm-4"><select class="form-control" id="endorsementArea1"></select></div>');
@@ -75,7 +74,7 @@ function buildEndorsementArea() {
                         }
                     }
                     else {
-                        console.log("No subcategories.");
+                        //console.log("No subcategories.");
                         // Clear and Hide
                         $("#endorsementArea3").empty();
                         $("#endorsementArea3").hide();
@@ -99,7 +98,40 @@ function buildEndorsementArea() {
 
 // Run
 $(document).ready(function() {
-    if ($('#endorsementArea').length) { // If an endorsement area is needed
-        buildEndorsementArea(); // Build all of the dropdown boxes for it
+    
+    // If an endorsementArea exists, add its data
+    if ($('#endorsementArea').length) { 
+        buildEndorsementArea(); 
+    }
+    
+    // Add testsRemaining animation
+    if ($('#testsRemaining').length) { 
+        $("#testsRemainingToggle").hide();
+        $("input[name=testsRemaining]").change(function() {
+            let val = $("input[name=testsRemaining]:checked").val();
+            //console.log(val);
+            if (val=='true') {
+                 $("#testsRemainingToggle").show();
+            } 
+            else {
+                $("#testsRemainingToggle").hide();
+            }
+        });
+    }
+    
+    // Add continuing animation
+    if ($('#continue').length) { 
+        $("#continueToggle").hide();
+        $("input[name=continue]").change(function() {
+            let val = $("input[name=continue]:checked").val();
+            //console.log(val);
+            if (val=='false') {
+                 $("#continueToggle").show();
+            } 
+            else {
+                $("#continueToggle").hide();
+            }
+        });
+        
     }
 });

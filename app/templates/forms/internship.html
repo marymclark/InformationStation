@@ -3,11 +3,12 @@
 {% block form %}
 
 <form>
+    <!-- TODO needs to be a table -->
     <div class="form-group">
-        <label for="endorsementArea">Endorsement Area</label>
-        <select class="form-control" id="endorsementArea">
-            <option>Sample Option</option>
-        </select>
+        <label for="endorsementArea">Teaching Endorsements Sought</label>
+        <div class="row" id="endorsementArea">
+            {# This will be filled by Javascript #}
+        </div>
     </div>
 
     <fieldset class="form-group">
@@ -15,13 +16,13 @@
         <p>In order to begin your internship, you should already have taken and passed all of the following: Praxis Core (or equivalent SAT/ ACT/ VCLA), VCLA, RVE (elementary and SpEd only), and Praxis II. Should you need to retake any of these, you must do so <b>no later</b> than May 15, 2017. Have you taken and passed all of the requirement assessments?</p>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsComplete" id="yes" value="True">
+                <input type="radio" class="form-check-input" name="testsComplete" id="testsComplete" value="true">
                 Yes
             </label>
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsComplete" id="no" value="False">
+                <input type="radio" class="form-check-input" name="testsComplete" id="testsComplete" value="false">
                 No
             </label>
         </div>

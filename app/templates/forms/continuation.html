@@ -3,59 +3,15 @@
 {% block form %}
 
 <form>
+    <!-- TODO needs to be a table -->
     <div class="form-group">
-        <label for="endorsementArea">Teaching Endorsement Sought</label>
+        <label for="endorsementArea">Teaching Endorsements Sought</label>
         <div class="row" id="endorsementArea">
-        {#
-        {% set endorsements = data["endorsements"] %}
-        <div class="col-sm-4">
-            <select class="form-control" id="endorsementArea1">
-                {% for cat1 in endorsements %}
-                    <option>
-                    {% if cat1 is mapping %}
-                        {% for key in cat1 %}
-                            {{ key }}
-                        {% endfor %}
-                    {% else %}
-                        {{ cat1 }}
-                    {% endif %}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <select class="form-control col-sm-4" id="endorsementArea2">
-                {% for item in nextLevel %}
-                    <option>
-                    {% if cat1 is mapping %}
-                    {% for key in cat1 %}
-                        {{ key }}
-                    {% endfor %}
-                    {% else %}
-                        {{ cat1 }}
-                    {% endif %}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-sm-4">
-            <select class="form-control col-sm-4" id="endorsementArea3">
-                {% for cat1 in endorsements %}
-                    <option>
-                    {% if cat1 is mapping %}
-                    {% for key in cat1 %}
-                        {{ key }}
-                    {% endfor %}
-                    {% else %}
-                        {{ cat1 }}
-                    {% endif %}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>#}
+            {# This will be filled by Javascript #}
         </div>
     </div>
 
+    <!-- TODO this needs to be a table that can accept multiple exams -->
     <fieldset class="form-group">
         <label for="testsRemaining">Test Requirements</label>
         <p>To continue in education and be formally admitted into the Graduate Degree Program, students must do the following:</p>
@@ -63,28 +19,30 @@
             <li>meet the criteria listed for program continuation,</li>
             <li>successfully complete required undergraduate course work with an overall GPA of 2.5 or better and a GPA of 3.0 or better in required education courses,</li>
             <li>receive a bachelor's degree from UMW,</li>
-            <li>achieve passing scores on <b>Praxis II</b>, the <b>Virginia Communication and Literacy Asessment (VCLA)</b>, and for those students in the Elementary program and Special Education: General Curriculum program, the <b>Reading for Virginia Educators (RVE)</b> assessment. <i>(Please note, the College of Education <u>must have</u> copies of all required test scores.)</i></li>
+            <li>achieve passing scores on <b>Praxis II</b>, the <b>Virginia Communication and Literacy Assessment (VCLA)</b>, and for those students in the Elementary program and Special Education: General Curriculum program, the <b>Reading for Virginia Educators (RVE)</b> assessment. <i>(Please note, the College of Education <u>must have</u> copies of all required test scores.)</i></li>
         </ol>
 
-        <p>If you need to take an exam, please provide the exam name and the scheduled test date.</p>
+        <p>If you need to take an exam, you will be asked to provide the exam name and the scheduled test date.</p>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsRemaining" id="no" value="True">
+                <input type="radio" class="form-check-input" name="testsRemaining" id="testsRemaining" value="false">
                 No, I have completed all exams.
             </label>
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsRemaining" id="yes" value="True">
+                <input type="radio" class="form-check-input" name="testsRemaining" id="testsRemaining" value="true">
                 Yes, I have exams to complete.
             </label>
         </div>
 
-        <div class="row">
+        <div class="row" id="testsRemainingToggle">
             <div class="col-sm-6">
                 <label for="examName">Exam</label>
                 <select class="form-control" id="examName">
-                    <option>Sample Option</option>
+                    <option value="praxis">Praxis II</option>
+                    <option vlaue="rve">Reading for Virginia Educators (RVE)</option>
+                    <option value="vcla">Virginia Communication and Literacy Assessment (VCLA)</option>
                 </select>
             </div>
 
@@ -97,9 +55,23 @@
 
     <div class="form-group">
         <label for="graduation">Month/Year of Undergraduate Graduation</label>
-        <select class="form-control" id="endorsementArea">
-            <option>Sample Option</option>
-        </select>
+        <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <select class="form-control" id="graduation-Month">
+                    <option value="May">May</option>
+                    <option value="Aug">August</option>
+                    <option value="Dec">December</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <select class="form-control" id="graduation-Year">
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
     </div>
 
     <div class="form-group">
@@ -107,30 +79,29 @@
         <p>I intend to continue into the graduate year and my Masters degree of study.</p>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="continue" id="yes" value="True">
+                <input type="radio" class="form-check-input" name="continue" id="continue" value="true">
                 Yes
             </label>
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="continue" id="no" value="False">
+                <input type="radio" class="form-check-input" name="continue" id="continue" value="false">
                 No
             </label>
         </div>
     </div>
 
-    <div class="form-group">
+    <!-- TODO make this accept "Other" input from a text box -->
+    <div class="form-group" id="continueToggle">
         <p>Please give your reason for not continuing:</p>
+        {% for reason in reasons %}
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="reason" id="financial" value="financial">
-                Financial
-            </label><!--
-            <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="reason" id="other" value="financial">
-                <input type="text" class="form-control col-xs-2" name="reason" id="otherText">
-            </label>-->
+                <input type="radio" class="form-check-input" name="reason" id="reason" value="{{ loop.index0 }}">
+                {{ reason }}
+            </label>
         </div>
+        {% endfor %}
     </div>
 
     <button type="submit" class="btn btn-secondary">Save</button>
