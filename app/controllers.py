@@ -29,6 +29,9 @@ def newContinuationForm():
     checkGrad = data['graduation'].split()
     if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
         jsonify({'Failure':'Invalid graduation month/year'})
+        
+    # Add data to database
+    # TODO add to database
     
     # For now, return success when valid 
     return jsonify({'Success':'Request was valid.'})

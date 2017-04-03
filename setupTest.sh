@@ -1,6 +1,5 @@
 #!/bin/sh
 sudo pip install -r requirements.txt
-sudo pip install flask-sqlalchemy mysql-python
 
 sudo service mysql start
 echo "drop database if exists coeas" | mysql -u root 

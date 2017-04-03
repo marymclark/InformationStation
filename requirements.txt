@@ -1,10 +1,12 @@
 Flask==0.12
+Flask-SQLAlchemy==2.2
 Jinja2==2.9.5
 MarkupSafe==1.0
+MySQL-python==1.2.5
+SQLAlchemy==1.1.8
 Werkzeug==0.12.1
 argparse==1.2.1
 click==6.7
 itsdangerous==0.24
-postgres==2.2.1
 psycopg2==2.7.1
 wsgiref==0.1.2
