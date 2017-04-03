@@ -23,10 +23,10 @@ def getSchools():
 def index():
     return render_template("index.html")
     
-# Admin Dashboard...?
+# User Dashboard
 @app.route('/dashboard')
 def dashboard():
-    return "This will be the dashboard...later"
+    return render_template("userdash.html")
 
 # Continuation Form
 @app.route('/forms/continuation', methods=["GET"])
