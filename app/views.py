@@ -37,24 +37,27 @@ def getSchools():
 def index():
     return render_template("index.html")
     
-# Admin Dashboard...?
+# User Dashboard
 @app.route('/dashboard')
 def dashboard():
-    return "This will be the dashboard...later"
+    return render_template("userdash.html")
 
 # Continuation Form
 @app.route('/forms/continuation')
 def continuationForm():
     # Reason for not continuing
+    print('continuation form selected')
     reasons = ['Financial','Grades','Study Abroad','Moving out of Area','Personal','No longer interested in teaching','Other']
     return render_template("forms/continuation.html",years=nextFiveYears(),reasons=reasons)
 
 # Internship Form
 @app.route('/forms/internship')
 def internshipForm():
+    print('internship form selected')
     return render_template("forms/internship.html")
 
 # Admission Form
 @app.route('/forms/admission')
 def admissionForm():
+    print('admission form selected')
     return render_template("forms/admission.html")
