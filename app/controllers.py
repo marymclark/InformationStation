@@ -10,14 +10,25 @@ def newContinuationForm():
     try:
         data = request.get_json() # Get POSTed JSON from Javascript
     except:
-        return jsonify({'failure':'No request data.'})
+        return jsonify({'Failure':'No request data.'})
     
     # Check endorsement area
-    endorsementArea = helpers.getEndorsementArea(data['endorsementArea'])
-    if (endorsementArea == 0):
-        return jsonify({'Failure':'Endorsement Area is invalid.'})
+    for endorsement in data['endorsementArea']:
+        endorsementArea = helpers.getEndorsementArea(endorsement)
+        if (endorsementArea == 0):
+            return jsonify({'Failure':'An endorsement area is invalid.'})
+            
     # Check the test requirements have valid tests and dates
-    
+    for item in data['testRequirements']:
+        # TODO check date
+        date = item['date']
+        if not (item['exam'] in ['Praxis','VCLA','RVE']):
+            return jsonify({'Failure':'A test requirement entry is invalid.'})
+            
+    # Check graduation
+    checkGrad = data['graduation'].split()
+    if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
+        jsonify({'Failure':'Invalid graduation month/year'})
     
     # For now, return success when valid 
     return jsonify({'Success':'Request was valid.'})
