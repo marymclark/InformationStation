@@ -1,34 +1,20 @@
 # Views to display all forms
 
 from flask import render_template, jsonify
-from json import load
-import datetime
 from app import app
-
-# Helper Functions
-
-# Get the next few years that users can choose from
-def nextFiveYears():
-    year = datetime.datetime.now().year
-    return [year+i for i in range(0,5)]
+import helpers
 
 # Data for Javascript
 
+# Send endorsement data to Javascript
 @app.route('/api/endorsements')
 def getEndorsements():
-    try:
-        with open('app/data/endorsements.json') as file:
-            return jsonify(load(file))
-    except:
-        return jsonify({"error": "Failed to get file"}) # TODO change this to a response object that has a 400-something error code
+    return jsonify(helpers.getEndorsements())
 
+# Send school data to Javascript
 @app.route('/api/schools')
 def getSchools():
-    try:
-        with open('app/data/schools.json') as file:
-            return jsonify(load(file))
-    except:
-        return jsonify({"error": "Failed to get file"})
+    return jsonify(helpers.getSchools())
 
 # Routing
 
@@ -37,27 +23,24 @@ def getSchools():
 def index():
     return render_template("index.html")
     
-# User Dashboard
+# Admin Dashboard...?
 @app.route('/dashboard')
 def dashboard():
-    return render_template("userdash.html")
+    return "This will be the dashboard...later"
 
 # Continuation Form
-@app.route('/forms/continuation')
+@app.route('/forms/continuation', methods=["GET"])
 def continuationForm():
     # Reason for not continuing
-    print('continuation form selected')
     reasons = ['Financial','Grades','Study Abroad','Moving out of Area','Personal','No longer interested in teaching','Other']
-    return render_template("forms/continuation.html",years=nextFiveYears(),reasons=reasons)
+    return render_template("forms/continuation.html",years=helpers.nextnYears(5),reasons=reasons)
 
 # Internship Form
 @app.route('/forms/internship')
 def internshipForm():
-    print('internship form selected')
     return render_template("forms/internship.html")
 
 # Admission Form
 @app.route('/forms/admission')
 def admissionForm():
-    print('admission form selected')
     return render_template("forms/admission.html")
