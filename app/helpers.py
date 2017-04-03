@@ -19,13 +19,14 @@ def getEndorsementArea(key):
     endorsements = getEndorsements()['data']
     endorsementArea = ''
     try:
-        for index in key:
-            endorsementArea += endorsements[index]['title']
-            if index < len(key):
-                endorsements = endorsements[index]['subcategories']
+        for i in range(0,len(key)):
+            endorsementArea += (endorsements[key[i]]['title'])
+            if i < len(key)-1:
+                endorsementArea += ', '
+                endorsements = endorsements[key[i]]['subcategories']
         return endorsementArea 
     except:
-        print('Error getting endorsementArea')
+        print('Error getting endorsementArea; so far: "'+endorsementArea+'"')
         return 0
         
 def getSchools():
