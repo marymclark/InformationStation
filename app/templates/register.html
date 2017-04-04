@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Header -->
+<header>
+    <div class="container" id="maincontent" tabindex="-1">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-responsive" src="{{ url_for('static', filename='img/UMW-monogram-small.png') }}" alt="UMW Monogram">
+                <div class="intro-text">
+                    <h1 class="name">Application Station</h1>
+                    <span class="skills">University of Mary Washington College of Education</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Create Account Section -->
+<section class="success" id="register">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Register an Account</h2>
+            </div>
+            <div class="col-lg-12 text-center">
+                <form action="createaccount" method="post">
+                    <br></br>
+                    First Name: <br>
+                    <input type=text name="firstname" style="color:black"> </br>
+                    <br></br>
+                    Last Name: <br>
+                    <input type="text" name="lastname" style="color:black"> </br>
+                    <br></br>
+                    UMW Email: <br>
+                    <input type=text name="umwemail" style="color:black"> </br>
+                    <br></br>
+                    Password: <br>
+                    <input type="text" name="password1" style="color:black"> </br>
+                    <br></br>
+                    Confirm Password: <br>
+                    <input type="text" name="password2" style="color:black"> </br>
+                    <br></br>
+                    <input type="submit" value="Submit" style="color:black">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+<div class="scroll-top page-scroll hidden-sm hidden-xs hidden-lg hidden-md">
+    <a class="btn btn-primary" href="#page-top">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+</div>
+
+{% endblock %}
