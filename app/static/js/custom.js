@@ -1,6 +1,6 @@
 // Form Functions
 
-// TODO once this is worked out and runs okay, needs to be refactored
+// TODO refine and refactor
 function buildEndorsementArea() {
     // Import JSON object with endorsements
     $.getJSON("/api/endorsements", function(data) {
@@ -10,111 +10,139 @@ function buildEndorsementArea() {
         for (var key in data) {
             first_level.push(data[key].title);
         }
-        //console.log("first_level:"+first_level);
         
-        // Create a dropdown from that first level
-        $("#endorsementArea").append('<div class="col-sm-4"><select class="form-control" id="endorsementArea1"></select></div>');
+        // Create dropdowns
+        $("#endorsementArea tbody").append('<tr><td><select class="form-control" name="area" id="area"></td></tr>');
+        $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subject" id="subject"></select></td>');
+        $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subcategory" id="subcategory"></select></td>');
+        $("#endorsementArea tbody tr").append('<td>X</td>'); //TODO replace this with an actual button of some kind
+        // Add first level
         for (var key in first_level) {
-            $("#endorsementArea1").append('<option value="'+key+'">'+first_level[key]+'</option>');
+            $("#area").append('<option value="'+key+'">'+first_level[key]+'</option>');
         }
         
         // Now listen for the value in the dropdown to change
-        // When something in the first level is chosen, 
-        // update a second dropdown with the first level's subcategories
-        $("#endorsementArea1").change(function() {
-            var index1 = $("#endorsementArea1").val();
+        $("#area").change(function() {
+            var index1 = $("#area").val();
             let selection = data[index1]; 
-            if (selection.subcategories != undefined) { // If subcategories exist
+            if (selection.subcategories != undefined) { // If subjects exist
                 // Build second_level
                 var second_level = [];
                 for (var key in selection.subcategories) {
                     second_level.push(selection.subcategories[key].title);
                 }
-                console.log("second_level:"+second_level);
-                
-                // Create if doesn't already exist
-                if (!$('#endorsementArea2').length) { // If endorsementarea2 isn't already there
-                    $("#endorsementArea").append('<div class="col-sm-4"><select class="form-control" id="endorsementArea2"></select></div>');
-                }
                 
                 // Empty and add new elements
-                $("#endorsementArea2").empty();
-                $("#endorsementArea2").show();
-                if ($('#endorsementArea3').length) {
-                    $("#endorsementArea3").empty();
-                    $("#endorsementArea3").hide();
-                }
+                $("#subject").empty();
+                $("#subcategory").empty();
                 for (var key in second_level) {
-                    $("#endorsementArea2").append('<option value="'+key+'">'+second_level[key]+'</option>');
+                    $("#subject").append('<option value="'+key+'">'+second_level[key]+'</option>');
                 }
                 
                 // Listen for changes in the second area
-                // When something in the second level is chosen,
-                // update a third dropdown with the first level's subcategories
-                $("#endorsementArea2").change(function() {
-                    var index2 = $("#endorsementArea2").val();
+                $("#subject").change(function() {
+                    var index2 = $("#subject").val();
                     let selection = data[index1].subcategories[index2]; 
-                    if (selection.subcategories != undefined) {
+                    if (selection.subcategories != undefined) { // If subcategories exist
                         var third_level = [];
                         for (var key in selection.subcategories) {
                             third_level.push(selection.subcategories[key].title);
                         }
-                        console.log("third_level:"+third_level);
-                        
-                        // Create if doesn't already exist
-                        if (!$('#endorsementArea3').length) { // If endorsementarea2 isn't already there
-                            $("#endorsementArea").append('<div class="col-sm-4"><select class="form-control" id="endorsementArea3"></select></div>');
-                        }
                         
                         // Empty and add new elements
-                        $("#endorsementArea3").empty();
-                        $("#endorsementArea3").show();
+                        $("#subcategory").empty();
                         for (var key in third_level) {
-                            $("#endorsementArea3").append('<option value="'+key+'">'+third_level[key]+'</option>');
+                            $("#subcategory").append('<option value="'+key+'">'+third_level[key]+'</option>');
                         }
                     }
                     else {
-                        //console.log("No subcategories.");
-                        // Clear and Hide
-                        $("#endorsementArea3").empty();
-                        $("#endorsementArea3").hide();
+                        // Clear
+                        $("#subcategory").empty();
                     }
                 });
             } 
             else {
-                console.log("No subcategories.");
                 // Clear
-                $("#endorsementArea2").empty();
-                $("#endorsementArea2").hide();
-                if ($('#endorsementArea3').length) {
-                    $("#endorsementArea3").empty();
-                    $("#endorsementArea3").hide();
-                }
-                // Hide the dropdown
+                $("#subject").empty();
+                $("#subcategory").empty();
             }
         });
     });
 }
 
+// TODO add more error checking and returning 
+$("form.continuation").submit(function(event) {
+    event.preventDefault(); // Don't submit yet, build JSON first
+    var data = {};
+    
+    // EndorsementArea
+    data["endorsementArea"] = [];
+    $("#endorsementArea tbody tr").each(function (i,row) {
+        let key = [];
+        key.push(Number($(row).find("#area option:selected").val()));
+        key.push(Number($(row).find("#subject option:selected").val())); 
+        key.push(Number($(row).find("#subcategory option:selected").val()));
+        data["endorsementArea"].push(key);
+    });
+    // Tests
+    data["testRequirements"] = [];
+    if ($("input[name='tests']:checked").val() == "true") {
+        $("#testsRemaining tbody tr").each(function (i,row) {
+            let test = {"exam": $(row).find("#examName option:selected").val(),
+                        "date": $(row).find("#examDate").val()};
+            data["testRequirements"].push(test);
+        });
+    }
+    // Graduation
+    data["graduation"] = $("#graduation-Month option:selected").val() + " " + $("#graduation-Year option:selected").val();
+    // Continue/Reason
+    data["continue"] = $("input[name='continue']:checked").val();
+    if (data["continue"] == "true") {
+        data["continue"] = true;
+        data["reason"] = null;
+    }
+    else if (data["continue"] == "false") {
+        data["continue"] = false;
+        data["reason"] = $("input[name='reason']:checked").val();
+    }
+    else {
+        console.log("Error: No continue option selected");
+    }
+    
+    console.log(JSON.stringify(data));
+    
+    // IF no errors, submit JSON as POST request.
+    $.ajax({
+        url:"/forms/continuation",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(result) {
+            console.log(result);
+        }
+    });
+});
+
 // Run
 $(document).ready(function() {
     
     // If an endorsementArea exists, add its data
-    if ($('#endorsementArea').length) { 
+    if ($('table#endorsementArea').length) { 
         buildEndorsementArea(); 
     }
     
     // Add testsRemaining animation
-    if ($('#testsRemaining').length) { 
-        $("#testsRemainingToggle").hide();
-        $("input[name=testsRemaining]").change(function() {
-            let val = $("input[name=testsRemaining]:checked").val();
+    if ($('#tests').length) { 
+        $("#testsToggle").hide();
+        $("input[name='tests']").change(function() {
+            let val = $("input[name='tests']:checked").val();
             //console.log(val);
             if (val=='true') {
-                 $("#testsRemainingToggle").show();
+                 $("#testsToggle").show();
             } 
             else {
-                $("#testsRemainingToggle").hide();
+                $("#testsToggle").hide();
             }
         });
     }

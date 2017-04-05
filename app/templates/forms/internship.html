@@ -2,13 +2,23 @@
 
 {% block form %}
 
-<form>
+<form class="internship">
     <!-- TODO needs to be a table -->
     <div class="form-group">
         <label for="endorsementArea">Teaching Endorsements Sought</label>
-        <div class="row" id="endorsementArea">
-            {# This will be filled by Javascript #}
-        </div>
+        <table class="table" id="practicum">
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Subject</th>
+                    <th>Subcategory</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {# This will be filled by Javascript #}
+            </tbody>
+        </table>
     </div>
 
     <fieldset class="form-group">

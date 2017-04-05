@@ -2,13 +2,26 @@
 
 {% block form %}
 
-<form>
+<h2>Admission/Continuation Into the Graduate Program</h2>
+
+<form class="continuation">
     <!-- TODO needs to be a table -->
     <div class="form-group">
         <label for="endorsementArea">Teaching Endorsements Sought</label>
-        <div class="row" id="endorsementArea">
-            {# This will be filled by Javascript #}
-        </div>
+        <table class="table" id="endorsementArea">
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Subject</th>
+                    <th>Subcategory</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {# This will be filled by Javascript #}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-block">+</button>
     </div>
 
     <!-- TODO this needs to be a table that can accept multiple exams -->
@@ -25,31 +38,41 @@
         <p>If you need to take an exam, you will be asked to provide the exam name and the scheduled test date.</p>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsRemaining" id="testsRemaining" value="false">
+                <input type="radio" class="form-check-input" name="tests" id="tests" value="false">
                 No, I have completed all exams.
             </label>
         </div>
         <div class="form-check">
             <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="testsRemaining" id="testsRemaining" value="true">
+                <input type="radio" class="form-check-input" name="tests" id="tests" value="true">
                 Yes, I have exams to complete.
             </label>
         </div>
 
-        <div class="row" id="testsRemainingToggle">
-            <div class="col-sm-6">
-                <label for="examName">Exam</label>
-                <select class="form-control" id="examName">
-                    <option value="praxis">Praxis II</option>
-                    <option vlaue="rve">Reading for Virginia Educators (RVE)</option>
-                    <option value="vcla">Virginia Communication and Literacy Assessment (VCLA)</option>
-                </select>
-            </div>
-
-            <div class="col-sm-6">
-                <label for="examDate">Scheduled Test Date</label>
-                <input class="form-control" type="date" id="examDate" name="Exam Date">
-            </div>
+        <div id="testsToggle">
+            <table class="table" id="testsRemaining">
+                <thead>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Scheduled Test Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>
+                        <select class="form-control" id="examName">
+                            <option value="praxis">Praxis II</option>
+                            <option vlaue="rve">Reading for Virginia Educators (RVE)</option>
+                            <option value="vcla">Virginia Communication and Literacy Assessment (VCLA)</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="form-control" type="date" id="examDate" name="Exam Date">
+                    </td>
+                    <td>X</td>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-block">+</button>
         </div>
     </fieldset>
 
@@ -104,8 +127,9 @@
         {% endfor %}
     </div>
 
-    <button type="submit" class="btn btn-secondary">Save</button>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <!-- TODO figure out how to differentiate SAVE from SUBMIT, just focusing on submit for now. -->
+    <!--<input type="submit" class="btn btn-secondary" value="Save">-->
+    <input type="submit" class="btn btn-primary" value="Submit">
 
 </form>
 

@@ -11,12 +11,14 @@ def newContinuationForm():
         data = request.get_json() # Get POSTed JSON from Javascript
     except:
         return jsonify({'Failure':'No request data.'})
+    print(data)
     
     # Check endorsement area
     for endorsement in data['endorsementArea']:
         endorsementArea = helpers.getEndorsementArea(endorsement)
         if (endorsementArea == 0):
             return jsonify({'Failure':'An endorsement area is invalid.'})
+        else: print(endorsementArea)
             
     # Check the test requirements have valid tests and dates
     for item in data['testRequirements']:

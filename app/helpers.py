@@ -17,6 +17,7 @@ def getEndorsements():
         
 def getEndorsementArea(key):
     endorsements = getEndorsements()['data']
+    key = [i for i in key if i is not None] # Remove None values; remaining 1-3 values should cooardinate to endorsementarea
     endorsementArea = ''
     try:
         for i in range(0,len(key)):
