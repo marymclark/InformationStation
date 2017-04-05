@@ -15,5 +15,6 @@ from app import views, models, controllers
 
 # Load the config file
 app.config.from_object('config')
+
 #db = SQLAlchemy(app)
 #db.init_app(app)
