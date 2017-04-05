@@ -11,6 +11,7 @@ issue in Cloud9 is that `python.h`, the Python header file, will not be found. T
 run:
 
 	sudo apt-get update; sudo apt-get install python-dev -y
+	sudo pip install Flask-WTF
 
 Upon loading up your Cloud9 Workspace, please enter the following commands into your command line:
 

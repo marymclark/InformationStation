@@ -1,7 +1,20 @@
 # Helper functions for the mvc
 
 import datetime
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField
+
 from json import load
+
+class LoginForm(Form):
+    email = TextField('UMW Email:', validators=[validators.required()])
+    password = TextField('Password:', validators=[validators.required()])
+
+class RegisterForm(Form):
+    first = StringField('First Name: ', validators=[validators.DataRequired()])
+    last = StringField('Last Name: ', validators=[validators.DataRequired()])
+    email = StringField('UMW Email: ', validators=[validators.DataRequired()])
+    password1 = StringField('Password: ', validators=[validators.DataRequired()])
+    password2 = StringField('Confirm Password: ', validators=[validators.DataRequired()])
 
 # Get the next n years for a form
 def nextnYears(n):
