@@ -33,12 +33,6 @@ Contains the following tables:
 
  * form_undergradadmission (table for undergraduate admission form)
     * endorsement
-    * testscores
-        * testscores_praxis
-        * testscores_sat
-        * testscores_act
-        * testscores_vcla
-        * testscores_actmath
     * studentinfo
         * transferinfo
         * leadershiphistory
@@ -155,71 +149,6 @@ CREATE TABLE form_fifthyear (
     
 ) ENGINE = MyISAM;
 
-CREATE TABLE testscores_praxis (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    praxisid serial,
-    reading int,
-    writing int,
-    mathematics int,
-    composite int,
-    
-    PRIMARY KEY (praxisid)
-) ENGINE = MyISAM;
-
-CREATE TABLE testscores_sat (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    satid serial,
-    verbal int,
-    mathematics int,
-    total int,
-    
-    PRIMARY KEY (satid)
-) ENGINE = MyISAM;
-
-CREATE TABLE testscores_act (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    actid serial,
-    reading int,
-    mathematics int,
-    composite int,
-    
-    PRIMARY KEY (actid)
-) ENGINE = MyISAM;
-
-CREATE TABLE testscores_vcla (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    vclaid serial,
-    reading int,
-    writing int,
-    
-    PRIMARY KEY (vclaid)
-) ENGINE = MyISAM;
-
-CREATE TABLE testscores_actmath (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    actmathid serial,
-    math int,
-    
-    PRIMARY KEY (actmathid)
-) ENGINE = MyISAM;
-
-CREATE TABLE testscores (
-    userid int NOT NULL,
-    formid int NOT NULL,
-    testscoresid SERIAL,
-    praxis int references testscores_praxis(praxisid),
-    sat int references testscores_sat(satid),
-    act int references testscores_act(actid),
-    vcla int references testscores_vcla(vclaid),
-    actmath int references testscores_actmath(actmathid),
-    
-    PRIMARY KEY (testscoresid)
-) ENGINE = MyISAM;
 
 CREATE TABLE transferinfo (
     userid int NOT NULL,
@@ -231,7 +160,6 @@ CREATE TABLE transferinfo (
     startdate date,
     enddate date,
     degreeearned text,
-    gpa float,
     enrolledname text,
     
     PRIMARY KEY (transferinfoid)
@@ -267,15 +195,10 @@ CREATE TABLE studentinfo (
     declared bool,
     majoradvisor text,
     monthyeargrad text,
-    currentgpa float,
     accumulatedcredithours int,
     informationsessionattendancedate date,
     transferstudentinfo int references transferinfo(transferinfoid),
     applieddate date,
-    convictbool bool,
-    felonybool bool,
-    misdemeanorbool bool,
-    anothercountrycrimebool bool,
     preferedgender text,
     birthday date,
     preferedrace text,
@@ -295,7 +218,6 @@ CREATE TABLE form_undergradadmission (
     permanentaddress text,
     permanentphonenumber varchar(12),
     endorsementarea int references endorsement(endorsementid),
-    testscore int references testscores(testscoresid),
     studentinfo int references studentinfo(studentinfoid),
     
     PRIMARY KEY(formid)
