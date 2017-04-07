@@ -20,13 +20,6 @@ def getEndorsements():
 @app.route('/api/schools')
 def getSchools():
     return jsonify(helpers.getSchools())
-
-# Routing
-
-# Index
-@app.route('/')
-def index():
-    return render_template("index.html")
     
 # Login
 @app.route('/login', methods=['POST', 'GET'])
@@ -61,15 +54,6 @@ def login():
 def logout():
     logout_user()
     return render_template("index.html")      
-    
-
-    
-# User Dashboard
-@app.route('/dashboard')
-def dashboard():
-    
-    
-    return render_template("userdash.html")
 
     
 # Admin Dashboard...?

@@ -1,15 +1,26 @@
-# Configurations for Flask
+class Config(object):
+    """
+    Common configurations
+    """
 
-# Debugging in development
-# Change this to False in production
-from app import app
+    # Put any configurations here that are common across all environments
 
-#class Config():
-#    DEBUG = True
-#    SQLALCHEMY_DATABASE_URI = 'mysql://hzontine:coeas@localhost/coeas'
-#    SQLALCHEMY_TRACK_MODIFICATIONS = False
+class DevelopmentConfig(Config):
+    """
+    Development configurations
+    """
 
+    DEBUG = True
+    SQLALCHEMY_ECHO = True
 
+class ProductionConfig(Config):
+    """
+    Production configurations
+    """
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://hzontine:coeas@localhost/coeas'
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    DEBUG = False
+
+app_config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
+}
