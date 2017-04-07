@@ -3,6 +3,8 @@ Information Station
 
 Git repository for the College of Education Information Station. This is an application designed for submission and management of student forms for the program.
 
+
+
 Installation and Running the Server
 -----------------------------------
 
@@ -20,6 +22,21 @@ activate a [Python virtual environment](https://python-guide-pt-br.readthedocs.i
 When you are ready to run the server, please execute the following in your command line:
 	
 	. runServer.sh 
+	
+	
+Keeping Database Current
+------------------------
+
+Make sure you have flask migrate installed.  To install:
+
+	sudo pip install flask-migrate
+	
+You should already have a migrations directory from the git repo.  Run:
+
+	flask db migrate; flask db upgrade
+	
+These command will create tables in MySQL based on the models.py code.
+
 
 Common Errors
 -------------
