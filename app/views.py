@@ -4,10 +4,9 @@ from flask import render_template, jsonify, request
 from app import app
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import helpers
+from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 #from flask_sqlalchemy import SQLAlchemy
-
 #db = SQLAlchemy(app)
-
 
 
 # Data for Javascript
@@ -29,7 +28,6 @@ def getSchools():
 def index():
     return render_template("index.html")
     
-    
 # Login
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -47,6 +45,8 @@ def login():
 #            print results
             if ((email == "testingteam@umw.edu" and password == "coeas") or
                 (email == "hzontine@umw.edu" and password == "coeas")):
+                user = helpers.User(1,email,password)
+                login_user(user)
                 print "Logged In"
                 return render_template("userdash.html", user=email)
             else:
@@ -57,7 +57,9 @@ def login():
 
 # Logout
 @app.route('/logout')
+@login_required
 def logout():
+    logout_user()
     return render_template("index.html")      
     
 

@@ -2,9 +2,25 @@
 
 import datetime
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField
-
 from json import load
+from flask_login import UserMixin
 
+class User(UserMixin):
+    def __init__(self, id, email, password, active=True):
+        self.id = id
+        self.email = email
+        self.password = password  
+        self.active = active
+
+    def is_active(self):
+        return self.active
+        
+    def get_id(self):
+        try:
+            return unicode(self.id)
+        except AttributeError:
+            raise NotImplementedError('No `id` attribute - override `get_id`')    
+ 
 class LoginForm(Form):
     email = TextField('UMW Email:', validators=[validators.required()])
     password = TextField('Password:', validators=[validators.required()])
