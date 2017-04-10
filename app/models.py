@@ -47,3 +47,41 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+    
+    
+    
+class Forms(UserMixin, db.Model):
+    """
+    Forms connections form id to form name
+    """
+
+    __tablename__ = 'forms'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(60), index=True)
+
+class UserForms(UserMixin, db.Model):
+    """
+    User-Form join table (Connects users to their submitted forms)
+    """
+
+    __tablename__ = 'userforms'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
+    
+class Endorsement(UserMixin, db.Model):
+    """
+    Endorsement area table
+    """
+
+    # Ensures table will be named in plural and not in singular
+    # as is the name of the model
+    __tablename__ = 'endorsement'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
+    form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    area = db.Column(db.String(60), index=True)
+
+    #def __repr__(self):
+    #    return '<User: {}>'.format(self.email)
