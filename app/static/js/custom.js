@@ -3,7 +3,7 @@
 // TODO refine and refactor
 function buildEndorsementArea() {
     // Import JSON object with endorsements
-    $.getJSON("/api/endorsements", function(data) {
+    $.getJSON("/data/endorsements", function(data) {
         // Build the first level
         data = data['data']; 
         var first_level = [];

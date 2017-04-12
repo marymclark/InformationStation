@@ -6,7 +6,6 @@ from flask_login import LoginManager, login_required, login_user, logout_user, U
 from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 
-
 import helpers
 from config import app_config
 
@@ -35,5 +34,8 @@ def create_app(config_name):
 
     from .home import home as home_blueprint
     app.register_blueprint(home_blueprint)
+    
+    from .forms import forms as forms_blueprint
+    app.register_blueprint(forms_blueprint)
 
     return app
