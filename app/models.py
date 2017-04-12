@@ -67,6 +67,7 @@ class UserForms(UserMixin, db.Model):
 
     __tablename__ = 'userforms'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
     
@@ -79,9 +80,9 @@ class Endorsement(UserMixin, db.Model):
     # as is the name of the model
     __tablename__ = 'endorsement'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #endorsememtid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     area = db.Column(db.String(60), index=True)
 
     #def __repr__(self):
@@ -92,11 +93,14 @@ class PracticumGrades(UserMixin, db.Model):
 
     __tablename__ = 'practicumgrades'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #practicumgradesid = db.Column(db.Integer, primary_key=True, autoincrement=True, index=True)
     subject = db.Column(db.String(60), index=True)
     grade = db.Column(db.Integer, index=True)
+    
+    practicumhistory = db.relationship('PracticumHistory', backref='practicumgrades',
+                                lazy='dynamic')
 
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
@@ -105,9 +109,10 @@ class PracticumHistory(UserMixin, db.Model):
 
     __tablename__ = 'practicumhistory'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
+    practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.id'))
     schoolname = db.Column(db.String(60), index=True)
     schooldivision = db.Column(db.String(60), index=True)
 
@@ -119,6 +124,7 @@ class PostbacRelationships(UserMixin, db.Model):
 
     __tablename__ = 'postbacrelationships'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -134,8 +140,12 @@ class Form_Postbac(UserMixin, db.Model):
 
     __tablename__ = 'form_postbac'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
+    practicuminfo = db.Column(db.Integer, db.ForeignKey('practicumhistory.id'))
+    relationships = db.Column(db.Integer, db.ForeignKey('postbacrelationships.id'))
     preferedcountry = db.Column(db.String(120), index=True)
     preferedgradelevel = db.Column(db.Integer, index=True)
     requirementssatisfied = db.Column(db.Boolean, index=True)
@@ -150,6 +160,7 @@ class FifthYearExamsNeeded(UserMixin, db.Model):
 
     __tablename__ = 'fifthyearexamsneeded'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -163,6 +174,7 @@ class FifthYearMasters(UserMixin, db.Model):
 
     __tablename__ = 'fifthyearmasters'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -176,9 +188,14 @@ class Form_FifthYear(UserMixin, db.Model):
 
     __tablename__ = 'form_fifthyear'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
+    endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
+    examsneeded = db.Column(db.Integer, db.ForeignKey('fifthyearexamsneeded.id'))
+    mastersinfo = db.Column(db.Integer, db.ForeignKey('fifthyearmasters.id'))
+    practicuminfo = db.Column(db.Integer, db.ForeignKey('practicumhistory.id'))
+    
     termgraduating = db.Column(db.String(60), index=True)
     preferedcountry = db.Column(db.String(120), index=True)
     preferedgradelevel = db.Column(db.Integer, index=True)
@@ -192,6 +209,7 @@ class TransferInfo(UserMixin, db.Model):
 
     __tablename__ = 'transferinfo'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -211,6 +229,7 @@ class LeadershipHistory(UserMixin, db.Model):
 
     __tablename__ = 'leadershiphistory'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -224,6 +243,7 @@ class YouthHistory(UserMixin, db.Model):
 
     __tablename__ = 'youthhistory'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
@@ -237,9 +257,12 @@ class StudentInformation(UserMixin, db.Model):
 
     __tablename__ = 'studentinformation'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
+    transferinfo = db.Column(db.Integer, db.ForeignKey('transferinfo.id'))
+    leadershiphistory = db.Column(db.Integer, db.ForeignKey('leadershiphistory.id'))
+    youthhistory = db.Column(db.Integer, db.ForeignKey('youthhistory.id'))
     umwstatus = db.Column(db.String(60), index=True)
     studenttype = db.Column(db.String(120), index=True)
     majorprogram = db.Column(db.String(60), index=True)
@@ -261,9 +284,11 @@ class Form_UndergradAdmission(UserMixin, db.Model):
 
     __tablename__ = 'form_undergradadmission'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    #practicumgrades = db.Column(db.Integer, db.ForeignKey('practicumgrades.practicumgradesid'), primary_key=True)
+    endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
+    transferinfo = db.Column(db.Integer, db.ForeignKey('transferinfo.id'))
     bannerid = db.Column(db.String(9), index=True)
     localaddress = db.Column(db.String(120), index=True)
     campusphonenumber = db.Column(db.String(12), index=True)
