@@ -1,5 +1,25 @@
 // Form Functions
 
+function addRow(target) {
+    console.log(typeof target);
+    var i = 0;
+    $(target).append('<tr></tr>');
+    
+    // Find the nearest row and copy its columns (without values)
+    var columns = $(target).find("tr:first").find("td");
+    for (i=0; i<columns.length-1; i++) {
+        let newColumn = $(columns[i]).clone();
+        $(target).find("tr:last").append(newColumn);
+    }
+    // Add delete button
+    $(target).find("tr:last").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>'); 
+}
+
+function delRow(target) {
+    console.log(target);
+    target.remove();
+}
+
 // TODO refine and refactor
 function buildEndorsementArea() {
     // Import JSON object with endorsements
@@ -15,7 +35,7 @@ function buildEndorsementArea() {
         $("#endorsementArea tbody").append('<tr><td><select class="form-control" name="area" id="area"></td></tr>');
         $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subject" id="subject"></select></td>');
         $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subcategory" id="subcategory"></select></td>');
-        $("#endorsementArea tbody tr").append('<td>X</td>'); //TODO replace this with an actual button of some kind
+        $("#endorsementArea tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
         // Add first level
         for (var key in first_level) {
             $("#area").append('<option value="'+key+'">'+first_level[key]+'</option>');
@@ -126,6 +146,23 @@ $("form.continuation").submit(function(event) {
 
 // Run
 $(document).ready(function() {
+    
+    // $(document) instead $(document) necessary...?
+    $(document).on('click', 'button.delRow', function() {
+        // Check if this is the last remaining row, and if not, delete row
+        if ($(this).closest("tbody").find("tr").length <= 1) { 
+            alert("Can't remove the last remaining row."); 
+        }
+        else {
+            let thisRow = $(this).closest("tr");
+            delRow(thisRow);
+        }
+    });
+    
+    $(document).on('click', 'button.addRow', function() {
+        let tbody = $(this).prev("table").find("tbody")[0];
+        addRow(tbody);
+    });
     
     // If an endorsementArea exists, add its data
     if ($('table#endorsementArea').length) { 

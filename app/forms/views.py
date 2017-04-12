@@ -11,12 +11,12 @@ from .. import db, helpers
 # Data for Javascript
 
 # Send endorsement data to Javascript
-@forms.route('/api/endorsements')
+@forms.route('/data/endorsements')
 def getEndorsements():
     return jsonify(helpers.getEndorsements())
 
 # Send school data to Javascript
-@forms.route('/api/schools')
+@forms.route('/data/schools')
 def getSchools():
     return jsonify(helpers.getSchools())
 

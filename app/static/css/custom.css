@@ -25,11 +25,22 @@ form .btn-block {
     width: calc(100% - 12px);
 }
 
-/* TODO figure out how to override bootstrap with !important */
-form table {
-    margin-bottom: 0 !important;
+form table.table {
+    margin-bottom: 0;
+}
+
+table.table>tbody>tr>td {
+    vertical-align: middle;
 }
 
 .form-control {
-    margin-bottom: 5px !important; 
+    margin-bottom: 5px; 
+}
+
+tbody>tr>td:last-child {
+    width: 50px;
+}
+
+button>.glyphicon {
+    color: white;
 }

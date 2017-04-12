@@ -5,7 +5,6 @@
 <h2>Admission/Continuation Into the Graduate Program</h2>
 
 <form class="continuation">
-    <!-- TODO needs to be a table -->
     <div class="form-group">
         <label for="endorsementArea">Teaching Endorsements Sought</label>
         <table class="table" id="endorsementArea">
@@ -21,10 +20,9 @@
                 {# This will be filled by Javascript #}
             </tbody>
         </table>
-        <button type="button" class="btn btn-block">+</button>
+        <button type="button" class="btn btn-block addRow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
     </div>
 
-    <!-- TODO this needs to be a table that can accept multiple exams -->
     <fieldset class="form-group">
         <label for="testsRemaining">Test Requirements</label>
         <p>To continue in education and be formally admitted into the Graduate Degree Program, students must do the following:</p>
@@ -69,10 +67,10 @@
                     <td>
                         <input class="form-control" type="date" id="examDate" name="Exam Date">
                     </td>
-                    <td>X</td>
+                    <td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-block">+</button>
+            <button type="button" class="btn btn-block addRow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
         </div>
     </fieldset>
 
