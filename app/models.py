@@ -19,6 +19,9 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(60), index=True)
     password_hash = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
+    
+    userforms = db.relationship('UserForms', backref='user',
+                                lazy='dynamic')
 
     @property
     def password(self):
@@ -59,6 +62,18 @@ class Forms(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(60), index=True)
+    userforms = db.relationship('UserForms', backref='form',
+                                lazy='dynamic')
+                                
+    userforms = relationship("UserForms",
+                    primaryjoin="and_(User.id==Address.user_id, "
+                        "Address.email.startswith('tony'))",
+                    backref="user")
+                                
+    addresses = relationship("Address",
+                    primaryjoin="and_(User.id==Address.user_id, "
+                        "Address.email.startswith('tony'))",
+                    backref="user")
 
 class UserForms(UserMixin, db.Model):
     """
@@ -99,8 +114,8 @@ class PracticumGrades(UserMixin, db.Model):
     subject = db.Column(db.String(60), index=True)
     grade = db.Column(db.Integer, index=True)
     
-    practicumhistory = db.relationship('PracticumHistory', backref='practicumgrades',
-                                lazy='dynamic')
+    #practicumhistory = db.relationship('PracticumHistory', backref='practicumgrades',
+    #                            lazy='dynamic')
 
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
