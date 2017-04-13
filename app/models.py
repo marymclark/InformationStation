@@ -65,15 +65,10 @@ class Forms(UserMixin, db.Model):
     userforms = db.relationship('UserForms', backref='form',
                                 lazy='dynamic')
                                 
-    userforms = relationship("UserForms",
-                    primaryjoin="and_(User.id==Address.user_id, "
-                        "Address.email.startswith('tony'))",
-                    backref="user")
-                                
-    addresses = relationship("Address",
-                    primaryjoin="and_(User.id==Address.user_id, "
-                        "Address.email.startswith('tony'))",
-                    backref="user")
+    #userforms = db.relationship("UserForms",
+    #                primaryjoin="and_(User.id==Address.user_id, "
+    #                    "Address.email.startswith('tony'))",
+    #                backref="user")
 
 class UserForms(UserMixin, db.Model):
     """
