@@ -5,8 +5,8 @@ from flask_login import login_required, current_user
 
 from . import forms
 #from forms import
-from .. import db, helpers
-from ..models import *
+from .. import db, helpers 
+from ..models import Forms, UserForms, Endorsement, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, PracticumGrades
 
 # Data for Javascript
 
@@ -49,25 +49,60 @@ def continuationForm():
                 
         # Check graduation
         checkGrad = data['graduation'].split()
-        if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
-            jsonify({'Failure':'Invalid graduation month/year'})
+        #if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
+        #    return jsonify({'Failure':'Invalid graduation month/year'})
             
         # Add data to database
-        try:
-            form = Form(
-                name = "Form_FifthYear"
-            )
-            fifthyear = Form_FifthYear(
-                user_id = current_user.id,
-                form_id = form.id
-                #endorsementarea = ,
-                #continuestudy = data[],
-            )
-            db.session.add(form)
-            db.session.add(fifthyear)
-            db.session.commit()
-        except:
-            print "Failed to insert into database."
+        form = Forms(
+            name = "Form_FifthYear"
+        )
+        userform = UserForms(
+            user_id = current_user.id,
+            form_id = form.id
+        )
+        endorsement = Endorsement(
+            user_id = current_user.id,
+            form_id = form.id,
+            area = endorsementArea
+        )
+        exams = FifthYearExamsNeeded(
+            user_id = current_user.id,
+            form_id = form.id,
+            examname = data['testRequirements'][0]['exam'],
+            examdate = data['testRequirements'][0]['date']
+        )
+        masters = FifthYearMasters(
+            user_id = current_user.id,
+            form_id = form.id,
+            continuestudy = data['continue'],
+            reasonfordiscontinue = data['reason']
+        )
+        #practicum = PracticumGrades(
+        #    user_id = current_user.id,
+        #    form_id = form.id,
+        #    subject = data['practicum'][0]['grades']
+        #)
+        finalform = Form_FifthYear(
+            user_id = current_user.id,
+            form_id = form.id,
+            endorsementarea = endorsementArea,
+            examsneeded = exams.id,
+            mastersinfo = masters.id,
+            #practicuminfo = practicum.id,
+            termgraduating = data['graduation'],
+            preferedcountry = data['country'],
+            preferedgradelevel = data['level'],
+        )
+        
+        db.session.add(form)
+        db.session.add(userform)
+        db.session.add(endorsement)
+        db.session.add(exams)
+        db.session.add(masters)
+        db.session.add(practicum)
+        db.sessoin.add(finalform)
+        
+        db.session.commit()
         
         # For now, return success when valid 
         return jsonify({'Success':'Request was valid.'})
