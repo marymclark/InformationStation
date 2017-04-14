@@ -53,7 +53,7 @@ def load_user(user_id):
     
     
     
-class Forms(UserMixin, db.Model):
+class Forms(db.Model):
     """
     Forms connects form id to form name
     """
@@ -70,7 +70,7 @@ class Forms(UserMixin, db.Model):
     #                    "Address.email.startswith('tony'))",
     #                backref="user")
 
-class UserForms(UserMixin, db.Model):
+class UserForms(db.Model):
     """
     User-Form join table (Connects users to their submitted forms)
     """
@@ -91,7 +91,7 @@ class UserForms(UserMixin, db.Model):
 
 
 
-class Endorsement(UserMixin, db.Model):
+class Endorsement(db.Model):
     """
     Endorsement area table
     """
@@ -109,7 +109,7 @@ class Endorsement(UserMixin, db.Model):
     #    return '<User: {}>'.format(self.email)
     
     
-class PracticumGrades(UserMixin, db.Model):
+class PracticumGrades(db.Model):
 
     __tablename__ = 'practicumgrades'
 
@@ -125,7 +125,7 @@ class PracticumGrades(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class PracticumHistory(UserMixin, db.Model):
+class PracticumHistory(db.Model):
 
     __tablename__ = 'practicumhistory'
 
@@ -140,7 +140,7 @@ class PracticumHistory(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class PostbacRelationships(UserMixin, db.Model):
+class PostbacRelationships(db.Model):
 
     __tablename__ = 'postbacrelationships'
 
@@ -156,7 +156,7 @@ class PostbacRelationships(UserMixin, db.Model):
     #    return '<User: {}>'.format(self.email)
 
     
-class Form_Postbac(UserMixin, db.Model):
+class Form_Postbac(db.Model):
 
     __tablename__ = 'form_postbac'
 
@@ -184,7 +184,7 @@ class Form_Postbac(UserMixin, db.Model):
 
 
 
-class FifthYearExamsNeeded(UserMixin, db.Model):
+class FifthYearExamsNeeded(db.Model):
 
     __tablename__ = 'fifthyearexamsneeded'
 
@@ -198,7 +198,7 @@ class FifthYearExamsNeeded(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class FifthYearMasters(UserMixin, db.Model):
+class FifthYearMasters(db.Model):
 
     __tablename__ = 'fifthyearmasters'
 
@@ -212,7 +212,7 @@ class FifthYearMasters(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class Form_FifthYear(UserMixin, db.Model):
+class Form_FifthYear(db.Model):
 
     __tablename__ = 'form_fifthyear'
 
@@ -241,7 +241,7 @@ class Form_FifthYear(UserMixin, db.Model):
 
 
 
-class TransferInfo(UserMixin, db.Model):
+class TransferInfo(db.Model):
 
     __tablename__ = 'transferinfo'
 
@@ -261,7 +261,7 @@ class TransferInfo(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class LeadershipHistory(UserMixin, db.Model):
+class LeadershipHistory(db.Model):
 
     __tablename__ = 'leadershiphistory'
 
@@ -275,7 +275,7 @@ class LeadershipHistory(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class YouthHistory(UserMixin, db.Model):
+class YouthHistory(db.Model):
 
     __tablename__ = 'youthhistory'
 
@@ -289,7 +289,7 @@ class YouthHistory(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class StudentInformation(UserMixin, db.Model):
+class StudentInformation(db.Model):
 
     __tablename__ = 'studentinformation'
 
@@ -316,7 +316,7 @@ class StudentInformation(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-class Form_UndergradAdmission(UserMixin, db.Model):
+class Form_UndergradAdmission(db.Model):
 
     __tablename__ = 'form_undergradadmission'
 
