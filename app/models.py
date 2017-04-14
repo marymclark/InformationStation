@@ -55,15 +55,15 @@ def load_user(user_id):
     
 class Forms(UserMixin, db.Model):
     """
-    Forms connections form id to form name
+    Forms connects form id to form name
     """
 
     __tablename__ = 'forms'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(60), index=True)
-    userforms = db.relationship('UserForms', backref='form',
-                                lazy='dynamic')
+    #userforms = db.relationship('UserForms', backref='form',
+    #                            lazy='dynamic')
                                 
     #userforms = db.relationship("UserForms",
     #                primaryjoin="and_(User.id==Address.user_id, "
@@ -81,6 +81,16 @@ class UserForms(UserMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
     
+    
+    
+#####################################################################################################
+
+#                           POSTBAC TABLE         
+
+######################    
+
+
+
 class Endorsement(UserMixin, db.Model):
     """
     Endorsement area table
@@ -164,7 +174,15 @@ class Form_Postbac(UserMixin, db.Model):
     #    return '<User: {}>'.format(self.email)
     
     
+    
+    
 #####################################################################################################
+
+#                           FIFTH_YEAR TABLE         
+
+######################
+
+
 
 class FifthYearExamsNeeded(UserMixin, db.Model):
 
@@ -213,7 +231,15 @@ class Form_FifthYear(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
 
-###################################################################################################################################
+
+
+#####################################################################################################
+
+#                           UNDERGRAD TABLE
+
+######################
+
+
 
 class TransferInfo(UserMixin, db.Model):
 
