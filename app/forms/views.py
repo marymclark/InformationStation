@@ -12,16 +12,19 @@ from .. import db, helpers
 
 # Send endorsement data to Javascript
 @forms.route('/data/endorsements')
+#@login_required
 def getEndorsements():
     return jsonify(helpers.getEndorsements())
 
 # Send school data to Javascript
 @forms.route('/data/schools')
+#@login_required
 def getSchools():
     return jsonify(helpers.getSchools())
 
 # Continuation Form
 @forms.route('/forms/continuation', methods=["GET","POST"])
+#@login_required
 def continuationForm():
     if request.method == 'POST':
         try:
@@ -50,7 +53,23 @@ def continuationForm():
             jsonify({'Failure':'Invalid graduation month/year'})
             
         # Add data to database
-        # TODO add to database
+        try:
+            form = Form(
+                name = "Form_FifthYear"
+            )
+            
+            fifthyear = Form_FifthYear(
+                user_id = current_user.id,
+                form_id = form.id,
+                endorsementarea = ,
+                continuestudy = data[],
+                
+            )
+            db.session.add(form)
+            db.session.add(fifthyear)
+            db.session.commit()
+        except:
+            print "Failed to insert into database."
         
         # For now, return success when valid 
         return jsonify({'Success':'Request was valid.'})
@@ -61,10 +80,12 @@ def continuationForm():
 
 # Internship Form
 @forms.route('/forms/internship', methods=["GET","POST"])
+@login_required
 def internshipForm():
     return render_template("forms/internship.html")
 
 # Admission Form
 @forms.route('/forms/admission', methods=["GET","POST"])
+@login_required
 def admissionForm():
     return render_template("forms/admission.html")
