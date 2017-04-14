@@ -1,12 +1,12 @@
 # app/forms/views.py
 
 from flask import request, flash, redirect, render_template, url_for, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from . import forms
 #from forms import
 from .. import db, helpers
-#from ..models import User
+from ..models import *
 
 # Data for Javascript
 
@@ -57,13 +57,11 @@ def continuationForm():
             form = Form(
                 name = "Form_FifthYear"
             )
-            
             fifthyear = Form_FifthYear(
                 user_id = current_user.id,
-                form_id = form.id,
-                endorsementarea = ,
-                continuestudy = data[],
-                
+                form_id = form.id
+                #endorsementarea = ,
+                #continuestudy = data[],
             )
             db.session.add(form)
             db.session.add(fifthyear)
