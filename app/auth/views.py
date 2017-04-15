@@ -1,7 +1,10 @@
 # app/auth/views.py
 
+from datetime import date
+
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user
+from sqlalchemy import update
 
 from . import auth
 from forms import LoginForm, RegistrationForm
@@ -48,6 +51,13 @@ def login():
                 form.password.data):
             # log employee in
             login_user(user)
+            
+            day = date.today() #for updating recent login time
+            
+            print('UPDATE DATE: ', str(user.email), str(day))
+            user.lastLoginDate = day
+            print(user.lastLoginDate)
+            db.session.commit()
 
             # redirect to the dashboard page after login
             if user.is_admin:
