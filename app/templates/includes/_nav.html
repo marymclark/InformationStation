@@ -17,15 +17,15 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
-                <li class="page-scroll">
-                    <a href="{{ url_for('home.index') }}">Home</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="{{ url_for('auth.login') }}">Login</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="{{ url_for('auth.register') }}">Register</a>
-                </li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.email }}!</a></li>
+                {% else %}
+                    <li class="page-scroll"><a href="{{ url_for('home.index') }}">Home</a></li>
+                    <li class="page-scroll"><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li class="page-scroll"><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
             </ul>
         </div>
         <!-- /.navbar-collapse -->
