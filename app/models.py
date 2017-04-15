@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(60), index=True, unique=True)
-    lastLoginDate = db.Column(db.DateTime, index=True)
+    lastLoginDate = db.Column(db.Date, index=True)
     first_name = db.Column(db.String(60), index=True)
     last_name = db.Column(db.String(60), index=True)
     password_hash = db.Column(db.String(128))
@@ -70,6 +70,14 @@ class UserForms(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
+    
+    
+    
+################################################################################
+
+#               Post-bac Form
+
+################################################################################
     
 class Endorsement(UserMixin, db.Model):
     """
@@ -140,6 +148,7 @@ class Form_Postbac(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.Date, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     practicuminfo = db.Column(db.Integer, db.ForeignKey('practicumhistory.id'))
     relationships = db.Column(db.Integer, db.ForeignKey('postbacrelationships.id'))
@@ -151,7 +160,11 @@ class Form_Postbac(UserMixin, db.Model):
     #    return '<User: {}>'.format(self.email)
     
     
-#####################################################################################################
+################################################################################
+
+#               Fifth_Year Form
+
+################################################################################
 
 class FifthYearExamsNeeded(UserMixin, db.Model):
 
@@ -188,6 +201,7 @@ class Form_FifthYear(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.Date, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     examsneeded = db.Column(db.Integer, db.ForeignKey('fifthyearexamsneeded.id'))
     mastersinfo = db.Column(db.Integer, db.ForeignKey('fifthyearmasters.id'))
@@ -200,7 +214,11 @@ class Form_FifthYear(UserMixin, db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
 
-###################################################################################################################################
+################################################################################
+
+#               Undergrad FORM
+
+################################################################################
 
 class TransferInfo(UserMixin, db.Model):
 
@@ -284,6 +302,7 @@ class Form_UndergradAdmission(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.Date, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     transferinfo = db.Column(db.Integer, db.ForeignKey('transferinfo.id'))
     bannerid = db.Column(db.String(9), index=True)
