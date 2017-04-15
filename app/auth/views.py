@@ -12,7 +12,7 @@ from ..models import User
 def register():
     """
     Handle requests to the /register route
-    Add a student user to the database through the registration form
+    Add an employee to the database through the registration form
     """
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -30,13 +30,13 @@ def register():
         return redirect(url_for('auth.login'))
 
     # load registration template
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html', form=form, title='Register')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
     Handle requests to the /login route
-    Log a user in through the login form
+    Log an employee in through the login form
     """
     form = LoginForm()
     if form.validate_on_submit():
@@ -57,7 +57,7 @@ def login():
             flash('Invalid email or password.')
 
     # load login template
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form, title='Login')
 
 @auth.route('/logout')
 @login_required

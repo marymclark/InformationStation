@@ -98,9 +98,6 @@ class PracticumGrades(UserMixin, db.Model):
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
     subject = db.Column(db.String(60), index=True)
     grade = db.Column(db.Integer, index=True)
-    
-    practicumhistory = db.relationship('PracticumHistory', backref='practicumgrades',
-                                lazy='dynamic')
 
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
