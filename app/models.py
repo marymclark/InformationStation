@@ -39,6 +39,9 @@ class User(UserMixin, db.Model):
         Check if hashed password matches actual password
         """
         return check_password_hash(self.password_hash, password)
+        
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return '<User: {}>'.format(self.email)

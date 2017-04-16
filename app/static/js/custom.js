@@ -293,22 +293,15 @@ $(document).ready(function() {
       updateDataTableSelectAllCtrl(table);
    });
 
-   // Handle form submission event 
-   $('#deleteUser').on('submit', function(e){
-      var form = this;
-      
-      console.log('deleting user...')
-      
-      // Iterate over all selected checkboxes
-      $.each(rows_selected, function(index, rowId){
-         // Create a hidden element 
-         $(form).append(
-             $('<input>')
-                .attr('type', 'hidden')
-                .attr('name', 'id[]')
-                .val(rowId)
-         );
-      });
+   // Handle delete
+   $('#deleteUser').click(function(){
+       
+       console.log('deleting user')
+       
+           $('input:checked').each(function(){
+               $("table tr input:checked").parents('tr').remove();
+               console.log('deleting user!')
+           });
    });
     
     // $(document) instead $(document) necessary...?
