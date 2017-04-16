@@ -72,6 +72,19 @@ class UserForms(UserMixin, db.Model):
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
     
     
+
+class ApplicationInformation(db.Model):
+    """
+    Stores deadline inforation for each application
+    """
+
+    __tablename__ = 'applicationinformation'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(60), index=True)
+    deadlineDate = db.Column(db.Date, index=True)
+    
+    
     
 ################################################################################
 
