@@ -147,7 +147,22 @@ $("form.continuation").submit(function(event) {
 // Run
 $(document).ready(function() {
     
-    $('#userTable').DataTable();
+    //$('#userTable').DataTable();
+    $('#exportFormTable').DataTable();
+    $('#deleteFormTable').DataTable();
+    
+    $('#userTable').DataTable( {
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
+    } );
     
     // $(document) instead $(document) necessary...?
     $(document).on('click', 'button.delRow', function() {
