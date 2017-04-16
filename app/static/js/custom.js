@@ -147,6 +147,10 @@ $("form.continuation").submit(function(event) {
 //
 // Updates "Select all" control in a data table
 //
+
+function deleteUser(){
+    console.log('deteling datboi')
+}
 function updateDataTableSelectAllCtrl(table){
    var $table             = table.table().node();
    var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
@@ -191,6 +195,15 @@ $(document).ready(function() {
       //},
        "data": [
           [
+             "1",
+             "Tiger Nixon",
+             "System Architect",
+             "Edinburgh",
+             "5421",
+             "2011/04/25",
+             "$320,800"
+          ],
+           [
              "1",
              "Tiger Nixon",
              "System Architect",
@@ -281,8 +294,10 @@ $(document).ready(function() {
    });
 
    // Handle form submission event 
-   $('#frm-example').on('submit', function(e){
+   $('#deleteUser').on('submit', function(e){
       var form = this;
+      
+      console.log('deleting user...')
       
       // Iterate over all selected checkboxes
       $.each(rows_selected, function(index, rowId){

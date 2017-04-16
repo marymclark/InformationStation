@@ -41,37 +41,37 @@ table.dataTable thead th:first-child {
             </div>
             <div class="tab-pane fade" id="b">
                 <div class="row">
-                    <div class="col-lg-10">
-                        <div class="panel panel-default">
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <table width="100%" class="table table-striped table-bordered table-hover" id="exportFormTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Rendering engine</th>
-                                            <th>Browser</th>
-                                            <th>Platform(s)</th>
-                                            <th>Engine version</th>
-                                            <th>CSS grade</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="odd gradeX">
-                                            <td>Trident</td>
-                                            <td>Internet Explorer 4.0</td>
-                                            <td>Win 95+</td>
-                                            <td class="center">4</td>
-                                            <td class="center">X</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <!-- /.table-responsive -->
-                            </div>
-                            <!-- /.panel-body -->
+                <div class="col-lg-10">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="exportFormTable">
+                                <thead>
+                                    <tr>
+                                        <th>Rendering engine</th>
+                                        <th>Browser</th>
+                                        <th>Platform(s)</th>
+                                        <th>Engine version</th>
+                                        <th>CSS grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX">
+                                        <td>Trident</td>
+                                        <td>Internet Explorer 4.0</td>
+                                        <td>Win 95+</td>
+                                        <td class="center">4</td>
+                                        <td class="center">X</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
                         </div>
-                        <!-- /.panel -->
+                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
             </div>              
             </div>
             <div class="tab-pane fade" id="c">
@@ -115,7 +115,7 @@ table.dataTable thead th:first-child {
                     <div class="panel panel-default">
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <form id="deleteUser" action="deleteUser()" method="POST">
+                            <!--<form id="deleteUser" action="" method="POST">-->
                                 <table id="userTable" class="display select" cellspacing="0" width="100%">
                                    <thead>
                                       <tr>
@@ -141,8 +141,9 @@ table.dataTable thead th:first-child {
                                    </tfoot>
                                 </table>
                                 <!-- /.table-responsive -->
-                                <p><button>Delete</button></p>
-                            </form>
+                                <a class="btn btn-large btn-danger" id="deleteUser">Delete</a>
+                            <!--</form>-->
+                            <!-- /.table-responsive -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
