@@ -193,25 +193,10 @@ $(document).ready(function() {
       //'ajax': {
     //     'url': '/lab/articles/jquery-datatables-checkboxes/ids-arrays.txt' 
       //},
-       "data": [
-          [
-             "1",
-             "Tiger Nixon",
-             "System Architect",
-             "Edinburgh",
-             "5421",
-             "2011/04/25",
-             "$320,800"
-          ],
-           [
-             "1",
-             "Tiger Nixon",
-             "System Architect",
-             "Edinburgh",
-             "5421",
-             "2011/04/25",
-             "$320,800"
-          ]],
+      "processing": true,
+      "serverSide": true,
+      "ajax": "{{ url_for('userTable') }}",
+      
       'columnDefs': [{
          'targets': 0,
          'searchable': false,
