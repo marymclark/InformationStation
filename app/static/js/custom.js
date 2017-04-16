@@ -147,6 +147,8 @@ $("form.continuation").submit(function(event) {
 // Run
 $(document).ready(function() {
     
+    $('#userTable').DataTable();
+    
     // $(document) instead $(document) necessary...?
     $(document).on('click', 'button.delRow', function() {
         // Check if this is the last remaining row, and if not, delete row
