@@ -40,7 +40,7 @@ def reset():
             recover_url=recover_url)
 
         # Let's assume that send_email was defined in myapp/util.py
-        send_email(subject, 'coe@as.com', user.email, html)
+        send_email(subject, 'no-reply@coeas', user.email, html)
 
         return redirect(url_for('home.index'))
     return render_template('home/reset.html', form=form)
@@ -64,7 +64,7 @@ def reset_with_token(token):
 
         return redirect(url_for('auth.login'))
 
-    return render_template('reset_with_token.html', form=form, token=token)
+    return render_template('home/reset_with_token.html', form=form, token=token)
     
     
 # User Dashboard
