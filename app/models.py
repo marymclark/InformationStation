@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(60), index=True, unique=True)
-    lastLoginDate = db.Column(db.DateTime, index=True)
+    lastLoginDate = db.Column(db.Date, index=True)
     first_name = db.Column(db.String(60), index=True)
     last_name = db.Column(db.String(60), index=True)
     password_hash = db.Column(db.String(128))
@@ -42,6 +42,9 @@ class User(UserMixin, db.Model):
         Check if hashed password matches actual password
         """
         return check_password_hash(self.password_hash, password)
+        
+    def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return '<User: {}>'.format(self.email)
@@ -80,18 +83,28 @@ class UserForms(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
+
+
+class ApplicationInformation(db.Model):
+    """
+    Stores deadline inforation for each application
+    """
+
+    __tablename__ = 'applicationinformation'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(60), index=True)
+    deadlineDate = db.Column(db.DateTime, index=True)
     
     
     
-#####################################################################################################
+################################################################################
 
-#                           POSTBAC TABLE         
+#               Post-bac Form
 
-######################    
-
-
-
-class Endorsement(db.Model):
+################################################################################
+    
+class Endorsement(UserMixin, db.Model):
     """
     Endorsement area table
     """
@@ -163,6 +176,7 @@ class Form_Postbac(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     practicuminfo = db.Column(db.Integer, db.ForeignKey('practicumhistory.id'))
     relationships = db.Column(db.Integer, db.ForeignKey('postbacrelationships.id'))
@@ -173,15 +187,12 @@ class Form_Postbac(db.Model):
     #def __repr__(self):
     #    return '<User: {}>'.format(self.email)
     
-    
-    
-    
-#####################################################################################################
 
-#                           FIFTH_YEAR TABLE         
+################################################################################
 
-######################
+#               Fifth_Year Form
 
+################################################################################
 
 
 class FifthYearExamsNeeded(db.Model):
@@ -219,6 +230,7 @@ class Form_FifthYear(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     examsneeded = db.Column(db.Integer, db.ForeignKey('fifthyearexamsneeded.id'))
     mastersinfo = db.Column(db.Integer, db.ForeignKey('fifthyearmasters.id'))
@@ -232,13 +244,11 @@ class Form_FifthYear(db.Model):
     #    return '<User: {}>'.format(self.email)
 
 
+################################################################################
 
-#####################################################################################################
+#               Undergrad FORM
 
-#                           UNDERGRAD TABLE
-
-######################
-
+################################################################################
 
 
 class TransferInfo(db.Model):
@@ -323,6 +333,7 @@ class Form_UndergradAdmission(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
+    submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     transferinfo = db.Column(db.Integer, db.ForeignKey('transferinfo.id'))
     bannerid = db.Column(db.String(9), index=True)

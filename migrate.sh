@@ -10,3 +10,10 @@ echo "create database coeas" | mysql -u root
 flask db init
 flask db migrate
 flask db upgrade
+
+###The following 2 commands add an admin account, and the 3 form's default expired dates
+
+#Create admin account
+echo "from app import db; from app.models import User; admin = User(email='coe@as.com', password='123',is_admin=True); db.session.add(admin); db.session.commit()" | flask shell
+#Create and fill application deadline table
+echo "from app import db; from app.models import ApplicationInformation; form1 = ApplicationInformation(name='post-bac', deadlineDate='2017-04-16'); form2 = ApplicationInformation(name='FifthYear', deadlineDate='2017-04-16'); form3 = ApplicationInformation(name='Undergrad', deadlineDate='2017-04-16'); db.session.add(form1); db.session.add(form2); db.session.add(form3); db.session.commit()" | flask shell

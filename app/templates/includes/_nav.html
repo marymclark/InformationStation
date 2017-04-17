@@ -17,15 +17,23 @@
                 <li class="hidden">
                     <a href="#page-top"></a>
                 </li>
-                <li class="page-scroll">
-                    <a href="/">About</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="{{ url_for('auth.login') }}">Login</a>
-                </li>
-                <li class="page-scroll">
-                    <a href="{{ url_for('auth.register') }}">Register</a>
-                </li>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('home.admin_dashboard') }}">Dashboard</a></li>
+                        <li><a href="#">Departments</a></li>
+                        <li><a href="#">Roles</a></li>
+                        <li><a href="#">Employees</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a><i class="fa fa-user"></i> {{ current_user.email }} </a></li>
+                        <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-scroll"><a href="{{ url_for('home.index') }}">Home</a></li>
+                    <li class="page-scroll"><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li class="page-scroll"><a href="{{ url_for('auth.register') }}">Register</a></li>
+                {% endif %}
             </ul>
         </div>
         <!-- /.navbar-collapse -->

@@ -1,7 +1,10 @@
 # app/auth/views.py
 
+from datetime import date
+
 from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user
+from sqlalchemy import update
 
 from . import auth
 from forms import LoginForm, RegistrationForm
@@ -12,7 +15,7 @@ from ..models import User
 def register():
     """
     Handle requests to the /register route
-    Add a student user to the database through the registration form
+    Add an employee to the database through the registration form
     """
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -30,13 +33,13 @@ def register():
         return redirect(url_for('auth.login'))
 
     # load registration template
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html', form=form, title='Register')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
     Handle requests to the /login route
-    Log a user in through the login form
+    Log an employee in through the login form
     """
     form = LoginForm()
     if form.validate_on_submit():
@@ -48,16 +51,26 @@ def login():
                 form.password.data):
             # log employee in
             login_user(user)
+            
+            day = date.today() #for updating recent login time
+            
+            print('UPDATE DATE: ', str(user.email), str(day))
+            user.lastLoginDate = day
+            print(user.lastLoginDate)
+            db.session.commit()
 
             # redirect to the dashboard page after login
-            return redirect(url_for('home.dashboard'))
+            if user.is_admin:
+                return redirect(url_for('home.admin_dashboard'))
+            else:
+                return redirect(url_for('home.dashboard'))
 
         # when login details are incorrect
         else:
             flash('Invalid email or password.')
 
     # load login template
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form, title='Login')
 
 @auth.route('/logout')
 @login_required
