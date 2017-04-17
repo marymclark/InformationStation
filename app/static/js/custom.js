@@ -1,4 +1,24 @@
-// Form Functions
+// School Grades list
+
+var school_list = [
+    "Pre-K",
+    "Kindergarten",
+    "First Grade",
+    "Second Grade",
+    "Third Grade",
+    "Fourth Grade",
+    "Fifth Grade",
+    "Sixth Grade",
+    "Seventh Grade",
+    "Eigth Grade",
+    "Ninth Grade",
+    "Tenth Grade",
+    "Eleventh Grade",
+    "Twelfth Grade",
+    "Other"
+];
+
+// Table Functions
 
 function addRow(target) {
     console.log(typeof target);
@@ -20,8 +40,94 @@ function delRow(target) {
     target.remove();
 }
 
+// Form elements
+
+function buildRelationships() {
+    
+}
+
+function buildPracticum() {
+    // Add elements
+    $("#practicum tbody").append('<tr><td><select class="form-control" name="district" id="district"></td></tr>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="school" id="school"></select></td>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="grades" id="grades"></select></td>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="subjects" id="subjects"></select></td>');
+    $("#practicum tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
+    
+    $.getJSON("/data/schools", function(data) {
+        data = data['data'];
+        let first_level = [];
+        for (var key in data) {
+            first_level.push(data[key].district);
+        }
+        
+        // Add first level
+        for (var key in first_level) {
+            $("#district").append('<option value="'+key+'">'+first_level[key]+'</option>');
+        }
+        
+        $("#district").change(function() {
+            let index1 = $("#district").val();
+            let selection = data[index1]; 
+            $("#school").empty();
+            $("#grades").empty();
+            
+            if (selection.schools != undefined) { // If schools exist
+                // Build second_level
+                let second_level = [];
+                for (var key in selection.schools) {
+                    second_level.push(selection.schools[key].school);
+                }
+                
+                // Empty and add new elements
+                for (var key in second_level) {
+                    $("#school").append('<option value="'+key+'">'+second_level[key]+'</option>');
+                }
+                
+                // Listen for changes in the second district
+                $("#school").change(function() {
+                    $("#grades").empty();
+                    let index2 = $("#school").val();
+                    let third_level;
+                    let selection = data[index1].schools[index2]; 
+                    console.log(index1 + " " + index2);
+                    console.log(selection);
+                    
+                    if (selection.school.includes("Elementary")) {
+                        third_level = school_list.slice(0,7);
+                    }
+                    if (selection.school.includes("Middle")) {
+                        third_level += school_list.slice(7,10);
+                    }
+                    if (selection.school.includes("High")) {
+                        third_level += school_list.slice(10,school_list.length-1);
+                    }
+                    if (third_level.length == 0) {
+                        console.log("No grade levels available -- provide all options");
+                        third_level = school_list;
+                    }
+                    
+                    for (var key in third_level) {
+                        $("#grades").append('<option value="'+key+'">'+third_level[key]+'</option>');
+                    }
+                });
+            } 
+            else {
+                // Clear
+                console.log("Nothing to fill");
+            }
+        });
+    });
+}
+
 // TODO refine and refactor
 function buildEndorsementArea() {
+    // Create dropdowns
+    $("#endorsementArea tbody").append('<tr><td><select class="form-control" name="area" id="area"></td></tr>');
+    $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subject" id="subject"></select></td>');
+    $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subcategory" id="subcategory"></select></td>');
+    $("#endorsementArea tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
+    
     // Import JSON object with endorsements
     $.getJSON("/data/endorsements", function(data) {
         // Build the first level
@@ -30,12 +136,7 @@ function buildEndorsementArea() {
         for (var key in data) {
             first_level.push(data[key].title);
         }
-        
-        // Create dropdowns
-        $("#endorsementArea tbody").append('<tr><td><select class="form-control" name="area" id="area"></td></tr>');
-        $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subject" id="subject"></select></td>');
-        $("#endorsementArea tbody tr").append('<td><select class="form-control" name="subcategory" id="subcategory"></select></td>');
-        $("#endorsementArea tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
+    
         // Add first level
         for (var key in first_level) {
             $("#area").append('<option value="'+key+'">'+first_level[key]+'</option>');
@@ -345,6 +446,16 @@ $(document).ready(function() {
     // If an endorsementArea exists, add its data
     if ($('table#endorsementArea').length) { 
         buildEndorsementArea(); 
+    }
+    
+    // If practicum table exists, add its data
+    if ($('table#practicum').length) {
+        buildPracticum();   
+    }
+    
+    // If relationships table exists, add its data
+    if ($('table#relationships').length) {
+        buildRelationships();   
     }
     
     // Add testsRemaining animation
