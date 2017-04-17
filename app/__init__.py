@@ -26,6 +26,17 @@ def create_app(config_name):
     login_manager.login_view = "auth.login"
     migrate = Migrate(app, db)
     mail = Mail(app)
+    
+    app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'coeas.email@gmail.com',
+	MAIL_PASSWORD = 'coedevteam'
+	)
+    
     mail.init_app(app)
 
     from app import models
