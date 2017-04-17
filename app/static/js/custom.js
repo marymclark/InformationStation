@@ -183,6 +183,44 @@ function updateDataTableSelectAllCtrl(table){
 // Run
 $(document).ready(function() {
     
+    $("#bacbutton").click(function(){
+        console.log('yass')
+        $('#bacbutton').prop('disabled', true);
+    });
+    
+    $("#undergradbutton").click(function(){
+        console.log('yass')
+        $('#undergradbutton').prop('disabled', true);
+    }); 
+    
+    $("#fifthbutton").click(function(){
+        console.log('yass')
+        $('#fifthbutton').prop('disabled', true);
+    }); 
+    
+    $('#postbac').change(function() {
+        var date = $("#postbac").val();
+        console.log(date, 'change');
+        $('#bacbutton').prop('disabled', false);
+    });
+    
+    $('#undergrad').change(function() {
+        var date = $("#postbac").val();
+        console.log(date, 'change');
+        $('#undergradbutton').prop('disabled', false);
+    });
+    
+    $('#fifthyear').change(function() {
+        var date = $("#postbac").val();
+        console.log(date, 'change');
+        $('#fifthbutton').prop('disabled', false);
+    });
+    
+    
+    $("#bacbutton").click(function() {
+        console.log( "Handler for .bac called." );
+    });
+    
     //$('#userTable').DataTable();
     $('#exportFormTable').DataTable();
     $('#deleteFormTable').DataTable();
@@ -190,12 +228,10 @@ $(document).ready(function() {
     // Array holding selected row IDs
    var rows_selected = [];
    var table = $('#userTable').DataTable({
-      //'ajax': {
-    //     'url': '/lab/articles/jquery-datatables-checkboxes/ids-arrays.txt' 
-      //},
+ 
       "processing": true,
       "serverSide": true,
-      "ajax": "{{ url_for('userTable') }}",
+      "ajax": "{{ url_for('admin.userTable') }}",
       
       'columnDefs': [{
          'targets': 0,

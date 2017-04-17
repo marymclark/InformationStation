@@ -8,7 +8,7 @@ from datatables import ColumnDT, DataTables
 
 from . import admin
 from .. import db
-from ..models import User
+from ..models import User, ApplicationInformation
 
 
 
@@ -60,8 +60,17 @@ def index():
     print('Inside ! admin ! dashboard !')
 
 
+    query = db.session.query(ApplicationInformation)
+    print('querY:', query)
     
+    ai = ApplicationInformation.query.all()
+
+    deadlines = []
+
+    for a in ai:
+        print a.name, a.deadlineDate
+        deadlines.append(a.deadlineDate)
     
    
     # load login template
-    return render_template('admin/admin_dashboard.html')
+    return render_template('admin/admin_dashboard.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])

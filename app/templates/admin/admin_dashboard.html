@@ -26,15 +26,27 @@ table.dataTable thead th:first-child {
                     <div class="col-lg-10">
                         <div class="col-md-4">
                             <center><h3>Fifth Year</h3></center>
-                            <center><input type="datetime-local" id="fifthyear" value="2014-11-16T15:25:33"></center>
+                            <center><input type="date" id="fifthyear" value={{ fifthyeardeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="fifthbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
                         </div>
                         <div class="col-md-4">
                             <center><h3>Post-bac</h3></center>
-                            <center><input type="datetime-local" id="postbac" value="2014-11-16T15:25:33"></center>
+                            <center><input type="date" id="postbac" value={{ postbacdeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="bacbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
                         </div>
                         <div class="col-md-3">
                             <center><h3>Undergrad</h3></center>
-                            <center><input type="datetime-local" id="undergrad" value="2014-11-16T15:25:33"></center>
+                            <center><input type="date" id="undergrad" value={{ undergraddeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="undergradbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
                         </div>
                     </div>
                 </div>
