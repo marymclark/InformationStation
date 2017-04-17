@@ -24,7 +24,7 @@ def getSchools():
 
 # Continuation Form
 @forms.route('/forms/continuation', methods=["GET","POST"])
-#@login_required
+@login_required
 def continuationForm():
     if request.method == 'POST':
         try:
@@ -113,7 +113,7 @@ def continuationForm():
 
 # Internship Form
 @forms.route('/forms/internship', methods=["GET","POST"])
-@login_required
+#@login_required
 def internshipForm():
     return render_template("forms/internship.html")
 
