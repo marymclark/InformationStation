@@ -22,10 +22,6 @@
         "area"   : "Science",
         "sub"    : "Biology"
     }
-    "scores" : { // TODO Talk to Dr. McCall about the scores formatting
-        "test"   : "",
-        "reading": "", 
-    }
     "status" : {
         "year"      : "Junior",
         "semester"  : "2" // second semester, 1 1st, etc?
@@ -35,13 +31,11 @@
     "advisor"    : "Lorem Ipsum",
     "gradMonth"  : "May", // Probably only need to have May and December here
     "gradYear"   : "2018",
-    "gpa"        : "3.6",
-    "credits"    : "95",
     "infoSession": { // NULL if they say no
         "month"  : "Feb",
         "year"   : "2017" 
     }
-    "transcripts": [
+    /*"transcripts": [
         { "college"   : "",
           "city"      : "",
           "state"     : "",
@@ -60,37 +54,17 @@
           "degree"    : "", 
           "name"      : ""  // ... etc.
         }
-    ],
+    ],*/
     "applied"    : { // NULL if they say no
         "month"  : "Feb",
         "year"   : "2017" 
     },
-    "crime"        : false,
-    "felony"       : false,
-    "misdemeanor"  : false,
     "otherCountry" : false,
     "demographic": { // THIS IS OPTIONAL
         "gender"   : "",
         "birth"    : "17-MAR-1995",
         "race"     : ""
     }
-    "leadership" : [
-        { "name" : "",
-          "desc" : ""
-        },
-        { "name" : "",
-          "desc" : ""
-        } // etc.
-    ],
-    "prevExperience" : [
-        { "name" : "",
-          "desc" : ""
-        },
-        { "name" : "",
-          "desc" : ""
-        } // etc.
-    ],
-    "essay" : "" // or attached
 }
 
 // Also need file upload on this one.

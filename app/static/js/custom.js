@@ -209,6 +209,7 @@ $("form.continuation").submit(function(event) {
     data["testRequirements"] = [];
     if ($("input[name='tests']:checked").val() == "true") {
         $("#testsRemaining tbody tr").each(function (i,row) {
+            // TODO .val() below is getting the text inside input and NOT the value like it should
             let test = {"exam": $(row).find("#examName option:selected").val(),
                         "date": $(row).find("#examDate").val()};
             data["testRequirements"].push(test);
@@ -228,6 +229,7 @@ $("form.continuation").submit(function(event) {
     }
     else {
         console.log("Error: No continue option selected");
+        return;
     }
     
     console.log(JSON.stringify(data));
