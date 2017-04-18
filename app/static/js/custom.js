@@ -306,7 +306,7 @@ $(document).ready(function() {
             success: function(result) {
                 console.log(result);
                 $("#bac_yes").show();
-                setTimeout(function() { $("#bac_yes").hide(); }, 1000);
+                setTimeout(function() { $("#bac_yes").hide(); }, 3000);
             }
         });
         
@@ -333,7 +333,7 @@ $(document).ready(function() {
             success: function(result) {
                 console.log(result);
                 $("#undergrad_yes").show();
-                setTimeout(function() { $("#undergrad_yes").hide(); }, 1000);
+                setTimeout(function() { $("#undergrad_yes").hide(); }, 3000);
             }
         });
     }); 
@@ -359,7 +359,7 @@ $(document).ready(function() {
             success: function(result) {
                 console.log(result);
                 $("#fifth_yes").show();
-                setTimeout(function() { $("#fifth_yes").hide(); }, 1000);
+                setTimeout(function() { $("#fifth_yes").hide(); }, 3000);
             }
         });
     }); 
