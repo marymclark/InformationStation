@@ -18,40 +18,52 @@ def register():
     Handle requests to the /register route
     Add an employee to the database through the registration form
     """
+    
+    error=''
+    
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data,
                             first_name=form.first_name.data,
                             last_name=form.last_name.data,
                             password=form.password.data)
-
-        # add employee to the database
-        db.session.add(user)
-        db.session.commit()
+                            
+        print('confirm: ', user.email)
+        print(user.email[-13:])
+                            
+        if (user.email[-13:] != '@mail.umw.edu'):
+            print('NEGATIVE')
+            error = error + 'Please enter a valid UMW email ending in @mail.umw.edu'
+        else:
+            # add new user to the database
+            db.session.add(user)
+            db.session.commit()
         
-        # Now we'll send the email confirmation link
-        subject = "Confirm your email"
-        token = ts.dumps(user.email, salt='email-confirm-key')
+            # Now we'll send the email confirmation link
+            subject = "Confirm your email"
+            token = ts.dumps(user.email, salt='email-confirm-key')
         
-        confirm_url = url_for(
-            'auth.confirm_email',
-            token=token,
-            _external=True)
+            confirm_url = url_for(
+                'auth.confirm_email',
+                token=token,
+                _external=True)
 
-        html = render_template(
-            'email/activate.html',
-            confirm_url=confirm_url)
+            html = render_template(
+                'email/activate.html',
+                confirm_url=confirm_url)
 
-        # Let's assume that send_email was defined in myapp/util.py
-        send_email(subject, 'no-reply@coeas', user.email, html)
+            # Let's assume that send_email was defined in myapp/util.py
+            send_email(subject, 'no-reply@coeas', user.email, html)
         
-        flash('You have successfully registered! You may now login.')
+            flash('You have successfully registered! Please confirm your email before logging in.')
 
-        # redirect to the login page
-        return redirect(url_for('auth.login'))
+            # redirect to the login page
+            return redirect(url_for('auth.login'))
 
     # load registration template
-    return render_template('auth/register.html', form=form, title='Register')
+    print('we reroute')
+    
+    return render_template('auth/register.html', form=form, title='Register', error=error)
     
 @auth.route('/confirm/<token>', methods=["GET", "POST"])
 def confirm_email(token):
@@ -88,7 +100,6 @@ def login():
             # log employee in
             if user.confirmed == False:
                 flash('Please confirm your Email before logging in.')
-                #return redirect(url_for('auth.login'))
             else:
                 login_user(user)
             
