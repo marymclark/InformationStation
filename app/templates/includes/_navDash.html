@@ -20,8 +20,8 @@
                     {% if current_user.is_admin %}
                         <li><a href="{{ url_for('home.admin_dashboard') }}">Home</a></li>
                         <li><a href="{{ url_for('admin.deadlines') }}">Deadlines</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Export</a></li>
-                        <li><a href="{{ url_for('auth.logout') }}">Database</a></li>
+                        <li><a href="{{ url_for('admin.export') }}">Export</a></li>
+                        <li><a href="{{ url_for('admin.database') }}">Database</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                         <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.email[:-13] }}!</a></li>
                     {% else %}

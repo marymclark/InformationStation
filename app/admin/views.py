@@ -25,6 +25,18 @@ def check_admin():
 def deleteUser():
     print('deleting dat user!')
     
+@admin.route('/updateDeadline', methods=['POST'])
+def updateDeadline():
+    if request.method == 'POST':
+        try:
+            data = request.get_json() # Get POSTed JSON from Javascript
+        except:
+            return jsonify({'Failure':'No request data.'})
+        print('data:', data)
+
+        return jsonify({'Success':'Request was valid.'})
+    
+    
 @admin.route('/userTable')
 def simple_example():
     """Return server side data."""
@@ -50,6 +62,32 @@ def simple_example():
     # returns what is needed by DataTable
     return jsonify(rowTable.output_result())
     
+@admin.route('/database', methods=['GET', 'POST'])
+def database():
+ 
+    #if request.method == 'POST':
+    #    print('yAsssss')
+    #    return
+    
+    print('Inside ! admin ! database !')
+    
+   
+    # load login template
+    return render_template('admin/database.html')
+    
+@admin.route('/export', methods=['GET', 'POST'])
+def export():
+ 
+    #if request.method == 'POST':
+    #    print('yAsssss')
+    #    return
+    
+    print('Inside ! admin ! export !')
+    
+   
+    # load login template
+    return render_template('admin/export.html')
+    
 @admin.route('/deadlines', methods=['GET', 'POST'])
 def deadlines():
  
@@ -73,7 +111,7 @@ def deadlines():
     
    
     # load login template
-    return render_template('admin/admin_deadlines.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])
+    return render_template('admin/deadlines.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])
         
 @admin.route('/dashboard', methods=['GET', 'POST'])
 def index():

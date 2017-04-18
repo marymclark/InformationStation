@@ -287,6 +287,20 @@ $(document).ready(function() {
     $("#bacbutton").click(function(){
         console.log('yass')
         $('#bacbutton').prop('disabled', true);
+        
+        var date = $("#postbac").val();
+        
+        $.ajax({
+            url:"/updateDeadline",
+            type:"POST",
+            data:JSON.stringify(date),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: function(result) {
+                console.log(result);
+            }
+    });
+        
     });
     
     $("#undergradbutton").click(function(){
