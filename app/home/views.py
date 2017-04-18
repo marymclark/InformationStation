@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 
 from . import home
 
-from forms import EmailForm
+from forms import EmailForm, PasswordForm
 from .. import db
 from ..models import User
 from ..utils import send_email, ts
@@ -31,7 +31,7 @@ def reset():
         token = ts.dumps(user.email, salt='recover-key')
 
         recover_url = url_for(
-            'reset_with_token',
+            'home.reset_with_token',
             token=token,
             _external=True)
 
@@ -40,26 +40,31 @@ def reset():
             recover_url=recover_url)
 
         # Let's assume that send_email was defined in myapp/util.py
-        #send_email(user.email, subject, html)
+        send_email(subject, 'no-reply@coeas', user.email, html)
 
         return redirect(url_for('home.index'))
     return render_template('home/reset.html', form=form)
     
-@home.route('/confirm/<token>')
-def confirm_email(token):
+@home.route('/reset/<token>', methods=["GET", "POST"])
+def reset_with_token(token):
     try:
-        email = ts.loads(token, salt="email-confirm-key", max_age=86400)
+        email = ts.loads(token, salt="recover-key", max_age=86400)
     except:
         abort(404)
 
-    user = User.query.filter_by(email=email).first_or_404()
+    form = PasswordForm()
 
-    user.email_confirmed = True
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=email).first_or_404()
 
-    db.session.add(user)
-    db.session.commit()
+        user.password = form.password.data
 
-    return redirect(url_for('auth.login'))
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('auth.login'))
+
+    return render_template('home/reset_with_token.html', form=form, token=token)
     
     
 # User Dashboard

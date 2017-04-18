@@ -1,30 +1,27 @@
 # app/forms/views.py
 
 from flask import request, flash, redirect, render_template, url_for, jsonify
-from flask_login import login_required, current_user
+from flask_login import login_required
 
 from . import forms
 #from forms import
-from .. import db, helpers 
-from ..models import Forms, UserForms, Endorsement, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, PracticumGrades
+from .. import db, helpers
+#from ..models import User
 
 # Data for Javascript
 
 # Send endorsement data to Javascript
 @forms.route('/data/endorsements')
-#@login_required
 def getEndorsements():
     return jsonify(helpers.getEndorsements())
 
 # Send school data to Javascript
 @forms.route('/data/schools')
-#@login_required
 def getSchools():
     return jsonify(helpers.getSchools())
 
 # Continuation Form
 @forms.route('/forms/continuation', methods=["GET","POST"])
-@login_required
 def continuationForm():
     if request.method == 'POST':
         try:
@@ -49,8 +46,8 @@ def continuationForm():
                 
         # Check graduation
         checkGrad = data['graduation'].split()
-        #if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
-        #    return jsonify({'Failure':'Invalid graduation month/year'})
+        if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
+            jsonify({'Failure':'Invalid graduation month/year'})
             
         # Add data to database
         form = Forms(
@@ -117,12 +114,10 @@ def continuationForm():
 
 # Internship Form
 @forms.route('/forms/internship', methods=["GET","POST"])
-#@login_required
 def internshipForm():
     return render_template("forms/internship.html")
 
 # Admission Form
 @forms.route('/forms/admission', methods=["GET","POST"])
-@login_required
 def admissionForm():
     return render_template("forms/admission.html")

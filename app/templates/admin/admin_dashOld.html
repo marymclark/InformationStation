@@ -1,0 +1,171 @@
+{% extends "userdashbase.html" %}
+
+{% block content %}
+
+<style>
+table.dataTable.select tbody tr,
+table.dataTable thead th:first-child {
+  cursor: pointer;
+}
+</style>
+
+<div id="wrapper">
+    <br><br><br><br>
+        <h1 class="page-header"> Set/Extend Deadlines</h1><br>
+        <ul class="nav nav-pills nav-stacked col-md-1">
+            <li><a href="#a" data-toggle="tab">Set/Extend Deadlines</a></li>
+            <li><a href="#b" data-toggle="tab">View/Export Submissions</a></li>
+            <li><a href="#c" data-toggle="tab">Delete Applications</a></li>
+            <li><a href="#d" data-toggle="tab">Delete Users</a></li>
+            <li><a href="#e" data-toggle="tab">Manage Database</a></li>
+        </ul>
+        
+        <div class="tab-content">
+            <div class="tab-pane fade" id="a">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="col-md-4">
+                            <center><h3>Fifth Year</h3></center>
+                            <center><input type="date" id="fifthyear" value={{ fifthyeardeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="fifthbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                        <div class="col-md-4">
+                            <center><h3>Post-bac</h3></center>
+                            <center><input type="date" id="postbac" value={{ postbacdeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="bacbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                        <div class="col-md-3">
+                            <center><h3>Undergrad</h3></center>
+                            <center><input type="date" id="undergrad" value={{ undergraddeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="undergradbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="b">
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="exportFormTable">
+                                <thead>
+                                    <tr>
+                                        <th>Rendering engine</th>
+                                        <th>Browser</th>
+                                        <th>Platform(s)</th>
+                                        <th>Engine version</th>
+                                        <th>CSS grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX">
+                                        <td>Trident</td>
+                                        <td>Internet Explorer 4.0</td>
+                                        <td>Win 95+</td>
+                                        <td class="center">4</td>
+                                        <td class="center">X</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>              
+            </div>
+            <div class="tab-pane fade" id="c">
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="deleteFormTable">
+                                <thead>
+                                    <tr>
+                                        <th>Rendering engine</th>
+                                        <th>Browser</th>
+                                        <th>Platform(s)</th>
+                                        <th>Engine version</th>
+                                        <th>CSS grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd gradeX">
+                                        <td>Trident</td>
+                                        <td>Internet Explorer 4.0</td>
+                                        <td>Win 95+</td>
+                                        <td class="center">4</td>
+                                        <td class="center">X</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            </div>
+            <div class="tab-pane fade" id="d">
+                <div class="row">
+                <div class="col-lg-10">
+                    <div class="panel panel-default">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <!--<form id="deleteUser" action="" method="POST">-->
+                                <table id="userTable" class="display select" cellspacing="0" width="100%">
+                                   <thead>
+                                      <tr>
+                                         <th><input name="select_all" value="1" type="checkbox"></th>
+                                         <th>ID</th>
+                                         <th>Email</th>
+                                      </tr>
+                                   </thead>
+                                   <tfoot>
+                                      <tr>
+                                         <th></th>
+                                         <th>ID</th>
+                                         <th>Email</th>
+                                      </tr>
+                                   </tfoot>
+                                </table>
+                                <!-- /.table-responsive -->
+                                <a class="btn btn-large btn-danger" id="deleteUser">Delete</a>
+                            <!--</form>-->
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->           
+            </div>
+            <div class="tab-pane fade" id="e">
+                Tab 5 content
+            </div>
+        </div>
+    
+        
+</div>
+        
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+     
+
+{% endblock %}

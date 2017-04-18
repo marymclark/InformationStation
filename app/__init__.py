@@ -18,6 +18,8 @@ def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
+    
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
     Bootstrap(app)
     db.init_app(app)
@@ -26,6 +28,17 @@ def create_app(config_name):
     login_manager.login_view = "auth.login"
     migrate = Migrate(app, db)
     mail = Mail(app)
+    
+    app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'coeas.email@gmail.com',
+	MAIL_PASSWORD = 'coedevteam'
+	)
+    
     mail.init_app(app)
 
     from app import models

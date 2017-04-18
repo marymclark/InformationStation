@@ -1,0 +1,67 @@
+{% extends "userdashbase.html" %}
+
+{% block content %}
+
+
+<div id="wrapper">
+    <br><br><br><br>
+        <center>
+            <h1 class="page-header"> Set/Extend Deadlines</h1><br>
+        </center>
+      
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-4">
+                            <center><h3>Fifth Year</h3></center>
+                            <center><input type="date" id="FifthYear" value={{ fifthyeardeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="fifthbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                        <div class="col-md-4">
+                            <center><h3>Post-bac</h3></center>
+                            <center><input type="date" id="post-bac" value={{ postbacdeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="bacbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                        <div class="col-md-4">
+                            <center><h3>Undergrad</h3></center>
+                            <center><input type="date" id="Undergrad" value={{ undergraddeadline }}></center>
+                            <hr>
+                            <center>
+                                <button id="undergradbutton" class="btn btn-md btn-primary" disabled>Update Deadline</button>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-md-4">
+                            <center>
+                                <p id="fifth_yes" style="display:none">Sucess !</p> 
+                            </center>
+                        </div>
+                        <div class="col-md-4">
+                            <center>
+                                <p id="bac_yes" style="display:none">Sucess !</p> 
+                            </center>
+                        </div>
+                        <div class="col-md-4">
+                            <center>
+                                <p id="undergrad_yes" style="display:none">Sucess !</p> 
+                            </center>
+                        </div>
+                    </div>
+                </div>
+           
+    
+        
+</div>
+        
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+     
+
+{% endblock %}
