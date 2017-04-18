@@ -32,7 +32,6 @@ def updateDeadline():
             data = request.get_json() # Get POSTed JSON from Javascript
         except:
             return jsonify({'Failure':'No request data.'})
-        print('data:', data)
 
         return jsonify({'Success':'Request was valid.'})
     

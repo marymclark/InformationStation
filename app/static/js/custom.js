@@ -291,7 +291,7 @@ $(document).ready(function() {
         var date = $("#postbac").val();
         
         $.ajax({
-            url:"/updateDeadline",
+            url:"/admin/updateDeadline",
             type:"POST",
             data:JSON.stringify(date),
             contentType:"application/json; charset=utf-8",
