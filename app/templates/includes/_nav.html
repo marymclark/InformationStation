@@ -21,10 +21,11 @@
                     {% if current_user.is_admin %}
                         <li><a href="{{ url_for('home.admin_dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li><a><i class="fa fa-user"></i> {{ current_user.email[:-13] }} </a></li>
                     {% else %}
-                        <li><a><i class="fa fa-user"></i> {{ current_user.email }} </a></li>
                         <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li><a><i class="fa fa-user"></i> {{ current_user.email[:-13] }} </a></li>
                     {% endif %}
                 {% else %}
                     <li class="page-scroll"><a href="{{ url_for('home.index') }}">Home</a></li>

@@ -286,6 +286,56 @@ function updateDataTableSelectAllCtrl(table){
 // Run
 $(document).ready(function() {
     
+    
+    $("#userbacbutton").click(function(){
+        
+        event.preventDefault();
+        
+        console.log('bac pushpush')
+        
+        var isDisabled = $("#userbacbutton").prop("disabled")
+        console.log(isDisabled)
+        if (isDisabled) {
+            console.log('isDisabled')
+            event.preventDefault(); // Don't submit yet, build JSON first
+        } else {
+    
+        }
+    });
+    
+    $("#userundergradbutton").click(function(){
+        
+        event.preventDefault();
+        
+        console.log('under pushpush')
+        
+        var isDisabled = $("#userundergradbutton").prop('disabled')
+        console.log(isDisabled)
+        if (isDisabled) {
+            console.log('isDisabled')
+            event.preventDefault(); // Don't submit yet, build JSON first
+        } else {
+    
+        }
+    });
+    
+    $("#userfifthbutton").click(function(){
+        
+        event.preventDefault();
+        
+        console.log('fifth pushpush')
+        
+        var isDisabled = $("#userfifthbutton").prop('disabled')
+        console.log(isDisabled)
+        if (isDisabled) {
+            console.log('isDisabled')
+            event.preventDefault(); // Don't submit yet, build JSON first
+        } else {
+    
+        }
+    });
+    
+    
     $("#bacbutton").click(function(){
         
         event.preventDefault(); // Don't submit yet, build JSON first
@@ -311,6 +361,7 @@ $(document).ready(function() {
                 setTimeout(function() { $("#bac_yes").hide(); }, 3000);
             }
         });
+        
         
     });
     

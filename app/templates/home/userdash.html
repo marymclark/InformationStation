@@ -40,9 +40,16 @@
                             <h5>DUE BY</h5>
                             <p>{{postbacdeadline}}</p>
                             <hr>
-                            <a href="/forms/internship">
-                                <button type="button" class="btn btn-primary btn-lg disabled">Post-bac</button>
-                            <a/>
+                            {% if today > postbacdeadline %}
+                                <a href="/forms/internship">
+                                    <button type="button" id="userbacbutton" class="btn btn-primary btn-lg disabled">Post-bac</button>
+                                <a/>
+                            {% else %}
+                                <a href="/forms/internship">
+                                    <button type="button" id="userbacbutton_enable" class="btn btn-primary btn-lg">Post-bac</button>
+                                <a/>
+                            {% endif %}
+                        
                         </center>
                     </div>
                     
@@ -59,9 +66,16 @@
                             <p>{{fifthyeardeadline}}</p>
                             <hr>
                             
-                            <a href="/forms/continuation">
-                                <button type="button" class="btn btn-primary btn-lg">Continuation</button>
-                            </a>
+                            {% if today > fifthyeardeadline %}
+                                <a href="/forms/continuation">
+                                    <button type="button" id="userfifthbutton" class="btn btn-primary btn-lg disabled">Continuation</button>
+                                </a>
+                            {% else %}
+                                <a href="/forms/continuation">
+                                    <button type="button" id="userfifthbutton_enable" class="btn btn-primary btn-lg">Continuation</button>
+                                </a>
+                            {% endif %}
+                            
                         </center>
                     </div>
                     
@@ -78,9 +92,15 @@
                             <h5>DUE BY</h5>
                             <p>{{undergraddeadline}}</p>
                             <hr>
-                            <a href="/forms/admission">
-                                <button type="button" class="btn btn-primary btn-lg disabled">Undergrad</button>
-                            </a>
+                            {% if today > undergraddeadline %}
+                                <a href="/forms/admission">
+                                    <button type="button" id="userundergradbutton" class="btn btn-primary btn-lg disabled">Undergrad</button>
+                                </a>
+                            {% else %}
+                                <a href="/forms/admission">
+                                    <button type="button" id="userundergradbutton_enable" class="btn btn-primary btn-lg">Undergrad</button>
+                                </a>
+                            {% endif %}
                         </center>
                     </div>
                     
@@ -93,6 +113,8 @@
             </div>
             
         </div>
+        
+        <div id="today" style="display:none" class="panel panel-success">{{today}}</div>
         
     </div>
 

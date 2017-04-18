@@ -5,7 +5,6 @@ from flask_login import current_user, login_required
 
 from datatables import ColumnDT, DataTables
 
-
 from . import admin
 from .. import db
 from ..models import User, ApplicationInformation
@@ -24,9 +23,8 @@ def check_admin():
 @admin.route('/deleteUser')     
 def deleteUser():
     print('deleting dat user!')
-    
-    
-    
+
+
 @admin.route('/updateDeadline', methods=['POST'])
 def updateDeadline():
     if request.method == 'POST':
@@ -105,6 +103,7 @@ def export():
     # load login template
     return render_template('admin/export.html')
     
+    
 @admin.route('/deadlines', methods=['GET', 'POST'])
 def deadlines():
  
@@ -129,6 +128,7 @@ def deadlines():
    
     # load login template
     return render_template('admin/deadlines.html', fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0])
+        
         
 @admin.route('/dashboard', methods=['GET', 'POST'])
 def index():

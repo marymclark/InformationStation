@@ -5,6 +5,8 @@ from flask_login import current_user, login_required
 
 from . import home
 
+import datetime
+
 from forms import EmailForm, PasswordForm
 from .. import db
 from ..models import User, ApplicationInformation
@@ -74,6 +76,9 @@ def dashboard():
     
     print('rendering userdash. . .')
     
+    today = datetime.date.today()
+    print(today)
+    
     #get deadlines from database
     
     query = db.session.query(ApplicationInformation)
@@ -87,7 +92,7 @@ def dashboard():
         print a.name, a.deadlineDate
         deadlines.append(a.deadlineDate)
     
-    return render_template("home/userdash.html", fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0])
+    return render_template("home/userdash.html", fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0], today=today)
     
 @home.route('/admin/dashboard')
 @login_required
