@@ -285,48 +285,99 @@ function updateDataTableSelectAllCtrl(table){
 $(document).ready(function() {
     
     $("#bacbutton").click(function(){
+        
+        event.preventDefault(); // Don't submit yet, build JSON first
+        var data = {};
+        
+        var date = $("#post-bac").val();
+        
+        data["date"] = date
+        data["button"] = 'post-bac'
+        
         console.log('yass')
         $('#bacbutton').prop('disabled', true);
-        
-        var date = $("#postbac").val();
         
         $.ajax({
             url:"/admin/updateDeadline",
             type:"POST",
-            data:JSON.stringify(date),
+            data:JSON.stringify(data),
             contentType:"application/json; charset=utf-8",
             dataType:"json",
             success: function(result) {
                 console.log(result);
+                $("#bac_yes").show();
+                setTimeout(function() { $("#bac_yes").hide(); }, 1000);
             }
-    });
+        });
         
     });
     
     $("#undergradbutton").click(function(){
+        event.preventDefault(); // Don't submit yet, build JSON first
+        var data = {};
+        
+        var date = $("#Undergrad").val();
+        
+        data["date"] = date
+        data["button"] = 'Undergrad'
+        
         console.log('yass')
         $('#undergradbutton').prop('disabled', true);
+        
+        $.ajax({
+            url:"/admin/updateDeadline",
+            type:"POST",
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: function(result) {
+                console.log(result);
+                $("#undergrad_yes").show();
+                setTimeout(function() { $("#undergrad_yes").hide(); }, 1000);
+            }
+        });
     }); 
     
     $("#fifthbutton").click(function(){
+        event.preventDefault(); // Don't submit yet, build JSON first
+        var data = {};
+        
+        var date = $("#FifthYear").val();
+        
+        data["date"] = date
+        data["button"] = 'FifthYear'
+        
         console.log('yass')
         $('#fifthbutton').prop('disabled', true);
+        
+        $.ajax({
+            url:"/admin/updateDeadline",
+            type:"POST",
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: function(result) {
+                console.log(result);
+                $("#fifth_yes").show();
+                setTimeout(function() { $("#fifth_yes").hide(); }, 1000);
+            }
+        });
     }); 
     
-    $('#postbac').change(function() {
-        var date = $("#postbac").val();
+    $('#post-bac').change(function() {
+        var date = $("#post-bac").val();
         console.log(date, 'change');
         $('#bacbutton').prop('disabled', false);
     });
     
-    $('#undergrad').change(function() {
-        var date = $("#postbac").val();
+    $('#Undergrad').change(function() {
+        var date = $("#undergrad").val();
         console.log(date, 'change');
         $('#undergradbutton').prop('disabled', false);
     });
     
-    $('#fifthyear').change(function() {
-        var date = $("#postbac").val();
+    $('#FifthYear').change(function() {
+        var date = $("#FifthYear").val();
         console.log(date, 'change');
         $('#fifthbutton').prop('disabled', false);
     });

@@ -94,7 +94,7 @@ class ApplicationInformation(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(60), index=True)
-    deadlineDate = db.Column(db.DateTime, index=True)
+    deadlineDate = db.Column(db.Date, index=True)
     
     
     

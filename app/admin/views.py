@@ -25,6 +25,8 @@ def check_admin():
 def deleteUser():
     print('deleting dat user!')
     
+    
+    
 @admin.route('/updateDeadline', methods=['POST'])
 def updateDeadline():
     if request.method == 'POST':
@@ -32,6 +34,22 @@ def updateDeadline():
             data = request.get_json() # Get POSTed JSON from Javascript
         except:
             return jsonify({'Failure':'No request data.'})
+            
+        print('data: ', data)
+        
+        ai = ApplicationInformation.query.filter_by(name=data['button']).first()
+        ai.deadlineDate = data['date']
+        
+        #db.session.query(ApplicationInformation).filter_by(id=id).update({"date":data['date']})
+        
+        print(data['date'])
+        #print(ai.date)
+       # db.session.merge(ai)
+        db.session.commit()
+        
+        if data['button'] == 'post-bac':
+            print('yaass')
+            
 
         return jsonify({'Success':'Request was valid.'})
     
@@ -110,7 +128,7 @@ def deadlines():
     
    
     # load login template
-    return render_template('admin/deadlines.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])
+    return render_template('admin/deadlines.html', fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0])
         
 @admin.route('/dashboard', methods=['GET', 'POST'])
 def index():
