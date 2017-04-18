@@ -7,7 +7,7 @@ from . import home
 
 from forms import EmailForm, PasswordForm
 from .. import db
-from ..models import User
+from ..models import User, ApplicationInformation
 from ..utils import send_email, ts
 
 # Index
@@ -72,7 +72,22 @@ def reset_with_token(token):
 @login_required
 def dashboard():
     
-    return render_template("home/userdash.html")
+    print('rendering userdash. . .')
+    
+    #get deadlines from database
+    
+    query = db.session.query(ApplicationInformation)
+    print('querY:', query)
+    
+    ai = ApplicationInformation.query.all()
+
+    deadlines = []
+
+    for a in ai:
+        print a.name, a.deadlineDate
+        deadlines.append(a.deadlineDate)
+    
+    return render_template("home/userdash.html", fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0])
     
 @home.route('/admin/dashboard')
 @login_required
