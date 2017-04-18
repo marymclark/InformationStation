@@ -10,16 +10,25 @@
                 <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
             </button>
             <!-- TODO this should not go to top of page, doesn't work well for the app -->
-            <a class="navbar-brand" href="/dashboard">College of Education</a>
+            <a class="navbar-brand" href="/">College of Education</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                    <li><a><i class="fa fa-user"></i>  {{ current_user.email }}</a></li>
-                    <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('home.admin_dashboard') }}">Home</a></li>
+                        <li><a href="{{ url_for('admin.deadlines') }}">Deadlines</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Export</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Database</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.email[:-13] }}!</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                        <li><a><i class="fa fa-user"></i> Hi, {{ current_user.email[:-13] }}!</a></li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>

@@ -49,15 +49,15 @@ def simple_example():
     
     # returns what is needed by DataTable
     return jsonify(rowTable.output_result())
-        
-@admin.route('/dashboard', methods=['GET', 'POST'])
-def index():
+    
+@admin.route('/deadlines', methods=['GET', 'POST'])
+def deadlines():
  
     #if request.method == 'POST':
     #    print('yAsssss')
     #    return
     
-    print('Inside ! admin ! dashboard !')
+    print('Inside ! admin ! deadlines !')
 
 
     query = db.session.query(ApplicationInformation)
@@ -73,4 +73,17 @@ def index():
     
    
     # load login template
-    return render_template('admin/admin_dashboard.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])
+    return render_template('admin/admin_deadlines.html', fifthyeardeadline=deadlines[0], undergraddeadline=deadlines[1], postbacdeadline=deadlines[2])
+        
+@admin.route('/dashboard', methods=['GET', 'POST'])
+def index():
+ 
+    #if request.method == 'POST':
+    #    print('yAsssss')
+    #    return
+    
+    print('Inside ! admin ! dashboard !')
+    
+   
+    # load login template
+    return render_template('admin/admin_dashboard.html')
