@@ -13,6 +13,8 @@ flask db upgrade
 
 ###The following 2 commands add an admin account, and the 3 form's default expired dates
 
+#Create test user
+echo "from app import db; from app.models import User; user = User(email='user@umw.edu', password='123'); db.session.add(user); db.session.commit()" | flask shell
 #Create admin account
 echo "from app import db; from app.models import User; admin = User(email='coe@as.com', password='123',is_admin=True); db.session.add(admin); db.session.commit()" | flask shell
 #Create and fill application deadline table

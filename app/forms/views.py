@@ -41,8 +41,8 @@ def continuationForm():
         for item in data['testRequirements']:
             # TODO check date
             date = item['date']
-            if not (item['exam'] in ['Praxis','VCLA','RVE']):
-                return jsonify({'Failure':'A test requirement entry is invalid.'})
+            #if not (item['exam'] in ['Praxis','VCLA','RVE']):
+            #    return jsonify({'Failure':'A test requirement entry is invalid.'})
                 
         # Check graduation
         checkGrad = data['graduation'].split()
@@ -50,7 +50,60 @@ def continuationForm():
             jsonify({'Failure':'Invalid graduation month/year'})
             
         # Add data to database
-        # TODO add to database
+        form = Forms(
+            name = "Form_FifthYear"
+        )
+        db.session.add(form)
+        db.session.commit()
+        
+        userform = UserForms(
+            user_id = current_user.id,
+            form_id = form.id
+        )
+        db.session.add(userform)
+        db.session.commit()
+        
+        endorsement = Endorsement(
+            user_id = current_user.id,
+            form_id = userform.form_id,
+            area = endorsementArea
+        )
+        if len(data['testRequirements']) >= 1:
+            exams = FifthYearExamsNeeded(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                examname = data['testRequirements'][0]['exam'],
+                examdate = data['testRequirements'][0]['date']
+            )
+            db.session.add(exams)
+        masters = FifthYearMasters(
+            user_id = current_user.id,
+            form_id = userform.form_id,
+            continuestudy = data['continue'],
+            reasonfordiscontinue = data['reason']
+        )
+        #practicum = PracticumGrades(
+        #    user_id = current_user.id,
+        #    form_id = form.id,
+        #    subject = data['practicum'][0]['grades']
+        #)
+        finalform = Form_FifthYear(
+            user_id = current_user.id,
+            form_id = userform.form_id,
+            #endorsementarea = endorsementArea,
+            #examsneeded = exams.id,
+            #mastersinfo = masters.id,
+            #practicuminfo = practicum.id,
+            termgraduating = data['graduation'],
+            #preferedcountry = data['country'],
+            #preferedgradelevel = data['level'],
+        )
+        
+        db.session.add(endorsement)
+        db.session.add(masters)
+        #db.session.add(practicum)
+        db.session.add(finalform)
+        db.session.commit()
         
         # For now, return success when valid 
         return jsonify({'Success':'Request was valid.'})
