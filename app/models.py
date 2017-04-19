@@ -20,9 +20,6 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, default=False)
     confirmed = db.Column(db.Boolean, default=False)
-    
-    userforms = db.relationship('UserForms', backref='user',
-                                lazy='dynamic')
 
     @property
     def password(self):
@@ -65,7 +62,9 @@ class Forms(db.Model):
     __tablename__ = 'forms'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.ForeignKey('users.id'))
     name = db.Column(db.String(60), index=True)
+    datesubmitted = db.Column(db.Date, index=True)
     #userforms = db.relationship('UserForms', backref='form',
     #                            lazy='dynamic')
                                 
@@ -177,7 +176,7 @@ class Form_Postbac(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    submittedDate = db.Column(db.DateTime, index=True)
+    #submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     practicuminfo = db.Column(db.Integer, db.ForeignKey('practicumhistory.id'))
     relationships = db.Column(db.Integer, db.ForeignKey('postbacrelationships.id'))
@@ -231,7 +230,7 @@ class Form_FifthYear(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    submittedDate = db.Column(db.DateTime, index=True)
+    #submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     examsneeded = db.Column(db.Integer, db.ForeignKey('fifthyearexamsneeded.id'))
     mastersinfo = db.Column(db.Integer, db.ForeignKey('fifthyearmasters.id'))
@@ -334,7 +333,7 @@ class Form_UndergradAdmission(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('userforms.user_id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('userforms.form_id'), primary_key=True)
-    submittedDate = db.Column(db.DateTime, index=True)
+    #submittedDate = db.Column(db.DateTime, index=True)
     endorsementarea = db.Column(db.Integer, db.ForeignKey('endorsement.id'))
     transferinfo = db.Column(db.Integer, db.ForeignKey('transferinfo.id'))
     bannerid = db.Column(db.String(9), index=True)

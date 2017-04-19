@@ -18,6 +18,10 @@ var school_list = [
     "Other"
 ];
 
+function redirect(route) {
+    window.location = route;
+}
+
 // Table Functions
 
 function addRow(target) {
@@ -40,19 +44,21 @@ function delRow(target) {
     target.remove();
 }
 
+
 // Form elements
 
 function buildRelationships() {
+    $("#relationships tbody").append('<tr><td><input type="text" class="form-control" name="name" id="name"></td></tr>');
+    $("#relationships tbody tr").append('<td><select class="form-control" name="rel-district" id="rel-district"></select></td>');
+    $("#relationships tbody tr").append('<td><select class="form-control" name="rel-school" id="rel-school"></select></td>');
+    $("#relationships tbody tr").append('<td><select class="form-control" name="relationship" id="relationship"></select></td>');
+    $("#relationships tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');   
     
-}
-
-function buildPracticum() {
-    // Add elements
-    $("#practicum tbody").append('<tr><td><select class="form-control" name="district" id="district"></td></tr>');
-    $("#practicum tbody tr").append('<td><select class="form-control" name="school" id="school"></select></td>');
-    $("#practicum tbody tr").append('<td><select class="form-control" name="grades" id="grades"></select></td>');
-    $("#practicum tbody tr").append('<td><select class="form-control" name="subjects" id="subjects"></select></td>');
-    $("#practicum tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
+    // Add relationships
+    let relationships = ['Parent','Child','Sibling','Spouse','Relative','Friend','Other'];
+    for (var rel in relationships) {
+        $("select#relationship").append('<option value="'+relationships[rel]+'">'+relationships[rel]+'</option>');
+    }
     
     $.getJSON("/data/schools", function(data) {
         data = data['data'];
@@ -62,15 +68,15 @@ function buildPracticum() {
         }
         
         // Add first level
+        console.log($("#rel-district"));
         for (var key in first_level) {
-            $("#district").append('<option value="'+key+'">'+first_level[key]+'</option>');
+            $("#rel-district").append('<option value="'+key+'">'+first_level[key]+'</option>');
         }
         
-        $("#district").change(function() {
-            let index1 = $("#district").val();
+        $("#rel-district").change(function() {
+            let index1 = $("#rel-district").val();
             let selection = data[index1]; 
-            $("#school").empty();
-            $("#grades").empty();
+            $("#rel-school").empty();
             
             if (selection.schools != undefined) { // If schools exist
                 // Build second_level
@@ -81,17 +87,85 @@ function buildPracticum() {
                 
                 // Empty and add new elements
                 for (var key in second_level) {
-                    $("#school").append('<option value="'+key+'">'+second_level[key]+'</option>');
+                    $("#rel-school").append('<option value="'+key+'">'+second_level[key]+'</option>');
+                }
+            } 
+            else {
+                // Clear
+                console.log("Nothing to fill");
+            }
+        });
+    });
+}
+
+function buildPracticum() {
+    // Add elements
+    $("#practicum tbody").append('<tr><td><select class="form-control" name="district" id="district"></td></tr>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="school" id="school"></select></td>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="grades" id="grades"></select></td>');
+    $("#practicum tbody tr").append('<td><select class="form-control" name="subjects" id="subjects"></select></td>');
+    $("#practicum tbody tr").append('<td><button type="button" class="btn delRow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td>');
+    
+    // Fill the subjects column
+    $.getJSON("/data/endorsements", function(data) {
+        data = data['data'];
+        var subjects = [];
+        // TODO add subcategories into this dropdown as well.
+        for (var x in data) {
+            let temp = data[x]['subcategories'];
+            for (var y in temp) {
+                let subject = temp[y]['title'];
+                if (subjects.indexOf(subject) < 0) { //TODO this won't work in IE.
+                    subjects.push(subject);
+                }
+            }
+        }
+        for (var key in subjects) {
+            $("#subjects").append('<option value="'+subjects[key]+'">'+subjects[key]+'</option>');
+        }
+    });
+    
+    $.getJSON("/data/schools", function(data) {
+        data = data['data'];
+        let first_level = [];
+        for (var key in data) {
+            first_level.push(data[key].district);
+        }
+        
+        // Add first level
+        for (var key in first_level) {
+            $("#practicum #district").append('<option value="'+key+'">'+first_level[key]+'</option>');
+        }
+        
+        $("#practicum #district").change(function() {
+            let index1 = $("#practicum #district").val();
+            let selection = data[index1]; 
+            $("#practicum #school").empty();
+            $("#practicum #grades").empty();
+            
+            if (selection.schools != undefined) { // If schools exist
+                // Build second_level
+                let second_level = [];
+                for (var key in selection.schools) {
+                    second_level.push(selection.schools[key].school);
+                }
+                
+                // Empty and add new elements
+                for (var key in second_level) {
+                    $("#practicum #school").append('<option value="'+key+'">'+second_level[key]+'</option>');
                 }
                 
                 // Listen for changes in the second district
-                $("#school").change(function() {
-                    $("#grades").empty();
-                    let index2 = $("#school").val();
+                $("#practicum #school").change(function() {
+                    $("#practicum #grades").empty();
+                    let index2 = $("#practicum #school").val();
                     let third_level;
                     let selection = data[index1].schools[index2]; 
-                    console.log(index1 + " " + index2);
-                    console.log(selection);
+                    
+                    //TODO this problem: looping through every index1 that
+                    //has been previously chosen -- why?
+                    //console.log(index1 + " " + index2);
+                    //console.log(selection);
                     
                     if (selection.school.includes("Elementary")) {
                         third_level = school_list.slice(0,7);
@@ -108,7 +182,7 @@ function buildPracticum() {
                     }
                     
                     for (var key in third_level) {
-                        $("#grades").append('<option value="'+key+'">'+third_level[key]+'</option>');
+                        $("#practicum #grades").append('<option value="'+key+'">'+third_level[key]+'</option>');
                     }
                 });
             } 
@@ -191,6 +265,69 @@ function buildEndorsementArea() {
     });
 }
 
+$("form.internship").submit(function(event) {
+    event.preventDefault(); // Don't submit yet
+    var data = {};
+    
+    // EndorsementArea
+    data["endorsementArea"] = [];
+    $("#endorsementArea tbody tr").each(function (i,row) {
+        let key = [];
+        key.push(Number($(row).find("#area option:selected").val()));
+        key.push(Number($(row).find("#subject option:selected").val())); 
+        key.push(Number($(row).find("#subcategory option:selected").val()));
+        data["endorsementArea"].push(key);
+    });
+    
+    // Tests
+    if ($("input[name='tests']:checked").val() == "true") {
+        data["tests"] = true;   
+    }
+    else {
+        data["tests"] = false;
+    }
+    
+    // Practicums
+    data["practicums"] = [];
+    $("#practicums tbody tr").each(function (i,row) {
+        let practicum = {};
+        practicum.push($(row).find("#district option:selected").text());
+        practicum.push($(row).find("#school option:selected").text()); 
+        practicum.push($(row).find("#grades option:selected").text());
+        practicum.push($(row).find("#grades option:selected").text());
+        data["practicums"].push(practicum);
+    });
+    
+    // Relationships
+    data["practicums"] = [];
+    $("#practicums tbody tr").each(function (i,row) {
+        let practicum = {};
+        practicum.push($(row).find("#name").text());
+        practicum.push($(row).find("#rel-district option:selected").text()); 
+        practicum.push($(row).find("#rel-school option:selected").text());
+        practicum.push($(row).find("#relationship option:selected").text());
+        data["practicums"].push(practicum);
+    });
+    
+    console.log(JSON.stringify(data));
+    
+    // IF no errors, submit JSON as POST request.
+    $.ajax({
+        url:"/forms/internship",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(result) {
+            alert(result['message']);
+            if (result["status"] == "Success") {
+                // Redirect to dashboard
+                //redirect("/dashboard");
+            }
+        }
+    });
+});
+
 // TODO add more error checking and returning 
 $("form.continuation").submit(function(event) {
     event.preventDefault(); // Don't submit yet, build JSON first
@@ -242,7 +379,11 @@ $("form.continuation").submit(function(event) {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(result) {
-            console.log(result);
+            alert(result['message']);
+            if (result["status"] == "Success") {
+                // Redirect to dashboard
+                redirect("/dashboard");
+            }
         }
     });
 });
@@ -398,7 +539,7 @@ $(document).ready(function() {
         var date = $("#FifthYear").val();
         
         data["date"] = date
-        data["button"] = 'FifthYear'
+        data["button"] = 'FifthYesar'
         
         console.log('yass')
         $('#fifthbutton').prop('disabled', true);
@@ -438,127 +579,6 @@ $(document).ready(function() {
     
     $("#bacbutton").click(function() {
         console.log( "Handler for .bac called." );
-    });
-    
-    //$('#userTable').DataTable();
-    $('#exportFormTable').DataTable();
-    $('#deleteFormTable').DataTable();
-    
-    // Array holding selected row IDs
-   var rows_selected = [];
-   var table = $('#userTable').DataTable({
- 
-      "processing": true,
-      "serverSide": true,
-      "ajax": "{{ url_for('admin.userTable') }}",
-      
-      'columnDefs': [{
-         'targets': 0,
-         'searchable': false,
-         'orderable': false,
-         'width': '1%',
-         'className': 'dt-body-center',
-         'render': function (data, type, full, meta){
-             return '<input type="checkbox">';
-         }
-      }],
-      'order': [[1, 'asc']],
-      'rowCallback': function(row, data, dataIndex){
-         // Get row ID
-         var rowId = data[0];
-
-         // If row ID is in the list of selected row IDs
-         if($.inArray(rowId, rows_selected) !== -1){
-            $(row).find('input[type="checkbox"]').prop('checked', true);
-            $(row).addClass('selected');
-         }
-      }
-   });
-
-   // Handle click on checkbox
-   $('#userTable tbody').on('click', 'input[type="checkbox"]', function(e){
-      var $row = $(this).closest('tr');
-
-      // Get row data
-      var data = table.row($row).data();
-
-      // Get row ID
-      var rowId = data[0];
-
-      // Determine whether row ID is in the list of selected row IDs 
-      var index = $.inArray(rowId, rows_selected);
-
-      // If checkbox is checked and row ID is not in list of selected row IDs
-      if(this.checked && index === -1){
-         rows_selected.push(rowId);
-
-      // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
-      } else if (!this.checked && index !== -1){
-         rows_selected.splice(index, 1);
-      }
-
-      if(this.checked){
-         $row.addClass('selected');
-      } else {
-         $row.removeClass('selected');
-      }
-
-      // Update state of "Select all" control
-      updateDataTableSelectAllCtrl(table);
-
-      // Prevent click event from propagating to parent
-      e.stopPropagation();
-   });
-
-   // Handle click on table cells with checkboxes
-   $('#userTable').on('click', 'tbody td, thead th:first-child', function(e){
-      $(this).parent().find('input[type="checkbox"]').trigger('click');
-   });
-
-   // Handle click on "Select all" control
-   $('thead input[name="select_all"]', table.table().container()).on('click', function(e){
-      if(this.checked){
-         $('#userTable tbody input[type="checkbox"]:not(:checked)').trigger('click');
-      } else {
-         $('#userTable tbody input[type="checkbox"]:checked').trigger('click');
-      }
-
-      // Prevent click event from propagating to parent
-      e.stopPropagation();
-   });
-
-   // Handle table draw event
-   table.on('draw', function(){
-      // Update state of "Select all" control
-      updateDataTableSelectAllCtrl(table);
-   });
-
-   // Handle delete
-   $('#deleteUser').click(function(){
-       
-       console.log('deleting user')
-       
-           $('input:checked').each(function(){
-               $("table tr input:checked").parents('tr').remove();
-               console.log('deleting user!')
-           });
-   });
-    
-    // $(document) instead $(document) necessary...?
-    $(document).on('click', 'button.delRow', function() {
-        // Check if this is the last remaining row, and if not, delete row
-        if ($(this).closest("tbody").find("tr").length <= 1) { 
-            alert("Can't remove the last remaining row."); 
-        }
-        else {
-            let thisRow = $(this).closest("tr");
-            delRow(thisRow);
-        }
-    });
-    
-    $(document).on('click', 'button.addRow', function() {
-        let tbody = $(this).prev("table").find("tbody")[0];
-        addRow(tbody);
     });
     
     // If an endorsementArea exists, add its data
@@ -606,4 +626,20 @@ $(document).ready(function() {
         });
         
     }
+});
+
+$(document).on('click', 'button.delRow', function() {
+    // Check if this is the last remaining row, and if not, delete row
+    if ($(this).closest("tbody").find("tr").length <= 1) { 
+        alert("Can't remove the last remaining row."); 
+    }
+    else {
+        let thisRow = $(this).closest("tr");
+        delRow(thisRow);
+    }
+});
+
+$(document).on('click', 'button.addRow', function() {
+    let tbody = $(this).prev("table").find("tbody")[0];
+    addRow(tbody);
 });

@@ -12,7 +12,7 @@ table.dataTable thead th:first-child {
 <div id="wrapper">
     <br><br><br><br>
         <center>
-            <h1 class="page-header">Export Submitted Forms to .csv</h1><br>
+            <h1 class="page-header"> Delete Users</h1><br>
         </center>
                 
             <div class="row">
@@ -24,27 +24,29 @@ table.dataTable thead th:first-child {
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <div class="well well-lg">
-                                    <table id="formTable" class="display" cellspacing="0" width="100%">
+                                    <table id="userTable" class="display" cellspacing="0" width="100%">
                                        <thead>
                                           <tr>
-                                             <th>Form Name</th>
+                                             <th>Id</th>
                                              <th>Email</th>
                                              <th>First Name</th>
                                              <th>Last Name</th>
+                                             <th>Last Login Date</th>
                                           </tr>
                                        </thead>
                                        <tfoot>
                                           <tr>
-                                             <th>Form Name</th>
+                                             <th>Id</th>
                                              <th>Email</th>
                                              <th>First Name</th>
                                              <th>Last Name</th>
+                                             <th>Last Login Date</th>
                                           </tr>
                                        </tfoot>
                                     </table>
                                 </div>
                                 <center>
-                                    <a class="btn btn-large btn-success" id="exportApplication">Export</a><hr>
+                                    <a class="btn btn-large btn-danger" id="deleteUser">Delete</a><hr>
                                 </center>
                             </div>
                             <div class="col-md-1"></div>
@@ -62,28 +64,17 @@ table.dataTable thead th:first-child {
 <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" charset="utf-8">
-  
-  function downloadURI(uri, name) {
-      var link = document.createElement("a");
-      link.download = name;
-      link.href = uri;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      delete link;
-}
-  
     $(document).ready(function(){
         
         var thisRow = {}
         
-      var table = $('#formTable').DataTable({
+      var table = $('#userTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url_for('admin.exApplicationTable') }}"
+        "ajax": "{{ url_for('admin.userTable') }}"
       });
    
-    $('#formTable tbody').on( 'click', 'tr', function () {
+    $('#userTable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
         }
@@ -95,29 +86,22 @@ table.dataTable thead th:first-child {
         thisRow = table.row(this).data()
     } );
  
-    $('#exportApplication').click( function () {
-        console.log('exporting')
+    $('#deleteUser').click( function () {
+        console.log('deleting')
         
         data = thisRow
         
         console.log(data)
         
         $.ajax({
-            url:"/admin/exApplication",
+            url:"/admin/deleteUser",
             type:"POST",
             data:JSON.stringify(data),
             contentType:"application/json; charset=utf-8",
             dataType:"json",
             success: function(result) {
-                
-                var data = []
-                
-                console.log(result['filename']);
-                
-                //var url = result['url'];
-                //window.location = url;
-                //downloadURI("dump.csv", result['filename']);
-                downloadURI("data:text/html,HelloWorld!", "helloWorld.txt");
+                console.log(result);
+                table.row('.selected').remove().draw( false );
             }
         });
         

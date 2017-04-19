@@ -1,40 +1,43 @@
 # app/forms/views.py
 
 from flask import request, flash, redirect, render_template, url_for, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from . import forms
 #from forms import
 from .. import db, helpers
-#from ..models import User
+from .. import models
 
 # Data for Javascript
 
 # Send endorsement data to Javascript
 @forms.route('/data/endorsements')
+@login_required
 def getEndorsements():
     return jsonify(helpers.getEndorsements())
 
 # Send school data to Javascript
 @forms.route('/data/schools')
+@login_required
 def getSchools():
     return jsonify(helpers.getSchools())
 
 # Continuation Form
 @forms.route('/forms/continuation', methods=["GET","POST"])
+@login_required
 def continuationForm():
     if request.method == 'POST':
         try:
             data = request.get_json() # Get POSTed JSON from Javascript
         except:
-            return jsonify({'Failure':'No request data.'})
+            return jsonify({'status':'Failure','message':'No request data.'})
         print(data)
         
         # Check endorsement area
         for endorsement in data['endorsementArea']:
             endorsementArea = helpers.getEndorsementArea(endorsement)
             if (endorsementArea == 0):
-                return jsonify({'Failure':'An endorsement area is invalid.'})
+                return jsonify({'status':'Failure','message':'An endorsement area is invalid.'})
             else: print(endorsementArea)
                 
         # Check the test requirements have valid tests and dates
@@ -42,41 +45,41 @@ def continuationForm():
             # TODO check date
             date = item['date']
             #if not (item['exam'] in ['Praxis','VCLA','RVE']):
-            #    return jsonify({'Failure':'A test requirement entry is invalid.'})
+            #    return jsonify({'status':'Failure','message':'A test requirement entry is invalid.'})
                 
         # Check graduation
         checkGrad = data['graduation'].split()
         if not ((checkGrad[0] in ['May','August','December']) and (checkGrad[1] in helpers.nextnYears(5))):
-            jsonify({'Failure':'Invalid graduation month/year'})
+            jsonify({'status':'Failure','message':'Invalid graduation month/year'})
             
         # Add data to database
-        form = Forms(
+        form = models.Forms(
             name = "Form_FifthYear"
         )
         db.session.add(form)
         db.session.commit()
         
-        userform = UserForms(
+        userform = models.UserForms(
             user_id = current_user.id,
             form_id = form.id
         )
         db.session.add(userform)
         db.session.commit()
         
-        endorsement = Endorsement(
+        endorsement = models.Endorsement(
             user_id = current_user.id,
             form_id = userform.form_id,
             area = endorsementArea
         )
         if len(data['testRequirements']) >= 1:
-            exams = FifthYearExamsNeeded(
+            exams = models.FifthYearExamsNeeded(
                 user_id = current_user.id,
                 form_id = userform.form_id,
                 examname = data['testRequirements'][0]['exam'],
                 examdate = data['testRequirements'][0]['date']
             )
             db.session.add(exams)
-        masters = FifthYearMasters(
+        masters = models.FifthYearMasters(
             user_id = current_user.id,
             form_id = userform.form_id,
             continuestudy = data['continue'],
@@ -87,7 +90,7 @@ def continuationForm():
         #    form_id = form.id,
         #    subject = data['practicum'][0]['grades']
         #)
-        finalform = Form_FifthYear(
+        finalform = models.Form_FifthYear(
             user_id = current_user.id,
             form_id = userform.form_id,
             #endorsementarea = endorsementArea,
@@ -106,7 +109,7 @@ def continuationForm():
         db.session.commit()
         
         # For now, return success when valid 
-        return jsonify({'Success':'Request was valid.'})
+        return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
     else:
         # Reason for not continuing
         reasons = ['Financial','Grades','Study Abroad','Moving out of Area','Personal','No longer interested in teaching','Other']
@@ -114,10 +117,15 @@ def continuationForm():
 
 # Internship Form
 @forms.route('/forms/internship', methods=["GET","POST"])
+@login_required
 def internshipForm():
-    return render_template("forms/internship.html")
+    if request.method == 'POST':
+        return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
+    else:
+        return render_template("forms/internship.html")
 
 # Admission Form
 @forms.route('/forms/admission', methods=["GET","POST"])
+@login_required
 def admissionForm():
     return render_template("forms/admission.html")
