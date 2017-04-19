@@ -52,8 +52,8 @@ def updateDeadline():
         return jsonify({'Success':'Request was valid.'})
     
     
-@admin.route('/data')
-def data():
+@admin.route('/userTable')
+def userTable():
     """Return server side data."""
     
     print('stoff')
@@ -64,15 +64,27 @@ def data():
     columns = [
         ColumnDT(User.id),
         ColumnDT(User.email),
+        ColumnDT(User.first_name),
+        ColumnDT(User.last_name),
+        ColumnDT(User.lastLoginDate)
     ]
+    
+    print('params')
     
     params = request.args.to_dict()
     
     # defining the initial query depending on your purpose
-    query = db.session.query(User)
+    query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
+    print('query: ', query)
+    
+    params = request.args.to_dict()
     
     # instantiating a DataTable for the query and table needed
     rowTable = DataTables(params, query, columns)
+    
+    print('params: ', params)
+    print('cols: ', columns)
+    print('rowTable: ', rowTable.output_result())
     
     # returns what is needed by DataTable
     return jsonify(rowTable.output_result())

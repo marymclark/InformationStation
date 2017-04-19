@@ -21,13 +21,14 @@ table.dataTable thead th:first-child {
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <!--<form id="deleteUser" action="" method="POST">-->
-                                <table id="dt_110x" class="display" cellspacing="0" width="100%">
+                                <table id="userTable" class="display" cellspacing="0" width="100%">
                                     <thead>
                                       <tr>
                                         <th>Id</th>
-                                        <th>Name</th>
-                                        <th>Address</th>
-                                        <th>Created at</th>
+                                        <th>Email</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Last Login Date</th>
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -47,10 +48,10 @@ table.dataTable thead th:first-child {
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     $(document).ready(function(){
-      var table = $('#dt_110x').DataTable({
+      var table = $('#userTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url_for('admin.data') }}"
+        "ajax": "{{ url_for('admin.userTable') }}"
       });
     });
   </script>
