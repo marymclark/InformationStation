@@ -1,7 +1,8 @@
 # app/admin/views.py
 
-from flask import abort, flash, redirect, render_template, url_for, request, jsonify
+from flask import abort, flash, redirect, render_template, url_for, request, jsonify, send_file, json
 from flask_login import current_user, login_required
+import csv
 
 from datatables import ColumnDT, DataTables
 
@@ -99,8 +100,26 @@ def exApplication():
             fifthyearmasters = db.session.query(FifthYearMasters).filter(FifthYearMasters.user_id==userformentry.user_id, FifthYearMasters.form_id==userformentry.form_id).first()
             fifthyearexamsneeded = db.session.query(FifthYearExamsNeeded).filter(FifthYearExamsNeeded.user_id==userformentry.user_id, FifthYearExamsNeeded.form_id==userformentry.form_id).first()
             endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
-            practicumhistory = db.session.query(PracticumHistory.filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            
+            fileName = str(data['3']) + '_fifthYear.csv'
+            print('filename: ', fileName)
+            
+            with open('dump.csv', 'wb') as f:
+                
+                out = csv.writer(f)
+                out.writerow(['id', 'email'])
 
+                for item in db.session.query(User).all():
+                    out.writerow([item.id, item.email])
+                    
+                try:
+                    #return send_file('../myDump.csv', attachment_filename=fileName)
+                    return json.dumps({'filename':fileName})
+                except:
+		            return jsonify({'Failure':'Request was not valid.'})
+                
+            #f.close()
         
         #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
         #ai.deadlineDate = data['date']
