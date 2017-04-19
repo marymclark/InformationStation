@@ -42,6 +42,34 @@ def deleteUser():
         db.session.commit()
 
         return jsonify({'Success':'Request was valid.'})
+        
+        
+@admin.route('/delApplication', methods=['POST'])     
+def delApplication():
+    print('deleting dat application!')
+    
+    if request.method == 'POST':
+        try:
+            data = request.get_json() # Get POSTed JSON from Javascript
+        except:
+            return jsonify({'Failure':'No request data.'})
+            
+        print('data: ', data)
+        
+        #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
+        #ai.deadlineDate = data['date']
+        
+        print(str(data['1']))
+        
+        user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
+        userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+        
+        #print(form.name)
+        db.session.delete(userformentry)
+        db.session.commit()
+
+        return jsonify({'Success':'Request was valid.'})
 
 
 @admin.route('/updateDeadline', methods=['POST'])
