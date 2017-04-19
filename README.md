@@ -4,7 +4,6 @@ Information Station
 Git repository for the College of Education Information Station. This is an application designed for submission and management of student forms for the program.
 
 
-
 Installation and Running the Server
 -----------------------------------
 
@@ -22,12 +21,13 @@ activate a [Python virtual environment](https://python-guide-pt-br.readthedocs.i
 When you are ready to run the server, please execute the following in your command line:
 	
 	. runServer.sh 
-	
+
 	
 Keeping Database Current
 ------------------------
 
-Make sure you have flask migrate installed.  To install:
+Make sure you have flask migrate installed, which should be installed during the 
+automatic setup from `requirements.txt`. To separately install:
 
 	sudo pip install flask-migrate
 	
@@ -42,7 +42,7 @@ Common Errors
 -------------
 
 A common issue in Cloud9 is that `python.h`, the Python header file, will not be found. To fix this problem,
-run:
+run the line below and then re-run the setup.
 
 	sudo apt-get update; sudo apt-get install python-dev -y
 	

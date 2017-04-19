@@ -44,6 +44,7 @@ function delRow(target) {
     target.remove();
 }
 
+
 // Form elements
 
 function buildRelationships() {
@@ -538,7 +539,7 @@ $(document).ready(function() {
         var date = $("#FifthYear").val();
         
         data["date"] = date
-        data["button"] = 'FifthYear'
+        data["button"] = 'FifthYesar'
         
         console.log('yass')
         $('#fifthbutton').prop('disabled', true);
@@ -579,8 +580,6 @@ $(document).ready(function() {
     $("#bacbutton").click(function() {
         console.log( "Handler for .bac called." );
     });
-    
-   
     
     // If an endorsementArea exists, add its data
     if ($('table#endorsementArea').length) { 
@@ -627,4 +626,20 @@ $(document).ready(function() {
         });
         
     }
+});
+
+$(document).on('click', 'button.delRow', function() {
+    // Check if this is the last remaining row, and if not, delete row
+    if ($(this).closest("tbody").find("tr").length <= 1) { 
+        alert("Can't remove the last remaining row."); 
+    }
+    else {
+        let thisRow = $(this).closest("tr");
+        delRow(thisRow);
+    }
+});
+
+$(document).on('click', 'button.addRow', function() {
+    let tbody = $(this).prev("table").find("tbody")[0];
+    addRow(tbody);
 });
