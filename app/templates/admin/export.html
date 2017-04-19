@@ -21,22 +21,17 @@ table.dataTable thead th:first-child {
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <!--<form id="deleteUser" action="" method="POST">-->
-                                <table id="userTable" class="display select" cellspacing="0" width="100%">
-                                   <thead>
+                                <table id="dt_110x" class="display" cellspacing="0" width="100%">
+                                    <thead>
                                       <tr>
-                                         <th><input name="select_all" value="1" type="checkbox"></th>
-                                         <th>ID</th>
-                                         <th>Email</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Created at</th>
                                       </tr>
-                                   </thead>
-                                   <tfoot>
-                                      <tr>
-                                         <th></th>
-                                         <th>ID</th>
-                                         <th>Email</th>
-                                      </tr>
-                                   </tfoot>
-                                </table>
+                                    </thead>
+                                    <tbody></tbody>
+                                  </table>
                                 <!-- /.table-responsive -->
                                 <a class="btn btn-large btn-danger" id="deleteUser">Delete</a>
                             <!--</form>-->
@@ -48,7 +43,17 @@ table.dataTable thead th:first-child {
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-    
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      var table = $('#dt_110x').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{{ url_for('admin.data') }}"
+      });
+    });
+  </script>
         
 </div>
         

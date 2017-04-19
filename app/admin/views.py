@@ -52,8 +52,8 @@ def updateDeadline():
         return jsonify({'Success':'Request was valid.'})
     
     
-@admin.route('/userTable')
-def simple_example():
+@admin.route('/data')
+def data():
     """Return server side data."""
     
     print('stoff')
