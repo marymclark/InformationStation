@@ -20,9 +20,28 @@ def check_admin():
 
         
   
-@admin.route('/deleteUser')     
+@admin.route('/deleteUser', methods=['POST'])     
 def deleteUser():
     print('deleting dat user!')
+    
+    if request.method == 'POST':
+        try:
+            data = request.get_json() # Get POSTed JSON from Javascript
+        except:
+            return jsonify({'Failure':'No request data.'})
+            
+        print('data: ', data)
+        
+        #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
+        #ai.deadlineDate = data['date']
+        
+        print(str(data['1']))
+        
+        user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify({'Success':'Request was valid.'})
 
 
 @admin.route('/updateDeadline', methods=['POST'])
@@ -102,6 +121,20 @@ def database():
     # load login template
     return render_template('admin/database.html')
     
+@admin.route('/users', methods=['GET', 'POST'])
+def users():
+ 
+    #if request.method == 'POST':
+    #    print('yAsssss')
+    #    return
+    
+    print('Inside ! admin ! users !')
+    
+   
+    # load login template
+    return render_template('admin/users.html')
+    
+    
 @admin.route('/export', methods=['GET', 'POST'])
 def export():
  
@@ -114,6 +147,7 @@ def export():
    
     # load login template
     return render_template('admin/export.html')
+    
     
     
 @admin.route('/deadlines', methods=['GET', 'POST'])
