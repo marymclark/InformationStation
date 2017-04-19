@@ -12,7 +12,7 @@ table.dataTable thead th:first-child {
 <div id="wrapper">
     <br><br><br><br>
         <center>
-            <h1 class="page-header">Export Submitted Forms to .csv</h1><br>
+            <h1 class="page-header">Delete Submitted Forms</h1><br>
         </center>
                 
             <div class="row">
@@ -44,7 +44,7 @@ table.dataTable thead th:first-child {
                                     </table>
                                 </div>
                                 <center>
-                                    <a class="btn btn-large btn-success" id="exportApplication">Export</a><hr>
+                                    <a class="btn btn-large btn-danger" id="deleteApplication">Delete</a><hr>
                                 </center>
                             </div>
                             <div class="col-md-1"></div>
@@ -69,7 +69,7 @@ table.dataTable thead th:first-child {
       var table = $('#formTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url_for('admin.exApplicationTable') }}"
+        "ajax": "{{ url_for('admin.delApplicationTable') }}"
       });
    
     $('#formTable tbody').on( 'click', 'tr', function () {
@@ -84,15 +84,15 @@ table.dataTable thead th:first-child {
         thisRow = table.row(this).data()
     } );
  
-    $('#exportApplication').click( function () {
-        console.log('exporting')
+    $('#deleteApplication').click( function () {
+        console.log('deleting')
         
         data = thisRow
         
         console.log(data)
         
         $.ajax({
-            url:"/admin/exApplication",
+            url:"/admin/delApplication",
             type:"POST",
             data:JSON.stringify(data),
             contentType:"application/json; charset=utf-8",
