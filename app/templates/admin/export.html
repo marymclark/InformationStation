@@ -12,7 +12,7 @@ table.dataTable thead th:first-child {
 <div id="wrapper">
     <br><br><br><br>
         <center>
-            <h1 class="page-header"> Delete Users</h1><br>
+            <h1 class="page-header">Export Submitted Forms</h1><br>
         </center>
                 
             <div class="row">
@@ -24,29 +24,27 @@ table.dataTable thead th:first-child {
                             <div class="col-md-1"></div>
                             <div class="col-md-10">
                                 <div class="well well-lg">
-                                    <table id="userTable" class="display" cellspacing="0" width="100%">
+                                    <table id="formTable" class="display" cellspacing="0" width="100%">
                                        <thead>
                                           <tr>
-                                             <th>Id</th>
+                                             <th>Form Name</th>
                                              <th>Email</th>
                                              <th>First Name</th>
                                              <th>Last Name</th>
-                                             <th>Last Login Date</th>
                                           </tr>
                                        </thead>
                                        <tfoot>
                                           <tr>
-                                             <th>Id</th>
+                                             <th>Form Name</th>
                                              <th>Email</th>
                                              <th>First Name</th>
                                              <th>Last Name</th>
-                                             <th>Last Login Date</th>
                                           </tr>
                                        </tfoot>
                                     </table>
                                 </div>
                                 <center>
-                                    <a class="btn btn-large btn-danger" id="deleteUser">Delete</a><hr>
+                                    <a class="btn btn-large btn-danger" id="deleteApplication">Delete</a><hr>
                                 </center>
                             </div>
                             <div class="col-md-1"></div>
@@ -68,13 +66,13 @@ table.dataTable thead th:first-child {
         
         var thisRow = {}
         
-      var table = $('#userTable').DataTable({
+      var table = $('#formTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "{{ url_for('admin.userTable') }}"
+        "ajax": "{{ url_for('admin.delApplicationTable') }}"
       });
    
-    $('#userTable tbody').on( 'click', 'tr', function () {
+    $('#formTable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
         }
@@ -86,7 +84,7 @@ table.dataTable thead th:first-child {
         thisRow = table.row(this).data()
     } );
  
-    $('#deleteUser').click( function () {
+    $('#deleteApplication').click( function () {
         console.log('deleting')
         
         data = thisRow
@@ -94,7 +92,7 @@ table.dataTable thead th:first-child {
         console.log(data)
         
         $.ajax({
-            url:"/admin/deleteUser",
+            url:"/admin/delApplicationTable",
             type:"POST",
             data:JSON.stringify(data),
             contentType:"application/json; charset=utf-8",

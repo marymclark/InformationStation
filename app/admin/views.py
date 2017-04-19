@@ -7,7 +7,7 @@ from datatables import ColumnDT, DataTables
 
 from . import admin
 from .. import db
-from ..models import User, ApplicationInformation
+from ..models import User, ApplicationInformation, Forms, UserForms
 
 
 
@@ -69,6 +69,40 @@ def updateDeadline():
             
 
         return jsonify({'Success':'Request was valid.'})
+        
+@admin.route('/delApplicationTable')
+def delApplicationTable():
+    """Return server side data."""
+    
+    print('stoff')
+        
+    print('creating application table')
+    
+    # defining columns
+    columns = [
+        ColumnDT(Forms.name),
+        ColumnDT(User.email),
+        ColumnDT(User.first_name),
+        ColumnDT(User.last_name),
+    ]
+    
+    print('params')
+    
+    params = request.args.to_dict()
+    
+    # defining the initial query depending on your purpose
+    #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
+    query = db.session.query(Forms.name, User.email, User.first_name, User.last_name).\
+        filter(User.id==Forms.user_id)
+    print('query: ', query)
+    
+    params = request.args.to_dict()
+    
+    # instantiating a DataTable for the query and table needed
+    rowTable = DataTables(params, query, columns)
+    
+    # returns what is needed by DataTable
+    return jsonify(rowTable.output_result())
     
     
 @admin.route('/userTable')
