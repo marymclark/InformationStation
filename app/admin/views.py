@@ -70,6 +70,33 @@ def delApplication():
         db.session.commit()
 
         return jsonify({'Success':'Request was valid.'})
+        
+@admin.route('/exApplication', methods=['POST'])     
+def exApplication():
+    print('exporting dat app!')
+    
+    if request.method == 'POST':
+        try:
+            data = request.get_json() # Get POSTed JSON from Javascript
+        except:
+            return jsonify({'Failure':'No request data.'})
+            
+        print('data: ', data)
+        
+        #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
+        #ai.deadlineDate = data['date']
+        
+        #print(str(data['1']))
+        
+        #user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        #form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
+        #userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+        
+        #print(form.name)
+        #db.session.delete(userformentry)
+        #db.session.commit()
+
+        return jsonify({'Success':'Request was valid.'})
 
 
 @admin.route('/updateDeadline', methods=['POST'])
@@ -100,6 +127,40 @@ def updateDeadline():
         
 @admin.route('/delApplicationTable')
 def delApplicationTable():
+    """Return server side data."""
+    
+    print('stoff')
+        
+    print('creating application table')
+    
+    # defining columns
+    columns = [
+        ColumnDT(Forms.name),
+        ColumnDT(User.email),
+        ColumnDT(User.first_name),
+        ColumnDT(User.last_name),
+    ]
+    
+    print('params')
+    
+    params = request.args.to_dict()
+    
+    # defining the initial query depending on your purpose
+    #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
+    query = db.session.query(Forms.name, User.email, User.first_name, User.last_name).\
+        filter(User.id==Forms.user_id)
+    print('query: ', query)
+    
+    params = request.args.to_dict()
+    
+    # instantiating a DataTable for the query and table needed
+    rowTable = DataTables(params, query, columns)
+    
+    # returns what is needed by DataTable
+    return jsonify(rowTable.output_result())
+    
+@admin.route('/exApplicationTable')
+def exApplicationTable():
     """Return server side data."""
     
     print('stoff')
@@ -209,6 +270,19 @@ def export():
    
     # load login template
     return render_template('admin/export.html')
+    
+@admin.route('/delete', methods=['GET', 'POST'])
+def delete():
+ 
+    #if request.method == 'POST':
+    #    print('yAsssss')
+    #    return
+    
+    print('Inside ! admin ! delete !')
+    
+   
+    # load login template
+    return render_template('admin/delete.html')
     
     
     
