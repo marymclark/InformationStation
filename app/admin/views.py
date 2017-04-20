@@ -112,36 +112,25 @@ def exApplication():
                 #return send_file('../myDump.csv', attachment_filename=fileName)
                 with open('app/static/dump.csv', 'wb') as f:
                     
-                    strcsv = ''
-                    strcsv = []
-                    
                     fileName = str(data['3']) + '_fifthYear.csv'
                     print('filename: ', fileName)
+                    csv.field_size_limit(500 * 1024 * 1024)
                     out = csv.writer(f)
                     out.writerow(['id', 'email'])
                     for item in db.session.query(User).all():
                         out.writerow([item.id, item.email])
+                    
+                    print('yargh')
+                    #out.writerow(['Term Graduating', 'Prefered Country', 'Prefered Grade Level'])
+                    #out.writerow([fifthyear.termgraduating, fifthyear.preferedcountry, fifthyear.preferedgradelevel])
+                   # out.writerow([fifthyearmasters.])
                         
-                    csvdata = [1,2,'a','He said "what do you mean?"',"Whoa!\nNewlines!"]
-                    csvdata2 = [1,2,'a','He said "what do you mean?"',"Whoa!\nNewlines!"]
-                    output = io.BytesIO()
-                    csvwriter = csv.writer(output)
-                    csvwriter.writerow(csvdata)
-                    strcsv.append(output.getvalue())
-                    csvwriter.writerow(csvdata2)
-                    strcsv.append(output.getvalue())
-                        
+                    print('all done!')
                     #return jsonify({'status':'Success','filename':fileName, 'strcsv':strcsv})
                     
             except:
 		           return jsonify({'Failure':'Request was not valid.'})
                 
-            with open('app/static/dump.csv') as file:
-                file = file.read()
-
-            stream = StringIO(file)
-
-            csv_file = csv.DictReader(stream)
             
             
             #return jsonify({'status':'Success','filename':fileName, 'strcsv':csv_file})
