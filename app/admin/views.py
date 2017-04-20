@@ -3,6 +3,9 @@
 from flask import abort, flash, redirect, render_template, url_for, request, jsonify, send_file, json
 from flask_login import current_user, login_required
 import csv
+import io
+import os
+from StringIO import StringIO
 
 from datatables import ColumnDT, DataTables
 
@@ -102,24 +105,49 @@ def exApplication():
             endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
             practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
             
-            fileName = str(data['3']) + '_fifthYear.csv'
-            print('filename: ', fileName)
+            print(os.getcwd())
             
-            with open('dump.csv', 'wb') as f:
-                
-                out = csv.writer(f)
-                out.writerow(['id', 'email'])
-
-                for item in db.session.query(User).all():
-                    out.writerow([item.id, item.email])
                     
-                try:
-                    #return send_file('../myDump.csv', attachment_filename=fileName)
-                    return json.dumps({'filename':fileName})
-                except:
-		            return jsonify({'Failure':'Request was not valid.'})
+            try:
+                #return send_file('../myDump.csv', attachment_filename=fileName)
+                with open('app/static/dump.csv', 'wb') as f:
+                    
+                    strcsv = ''
+                    strcsv = []
+                    
+                    fileName = str(data['3']) + '_fifthYear.csv'
+                    print('filename: ', fileName)
+                    out = csv.writer(f)
+                    out.writerow(['id', 'email'])
+                    for item in db.session.query(User).all():
+                        out.writerow([item.id, item.email])
+                        
+                    csvdata = [1,2,'a','He said "what do you mean?"',"Whoa!\nNewlines!"]
+                    csvdata2 = [1,2,'a','He said "what do you mean?"',"Whoa!\nNewlines!"]
+                    output = io.BytesIO()
+                    csvwriter = csv.writer(output)
+                    csvwriter.writerow(csvdata)
+                    strcsv.append(output.getvalue())
+                    csvwriter.writerow(csvdata2)
+                    strcsv.append(output.getvalue())
+                        
+                    #return jsonify({'status':'Success','filename':fileName, 'strcsv':strcsv})
+                    
+            except:
+		           return jsonify({'Failure':'Request was not valid.'})
                 
-            #f.close()
+            with open('app/static/dump.csv') as file:
+                file = file.read()
+
+            stream = StringIO(file)
+
+            csv_file = csv.DictReader(stream)
+            
+            
+            #return jsonify({'status':'Success','filename':fileName, 'strcsv':csv_file})
+            return jsonify({'status':'Success','filename':fileName})
+
+
         
         #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
         #ai.deadlineDate = data['date']
