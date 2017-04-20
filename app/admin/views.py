@@ -1,13 +1,14 @@
 # app/admin/views.py
 
-from flask import abort, flash, redirect, render_template, url_for, request, jsonify
+from flask import abort, flash, redirect, render_template, url_for, request, jsonify, send_file, json
 from flask_login import current_user, login_required
+import csv
 
 from datatables import ColumnDT, DataTables
 
 from . import admin
 from .. import db
-from ..models import User, ApplicationInformation, Forms, UserForms
+from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
 
 
 
@@ -82,6 +83,43 @@ def exApplication():
             return jsonify({'Failure':'No request data.'})
             
         print('data: ', data)
+        
+        user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
+        
+        print('userEmail: ', user.email)
+        print('formName: ', form.name)
+        userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+        
+        #Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
+        #EXPORT FIFTHYEAR FORM
+        if str(data['0'] == 'Form_FifthYear'):
+            print(userformentry.user_id, ' ', userformentry.form_id)
+            fifthyear = db.session.query(Form_FifthYear).filter(Form_FifthYear.user_id==userformentry.user_id, Form_FifthYear.form_id==userformentry.form_id).first()
+            #print(fifthyear.termgraduating)
+            fifthyearmasters = db.session.query(FifthYearMasters).filter(FifthYearMasters.user_id==userformentry.user_id, FifthYearMasters.form_id==userformentry.form_id).first()
+            fifthyearexamsneeded = db.session.query(FifthYearExamsNeeded).filter(FifthYearExamsNeeded.user_id==userformentry.user_id, FifthYearExamsNeeded.form_id==userformentry.form_id).first()
+            endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
+            practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            
+            fileName = str(data['3']) + '_fifthYear.csv'
+            print('filename: ', fileName)
+            
+            with open('dump.csv', 'wb') as f:
+                
+                out = csv.writer(f)
+                out.writerow(['id', 'email'])
+
+                for item in db.session.query(User).all():
+                    out.writerow([item.id, item.email])
+                    
+                try:
+                    #return send_file('../myDump.csv', attachment_filename=fileName)
+                    return json.dumps({'filename':fileName})
+                except:
+		            return jsonify({'Failure':'Request was not valid.'})
+                
+            #f.close()
         
         #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
         #ai.deadlineDate = data['date']

@@ -1,0 +1,165 @@
+{% extends "forms/form_base.html" %} {% block form %}
+
+<h2>Application for Undergraduate Admission to the 5-Year Pathway Initial Licensure Programs and EDUC 203/204 </h2>
+
+<form class='admission'>
+    <div class="form-group">
+        <table class="table" id="basicInfoAdmission">
+            <tr>
+                <td>Banner ID:</td>
+                <td><input type="text" name="bannerid" /></td>
+            </tr>
+            <tr>
+                <td>Campus Box/Local Address:</td>
+                <td><input type="text" name="address" /></td>
+            </tr>
+            <tr>
+                <td>Campus Phone Number:</td>
+                <td><input type="text" name="localphone" /></td>
+            </tr>
+
+            <tr>
+                <td>Permanent Address:</td>
+                <td><input type="text" name="permaddress" /></td>
+            </tr>
+            <tr>
+                <td>Permanent Phone Number:</td>
+                <td><input type="text" name="permphone" /></td>
+            </tr>
+
+        </table>
+        </div>
+
+        <div class="form-group">
+            <h4>TODO Please check below the 5-Year Pathway you plan to pursue.</h4>
+      
+            <table class="table" id="pathwayplan">
+                <thead>
+                    <tr>
+                    <th>Area</th>
+                    <th>Subject</th>
+                    <th>Subcategory</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {# This will be filled by Javascript #}
+            </tbody>
+            </table>
+            <button type="button" class="btn btn-block addRow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+      
+        </div>
+       
+
+    <div class="form-group">
+        <label for="umwStudentStatus">Current UMW Status</label>
+        <table class="table" id="umwStudentStatus">
+            <!--INSERT checkboxes for student status??-->
+            <tr>
+                <td>Please select from the following options:</td>
+                <td><select name="studentStatus">
+                    <option>-</option>
+                    <option>1st Semester Freshman</option>
+                    <option>2nd Semester Freshman</option>
+                    <option>1st Semester Sophomore</option>
+                    <option>2nd Semester Sophomore</option>
+                    <option>1st Semester Junior</option>
+                    <option>2nd Semester Junior</option>
+                </select></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label for="studentType">TYPE OF STUDENT: </label>
+
+        <table class="table" id="studentType">
+
+            <!--INSERT ba, bs, bls, undeclared checkboxes??-->
+            <tr>
+                <td>Please select from the following options:</td>
+                <td><select name="umwStudentType">
+                    <option>-</option>
+                    <option>BA</option>
+                    <option>BS</option>
+                    <option>BLS</option>
+                    <option>Undeclared</option>
+                </select></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label for="majorInfo">Undergraduate Major</label>
+        <table class="table" id="majorInfo">
+            <tr>
+                <td>Name of Academic Major Program: </td>
+                <td><input type="text" name="major" /></td>
+            </tr>
+            <tr>
+                <td>Declared?</td>
+                <td><select name="declaredBool">
+                    <option>-</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select></td>
+            </tr>
+
+            <tr>
+                <td>Name of Major Advisor: </td>
+                <td><input type="text" name="advisor" /></td>
+            </tr>
+            <tr>
+                <td>Month/Year of Undergraduate Graduation: </td>
+                <td><input type="text" name="gradDate" /></td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label for="groupInfo">Group Information Session (Optional):</label>
+        <table class="table" id="groupInfo">
+            <td>Students interested in seeking credentials to teach should contact the College of Education as early in their college career as possible and are encouraged to attend a group information session about the teacher education program. Group information
+                sessions are offered throughout the academic year.</td>
+
+            <tr>
+                <td>Have you attended a Group Information Session? </td>
+                <td><select name="groupinfoBool"> 
+                    <option>-</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select> </td>
+            </tr>
+            <tr>
+                <td>If Yes, please list the month/year attended: </td>
+                <td><input type="text" name="gradinfosession" /></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="form-group">
+        <label for="prevApp">Previous College of Education Application?</label>
+        <table class="table" id="prevApp">
+            <tr>
+                <td>Have you ever applied to the College of Education?</td>
+                <td><select name="coeAppBool">
+                    <option>-</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>If Yes, when?</td>
+                <td><input type="text" name="prevGradAppdate" /></td>
+            </tr>
+
+        </table>
+    </div>
+
+    <input type="submit" value="Submit" />
+</form>
+</div>
+</form>
+
+{% endblock %}
