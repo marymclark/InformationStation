@@ -53,6 +53,7 @@ def continuationForm():
             
         # Add data to database
         form = models.Forms(
+            user_id = current_user.id,
             name = "Form_FifthYear"
         )
         db.session.add(form)
@@ -127,6 +128,7 @@ def internshipForm():
         
         # Add data to database
         form = models.Forms(
+            user_id = current_user.id,
             name = "Form_FifthYear"
         )
         db.session.add(form)
