@@ -46,6 +46,12 @@ table.dataTable thead th:first-child {
                                 <center>
                                     <a class="btn btn-large btn-success" id="exportApplication">Export</a><hr>
                                 </center>
+                                <center>
+                                    <a href="{{ url_for('static', filename='dump.csv') }}" download="dump.csv" id="hrf">
+                                        <button type="button" id="downloadform" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
+                                    </a>
+                                </center>
+                                
                             </div>
                             <div class="col-md-1"></div>
                                   
@@ -63,14 +69,12 @@ table.dataTable thead th:first-child {
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" charset="utf-8">
   
-  function downloadURI(uri, name) {
-      var link = document.createElement("a");
-      link.download = name;
-      link.href = uri;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      delete link;
+  function downloadURI(name) {
+      console.log('downloading')
+      $('#hrf').attr('download', name)
+      $('#downloadform').trigger("click");
+      console.log('yass')
+      
 }
   
     $(document).ready(function(){
@@ -112,12 +116,24 @@ table.dataTable thead th:first-child {
                 
                 var data = []
                 
+                console.log(result)
+                
                 console.log(result['filename']);
+                
+                //console.log(result['strcsv'])
                 
                 //var url = result['url'];
                 //window.location = url;
-                //downloadURI("dump.csv", result['filename']);
-                downloadURI("data:text/html,HelloWorld!", "helloWorld.txt");
+                //downloadURI("app/static/dump.csv", result['filename']);
+                //downloadURI("data:text/html,HelloWorld!", "helloWorld.txt");
+                
+                downloadURI(result['filename']);
+                
+                
+
+                
+                //downloadURI("data:text/html," + result['strcsv'], result['filename']);
+
             }
         });
         
