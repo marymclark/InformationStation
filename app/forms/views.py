@@ -38,7 +38,6 @@ def continuationForm():
             endorsementArea = helpers.getEndorsementArea(endorsement)
             if (endorsementArea == 0):
                 return jsonify({'status':'Failure','message':'An endorsement area is invalid.'})
-            else: print(endorsementArea)
                 
         # Check the test requirements have valid tests and dates
         for item in data['testRequirements']:
@@ -85,11 +84,6 @@ def continuationForm():
             continuestudy = data['continue'],
             reasonfordiscontinue = data['reason']
         )
-        #practicum = PracticumGrades(
-        #    user_id = current_user.id,
-        #    form_id = form.id,
-        #    subject = data['practicum'][0]['grades']
-        #)
         finalform = models.Form_FifthYear(
             user_id = current_user.id,
             form_id = userform.form_id,
@@ -108,7 +102,6 @@ def continuationForm():
         db.session.add(finalform)
         db.session.commit()
         
-        # For now, return success when valid 
         return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
     else:
         # Reason for not continuing
@@ -120,6 +113,33 @@ def continuationForm():
 @login_required
 def internshipForm():
     if request.method == 'POST':
+        try:
+            data = request.get_json() # Get POSTed JSON from Javascript
+        except:
+            return jsonify({'status':'Failure','message':'No request data.'})
+        print(data)
+        
+        # Check endorsement area
+        for endorsement in data['endorsementArea']:
+            endorsementArea = helpers.getEndorsementArea(endorsement)
+            if (endorsementArea == 0):
+                return jsonify({'status':'Failure','message':'An endorsement area is invalid.'})
+        
+        # Add data to database
+        form = models.Forms(
+            name = "Form_FifthYear"
+        )
+        db.session.add(form)
+        db.session.commit()
+        
+        userform = models.UserForms(
+            user_id = current_user.id,
+            form_id = form.id
+        )
+        db.session.add(userform)
+        db.session.commit()
+        
+        
         return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
     else:
         return render_template("forms/internship.html")
