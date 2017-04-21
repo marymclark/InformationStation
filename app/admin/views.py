@@ -11,7 +11,7 @@ from datatables import ColumnDT, DataTables
 
 from . import admin
 from .. import db
-from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
+from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory, PracticumGrades
 
 
 
@@ -87,7 +87,8 @@ def exApplication():
             
         print('data: ', data)
         
-        user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        user = db.session.query(User).filter(User.email==str(data['2'])).first()
+        print('user email: ', str(data['2']))
         form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
         
         print('userEmail: ', user.email)
@@ -104,32 +105,49 @@ def exApplication():
             fifthyearexamsneeded = db.session.query(FifthYearExamsNeeded).filter(FifthYearExamsNeeded.user_id==userformentry.user_id, FifthYearExamsNeeded.form_id==userformentry.form_id).first()
             endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
             practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            practicumgrades = db.session.query(PracticumGrades).filter(PracticumGrades.user_id==userformentry.user_id, PracticumGrades.form_id==userformentry.form_id).first()
+            
+            if fifthyearexamsneeded is None:
+                fifthyearexamsneeded = FifthYearExamsNeeded()
+                
+            if practicumgrades is None:
+                practicumgrades = PracticumGrades()
+                
+            if practicumhistory is None:
+                practicumhistory = PracticumHistory()
+
             
             print(os.getcwd())
             
                     
-            try:
+            #try:
                 #return send_file('../myDump.csv', attachment_filename=fileName)
-                with open('app/static/dump.csv', 'wb') as f:
+            with open('app/static/dump.csv', 'wb') as f:
                     
-                    fileName = str(data['3']) + '_fifthYear.csv'
-                    print('filename: ', fileName)
-                    csv.field_size_limit(500 * 1024 * 1024)
-                    out = csv.writer(f)
-                    out.writerow(['id', 'email'])
-                    for item in db.session.query(User).all():
-                        out.writerow([item.id, item.email])
+                fileName = str(data['3']) + '_fifthYear.csv'
+                print('filename: ', fileName)
+                csv.field_size_limit(500 * 1024 * 1024)
+                out = csv.writer(f)
+                    #out.writerow(['id', 'email'])
+                    #for item in db.session.query(User).all():
+                    #    out.writerow([item.id, item.email])
                     
-                    print('yargh')
-                    #out.writerow(['Term Graduating', 'Prefered Country', 'Prefered Grade Level'])
-                    #out.writerow([fifthyear.termgraduating, fifthyear.preferedcountry, fifthyear.preferedgradelevel])
-                   # out.writerow([fifthyearmasters.])
-                        
-                    print('all done!')
+                    
+                    
+                print('yargh')
+                out.writerow(['Submission Date', 'Last Name', 'First Name', 'Term Graduating', 'Prefered County', 'Prefered Grade Level',
+                                    'Endorsement Area', 'Exam Needed name', 'Examn Needed Date', 'Continue Study?', 'Reason for not Continuing',
+                                    'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade'])
+                out.writerow([form.datesubmitted, user.last_name, user.first_name, fifthyear.termgraduating, fifthyear.preferedcountry, fifthyear.preferedgradelevel,
+                                    endorsement.area, fifthyearexamsneeded.examname, fifthyearexamsneeded.examdate, fifthyearmasters.continuestudy, fifthyearmasters.reasonfordiscontinue,
+                                    practicumhistory.schoolname, practicumhistory.schooldivision, practicumgrades.subject, practicumgrades.grade])
+                    #out.writerow([fifthyearmasters.])
+                    
+                print('all done!')
                     #return jsonify({'status':'Success','filename':fileName, 'strcsv':strcsv})
                     
-            except:
-		           return jsonify({'Failure':'Request was not valid.'})
+            #except:
+		    #       return jsonify({'Failure':'Request was not valid.'})
                 
             
             
@@ -224,6 +242,7 @@ def exApplicationTable():
     
     # defining columns
     columns = [
+        ColumnDT(Forms.datesubmitted),
         ColumnDT(Forms.name),
         ColumnDT(User.email),
         ColumnDT(User.first_name),
@@ -236,7 +255,7 @@ def exApplicationTable():
     
     # defining the initial query depending on your purpose
     #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
-    query = db.session.query(Forms.name, User.email, User.first_name, User.last_name).\
+    query = db.session.query(Forms.datesubmitted, Forms.name, User.email, User.first_name, User.last_name).\
         filter(User.id==Forms.user_id)
     print('query: ', query)
     
