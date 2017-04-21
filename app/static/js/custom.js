@@ -289,24 +289,24 @@ $("form.internship").submit(function(event) {
     
     // Practicums
     data["practicums"] = [];
-    $("#practicums tbody tr").each(function (i,row) {
+    $("#practicum tbody tr").each(function (i,row) {
         let practicum = {};
-        practicum.push($(row).find("#district option:selected").text());
-        practicum.push($(row).find("#school option:selected").text()); 
-        practicum.push($(row).find("#grades option:selected").text());
-        practicum.push($(row).find("#grades option:selected").text());
+        practicum['district']=$(row).find("#district option:selected").text();
+        practicum['school']=$(row).find("#school option:selected").text(); 
+        practicum['grade']=$(row).find("#grades option:selected").text();
+        practicum['subject']=$(row).find("#subject option:selected").text();
         data["practicums"].push(practicum);
     });
     
     // Relationships
-    data["practicums"] = [];
-    $("#practicums tbody tr").each(function (i,row) {
-        let practicum = {};
-        practicum.push($(row).find("#name").text());
-        practicum.push($(row).find("#rel-district option:selected").text()); 
-        practicum.push($(row).find("#rel-school option:selected").text());
-        practicum.push($(row).find("#relationship option:selected").text());
-        data["practicums"].push(practicum);
+    data["relationships"] = [];
+    $("#relationships tbody tr").each(function (i,row) {
+        let relationship = {};
+        relationship['name']=$(row).find("input#name").val();
+        relationship['district']=$(row).find("#rel-district option:selected").text(); 
+        relationship['school']=$(row).find("#rel-school option:selected").text();
+        relationship['rel']=$(row).find("#relationship option:selected").text();
+        data["relationships"].push(relationship);
     });
     
     console.log(JSON.stringify(data));
