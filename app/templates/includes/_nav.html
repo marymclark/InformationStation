@@ -14,18 +14,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
-                        <li><a href="{{ url_for('home.admin_dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('home.admin_dashboard') }}">Home</a></li>
+                        <li><a href="{{ url_for('admin.deadlines') }}">Deadlines</a></li>
+                        <li><a href="{{ url_for('admin.users') }}">Users</a></li>
+                        <li><a href="{{ url_for('admin.export') }}">Export</a></li>
+                        <li><a href="{{ url_for('admin.delete') }}">Delete</a></li>
+                        <li><a href="{{ url_for('admin.database') }}">Database</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        <li><a><i class="fa fa-user"></i> {{ current_user.email[:-13] }} </a></li>
+                        <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.email[:-13] }}!</a></li>
                     {% else %}
                         <li><a href="{{ url_for('home.dashboard') }}">Dashboard</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-                        <li><a><i class="fa fa-user"></i> {{ current_user.email[:-13] }} </a></li>
+                        <li><a><i class="fa fa-user"></i> Hi, {{ current_user.email[:-13] }}!</a></li>
                     {% endif %}
                 {% else %}
                     <li class="page-scroll"><a href="{{ url_for('home.index') }}">Home</a></li>

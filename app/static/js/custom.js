@@ -1,3 +1,5 @@
+// TODO literally refactor this entire file 
+
 // School Grades list
 
 var school_list = [

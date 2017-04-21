@@ -141,7 +141,6 @@ def internshipForm():
         db.session.add(userform)
         db.session.commit()
         
-        
         return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
     else:
         return render_template("forms/internship.html")

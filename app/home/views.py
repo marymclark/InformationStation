@@ -10,6 +10,7 @@ import datetime
 from forms import EmailForm, PasswordForm
 from .. import db
 from ..models import User, ApplicationInformation
+from ..helpers import admin_required
 from ..utils import send_email, ts
 
 # Index
@@ -95,10 +96,6 @@ def dashboard():
     return render_template("home/userdash.html", fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0], today=today)
     
 @home.route('/admin/dashboard')
-@login_required
+@admin_required
 def admin_dashboard():
-    # prevent non-admins from accessing the page
-    if not current_user.is_admin:
-        abort(403)
-
     return render_template('home/admin_dashboard.html', title="Dashboard")
