@@ -2,6 +2,7 @@
 
 from flask import abort, flash, redirect, render_template, url_for, request, jsonify, send_file, json
 from flask_login import current_user, login_required
+from functools import wraps
 import csv
 import io
 import os
@@ -13,18 +14,19 @@ from . import admin
 from .. import db
 from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory, PracticumGrades
 
-
-
-def check_admin():
-    """
-    Prevent non-admins from accessing the page
-    """
-    if not current_user.is_admin:
-        abort(403)
-
-        
+"""
+Prevent non-admins from accessing the page
+"""
+def admin_required(func):
+    @wraps(func)
+    def check_admin_and_call(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        return func(*args, **kwargs)
+    return check_admin_and_call
   
-@admin.route('/deleteUser', methods=['POST'])     
+@admin.route('/deleteUser', methods=['POST'])
+@admin_required
 def deleteUser():
     print('deleting dat user!')
     
@@ -48,7 +50,8 @@ def deleteUser():
         return jsonify({'Success':'Request was valid.'})
         
         
-@admin.route('/delApplication', methods=['POST'])     
+@admin.route('/delApplication', methods=['POST'])  
+@admin_required
 def delApplication():
     print('deleting dat application!')
     
@@ -75,7 +78,8 @@ def delApplication():
 
         return jsonify({'Success':'Request was valid.'})
         
-@admin.route('/exApplication', methods=['POST'])     
+@admin.route('/exApplication', methods=['POST'])  
+@admin_required
 def exApplication():
     print('exporting dat app!')
     
@@ -173,6 +177,7 @@ def exApplication():
 
 
 @admin.route('/updateDeadline', methods=['POST'])
+@admin_required
 def updateDeadline():
     if request.method == 'POST':
         try:
@@ -199,6 +204,7 @@ def updateDeadline():
         return jsonify({'Success':'Request was valid.'})
         
 @admin.route('/delApplicationTable')
+@admin_required
 def delApplicationTable():
     """Return server side data."""
     
@@ -233,6 +239,7 @@ def delApplicationTable():
     return jsonify(rowTable.output_result())
     
 @admin.route('/exApplicationTable')
+@admin_required
 def exApplicationTable():
     """Return server side data."""
     
@@ -269,6 +276,7 @@ def exApplicationTable():
     
     
 @admin.route('/userTable')
+@admin_required
 def userTable():
     """Return server side data."""
     
@@ -306,6 +314,7 @@ def userTable():
     return jsonify(rowTable.output_result())
     
 @admin.route('/database', methods=['GET', 'POST'])
+@admin_required
 def database():
  
     #if request.method == 'POST':
@@ -319,6 +328,7 @@ def database():
     return render_template('admin/database.html')
     
 @admin.route('/users', methods=['GET', 'POST'])
+@admin_required
 def users():
  
     #if request.method == 'POST':
@@ -333,6 +343,7 @@ def users():
     
     
 @admin.route('/export', methods=['GET', 'POST'])
+@admin_required
 def export():
  
     #if request.method == 'POST':
@@ -346,6 +357,7 @@ def export():
     return render_template('admin/export.html')
     
 @admin.route('/delete', methods=['GET', 'POST'])
+@admin_required
 def delete():
  
     #if request.method == 'POST':
@@ -361,6 +373,7 @@ def delete():
     
     
 @admin.route('/deadlines', methods=['GET', 'POST'])
+@admin_required
 def deadlines():
  
     #if request.method == 'POST':
@@ -387,6 +400,7 @@ def deadlines():
         
         
 @admin.route('/dashboard', methods=['GET', 'POST'])
+@admin_required
 def index():
  
     #if request.method == 'POST':
