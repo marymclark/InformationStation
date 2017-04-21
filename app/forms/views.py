@@ -1,13 +1,11 @@
 # app/forms/views.py
-import datetime
 
+import datetime
 from flask import request, flash, redirect, render_template, url_for, jsonify
 from flask_login import login_required, current_user
 
 from . import forms
-#from forms import
-from .. import db, helpers
-from .. import models
+from .. import db, helpers, models
 
 # Data for Javascript
 

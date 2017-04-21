@@ -1,49 +1,40 @@
-# Helper functions for the mvc
+# Helper functions for the application.
 
 import datetime
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField
 from json import load
-from flask_login import UserMixin
+from functools import wraps
 
-class User(UserMixin):
-    def __init__(self, id, email, password, active=True):
-        self.id = id
-        self.email = email
-        self.password = password  
-        self.active = active
-
-    def is_active(self):
-        return self.active
-        
-    def get_id(self):
-        try:
-            return unicode(self.id)
-        except AttributeError:
-            raise NotImplementedError('No `id` attribute - override `get_id`')    
- 
-class LoginForm(Form):
-    email = TextField('UMW Email:', validators=[validators.required()])
-    password = TextField('Password:', validators=[validators.required()])
-
-class RegisterForm(Form):
-    first = StringField('First Name: ', validators=[validators.DataRequired()])
-    last = StringField('Last Name: ', validators=[validators.DataRequired()])
-    email = StringField('UMW Email: ', validators=[validators.DataRequired()])
-    password1 = StringField('Password: ', validators=[validators.DataRequired()])
-    password2 = StringField('Confirm Password: ', validators=[validators.DataRequired()])
+# Decorator for admin-restricted pages.
+def admin_required(func):
+    @wraps(func)
+    def check_admin_and_call(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        return func(*args, **kwargs)
+    return check_admin_and_call
 
 # Get the next n years for a form
 def nextnYears(n):
     year = datetime.datetime.now().year
     return [year+i for i in range(0,n)]
     
+# Get the file for endorsement areas
 def getEndorsements():
     try:
         with open('app/data/endorsements.json') as file:
             return load(file)
-    except:
+    except IOError:
         return ({"error": "Failed to get file"})
         
+# Get the file for schools
+def getSchools():
+    try:
+        with open('app/data/schools.json') as file:
+            return load(file)
+    except IOError:
+        return ({"error": "Failed to get file"})
+
+# Get the endorsement from an index
 def getEndorsementArea(key):
     endorsements = getEndorsements()['data']
     key = [i for i in key if i is not None] # Remove None values; remaining 1-3 values should cooardinate to endorsementarea
@@ -56,12 +47,5 @@ def getEndorsementArea(key):
                 endorsements = endorsements[key[i]]['subcategories']
         return endorsementArea 
     except:
-        print('Error getting endorsementArea; so far: "'+endorsementArea+'"')
+        print('Error getting endorsementArea; found: "'+endorsementArea+'"')
         return 0
-        
-def getSchools():
-    try:
-        with open('app/data/schools.json') as file:
-            return load(file)
-    except:
-        return ({"error": "Failed to get file"})
