@@ -37,13 +37,16 @@ def create_app(config_name):
     js_bundle = Bundle(
         'vendor/jquery/jquery.min.js',
         'vendor/bootstrap/bootstrap.min.js',
+        'vendor/jquery/jquery.dataTables.min.js',
         Bundle('js/freelancer.js','js/custom.js',
                 filters = 'jsmin'),
         output = 'gen/compiled.js')
     assets.register('js_all', js_bundle)
     # Compile and register css bundle
     css_bundle = Bundle(
-        Bundle('vendor/bootstrap/bootstrap.min.css','css/custom.css','css/fonts.css',
+        'vendor/bootstrap/bootstrap.min.css',
+        'vendor/jquery/jquery.dataTables.min.css',
+        Bundle('css/custom.css','css/fonts.css',
                 filters = ['cssmin']),
         Bundle('less/mixins.less','less/variables.less','less/freelancer.less',
                 filters = ['less','cssmin']),

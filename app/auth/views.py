@@ -2,7 +2,7 @@
 
 from datetime import date
 
-from flask import flash, redirect, render_template, url_for, abort
+from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user
 from sqlalchemy import update
 
@@ -112,7 +112,7 @@ def login():
 
                 # redirect to the dashboard page after login
                 if user.is_admin:
-                    return redirect(url_for('home.admin_dashboard'))
+                    return redirect(url_for('admin.dashboard'))
                 else:
                     return redirect(url_for('home.dashboard'))
 

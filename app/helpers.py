@@ -3,6 +3,8 @@
 import datetime
 from json import load
 from functools import wraps
+from flask_login import current_user
+from flask import abort
 
 # Decorator for admin-restricted pages.
 def admin_required(func):

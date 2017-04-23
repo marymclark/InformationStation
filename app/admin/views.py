@@ -354,7 +354,7 @@ def deadlines():
         
 @admin.route('/dashboard', methods=['GET'])
 @admin_required
-def index():
+def dashboard():
     print('Inside ! admin ! dashboard !')
     
     # load dashboard template
