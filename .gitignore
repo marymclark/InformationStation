@@ -2,3 +2,5 @@
 venv/
 instance/
 migrations/
+app/static/gen/
+.webassets-cache

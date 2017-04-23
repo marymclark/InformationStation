@@ -16,7 +16,6 @@ from ..utils import send_email, ts
 # Index
 @home.route('/')
 def index():
-    
     return render_template("home/index.html")
     
     
@@ -95,7 +94,7 @@ def dashboard():
     
     return render_template("home/userdash.html", fifthyeardeadline=deadlines[1], undergraddeadline=deadlines[2], postbacdeadline=deadlines[0], today=today)
     
-@home.route('/admin/dashboard')
-@admin_required
-def admin_dashboard():
-    return render_template('home/admin_dashboard.html', title="Dashboard")
+# @home.route('/admin/dashboard')
+# @admin_required
+# def admin_dashboard():
+#     return render_template('home/admin_dashboard.html', title="Dashboard")

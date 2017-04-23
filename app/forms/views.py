@@ -88,18 +88,11 @@ def continuationForm():
         finalform = models.Form_FifthYear(
             user_id = current_user.id,
             form_id = userform.form_id,
-            #endorsementarea = endorsementArea,
-            #examsneeded = exams.id,
-            #mastersinfo = masters.id,
-            #practicuminfo = practicum.id,
             termgraduating = data['graduation'],
-            #preferedcountry = data['country'],
-            #preferedgradelevel = data['level'],
         )
         
         db.session.add(endorsement)
         db.session.add(masters)
-        #db.session.add(practicum)
         db.session.add(finalform)
         db.session.commit()
         
