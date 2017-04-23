@@ -43,7 +43,7 @@ def create_app(config_name):
     assets.register('js_all', js_bundle)
     # Compile and register css bundle
     css_bundle = Bundle(
-        Bundle('vendor/bootstrap/bootstrap.min.css','css/custom.css',
+        Bundle('vendor/bootstrap/bootstrap.min.css','css/custom.css','css/fonts.css',
                 filters = ['cssmin']),
         Bundle('less/mixins.less','less/variables.less','less/freelancer.less',
                 filters = ['less','cssmin']),
