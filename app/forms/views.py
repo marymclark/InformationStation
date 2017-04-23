@@ -57,7 +57,8 @@ def continuationForm():
         form = models.Forms(
             name = "Form_FifthYear",
             user_id=current_user.id,
-            datesubmitted = datetime.date.today()
+            #datesubmitted = datetime.date.today()
+            datesubmitted = datetime.datetime.now()
         )
         db.session.add(form)
         db.session.commit()
