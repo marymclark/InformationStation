@@ -66,15 +66,57 @@ def delApplication():
         #ai = ApplicationInformation.query.filter_by(name=data['button']).first()
         #ai.deadlineDate = data['date']
         
-        print(str(data['1']))
+        print(str(data['2']))
         
-        user = db.session.query(User).filter(User.email==str(data['1'])).first()
+        user = db.session.query(User).filter(User.email==str(data['3'])).first()
         form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
         userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
         
-        #print(form.name)
-        db.session.delete(userformentry)
-        db.session.commit()
+        if str(data['2'] == 'Form_FifthYear'):
+            print(userformentry.user_id, ' ', userformentry.form_id)
+            fifthyear = db.session.query(Form_FifthYear).filter(Form_FifthYear.user_id==userformentry.user_id, Form_FifthYear.form_id==userformentry.form_id).first()
+            #print(fifthyear.termgraduating)
+            fifthyearmasters = db.session.query(FifthYearMasters).filter(FifthYearMasters.user_id==userformentry.user_id, FifthYearMasters.form_id==userformentry.form_id).first()
+            fifthyearexamsneeded = db.session.query(FifthYearExamsNeeded).filter(FifthYearExamsNeeded.user_id==userformentry.user_id, FifthYearExamsNeeded.form_id==userformentry.form_id).first()
+            endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
+            practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            practicumgrades = db.session.query(PracticumGrades).filter(PracticumGrades.user_id==userformentry.user_id, PracticumGrades.form_id==userformentry.form_id).first()
+            if fifthyear:
+                db.session.delete(fifthyear)
+                print('del fifthyear')
+                db.session.commit()
+            if fifthyearmasters:
+                print('del fifthyearmasters')
+                db.session.delete(fifthyearmasters)
+                db.session.commit()
+            if fifthyearexamsneeded:
+                print('del fifthyearexamsneeded')
+                db.session.delete(fifthyearexamsneeded)
+                db.session.commit()
+            if endorsement:
+                print('del endorsement')
+                db.session.delete(endorsement)
+                db.session.commit()
+            if practicumhistory:
+                print('del practicumhistory')
+                db.session.delete(practicumhistory)
+                db.session.commit()
+            if practicumgrades:
+                print('del practicumgrades')
+                db.session.delete(practicumgrades)
+                db.session.commit()
+                
+            if userformentry:
+                print('del userform')
+                db.session.delete(userformentry)
+                db.session.commit()
+            
+            if form:
+                print('del form')
+                Forms.query.filter_by(id=form.id).delete()
+                db.session.commit()
+            
+            #print(form.name)
 
         return jsonify({'Success':'Request was valid.'})
         
@@ -91,20 +133,24 @@ def exApplication():
             
         print('data: ', data)
         
-        user = db.session.query(User).filter(User.email==str(data['2'])).first()
-        print('user email: ', str(data['2']))
-        form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
+        user = db.session.query(User).filter(User.email==str(data['3'])).first()
+        print('user email: ', str(data['3']))
+        print('formid:', int(data['1']))
+        form = db.session.query(Forms).filter(Forms.user_id==user.id, Forms.id==int(data['1'])).first()
+        
+        print('date: ', form.datesubmitted)
         
         print('userEmail: ', user.email)
         print('formName: ', form.name)
         userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+        print(str(userformentry.user_id), ' ', str(userformentry.form_id))
+        
         
         #Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
         #EXPORT FIFTHYEAR FORM
-        if str(data['0'] == 'Form_FifthYear'):
-            print(userformentry.user_id, ' ', userformentry.form_id)
+        if str(data['2'] == 'Form_FifthYear'):
             fifthyear = db.session.query(Form_FifthYear).filter(Form_FifthYear.user_id==userformentry.user_id, Form_FifthYear.form_id==userformentry.form_id).first()
-            #print(fifthyear.termgraduating)
+            print(fifthyear.termgraduating)
             fifthyearmasters = db.session.query(FifthYearMasters).filter(FifthYearMasters.user_id==userformentry.user_id, FifthYearMasters.form_id==userformentry.form_id).first()
             fifthyearexamsneeded = db.session.query(FifthYearExamsNeeded).filter(FifthYearExamsNeeded.user_id==userformentry.user_id, FifthYearExamsNeeded.form_id==userformentry.form_id).first()
             endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
@@ -128,7 +174,7 @@ def exApplication():
                 #return send_file('../myDump.csv', attachment_filename=fileName)
             with open('app/static/dump.csv', 'wb') as f:
                     
-                fileName = str(data['3']) + '_fifthYear.csv'
+                fileName = str(data['5']) + '_fifthYear.csv'
                 print('filename: ', fileName)
                 csv.field_size_limit(500 * 1024 * 1024)
                 out = csv.writer(f)
@@ -214,6 +260,8 @@ def delApplicationTable():
     
     # defining columns
     columns = [
+        ColumnDT(Forms.datesubmitted),
+        ColumnDT(Forms.id),
         ColumnDT(Forms.name),
         ColumnDT(User.email),
         ColumnDT(User.first_name),
@@ -226,7 +274,7 @@ def delApplicationTable():
     
     # defining the initial query depending on your purpose
     #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
-    query = db.session.query(Forms.name, User.email, User.first_name, User.last_name).\
+    query = db.session.query(Forms.datesubmitted, Forms.id, Forms.name, User.email, User.first_name, User.last_name).\
         filter(User.id==Forms.user_id)
     print('query: ', query)
     
@@ -250,6 +298,7 @@ def exApplicationTable():
     # defining columns
     columns = [
         ColumnDT(Forms.datesubmitted),
+        ColumnDT(Forms.id),
         ColumnDT(Forms.name),
         ColumnDT(User.email),
         ColumnDT(User.first_name),
@@ -262,7 +311,7 @@ def exApplicationTable():
     
     # defining the initial query depending on your purpose
     #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
-    query = db.session.query(Forms.datesubmitted, Forms.name, User.email, User.first_name, User.last_name).\
+    query = db.session.query(Forms.datesubmitted, Forms.id, Forms.name, User.email, User.first_name, User.last_name).\
         filter(User.id==Forms.user_id)
     print('query: ', query)
     

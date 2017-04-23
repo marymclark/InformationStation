@@ -64,7 +64,7 @@ class Forms(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.ForeignKey('users.id'))
     name = db.Column(db.String(60), index=True)
-    datesubmitted = db.Column(db.Date, index=True)
+    datesubmitted = db.Column(db.DateTime, index=True)
     #userforms = db.relationship('UserForms', backref='form',
     #                            lazy='dynamic')
                                 
@@ -83,7 +83,6 @@ class UserForms(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     form_id = db.Column(db.Integer, db.ForeignKey('forms.id'), primary_key=True)
-
 
 class ApplicationInformation(db.Model):
     """
