@@ -291,7 +291,7 @@ $("form.internship").submit(function(event) {
     data["practicums"] = [];
     $("#practicum tbody tr").each(function (i,row) {
         let practicum = {};
-        practicum['district']=$(row).find("#district option:selected").text();
+        practicum['division']=$(row).find("#district option:selected").text();
         practicum['school']=$(row).find("#school option:selected").text(); 
         practicum['grade']=$(row).find("#grades option:selected").text();
         practicum['subject']=$(row).find("#subject option:selected").text();
@@ -322,7 +322,7 @@ $("form.internship").submit(function(event) {
             alert(result['message']);
             if (result["status"] == "Success") {
                 // Redirect to dashboard
-                //redirect("/dashboard");
+                redirect("/dashboard");
             }
         }
     });

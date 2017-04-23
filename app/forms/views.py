@@ -32,20 +32,21 @@ def continuationForm():
             data = request.get_json() # Get POSTed JSON from Javascript
         except:
             return jsonify({'status':'Failure','message':'No request data.'})
-        print(data)
         
         # Check endorsement area
+        endorsementArea = []
         for endorsement in data['endorsementArea']:
-            endorsementArea = helpers.getEndorsementArea(endorsement)
+            area = helpers.getEndorsementArea(endorsement)
             if (endorsementArea == 0):
                 return jsonify({'status':'Failure','message':'An endorsement area is invalid.'})
+            else:
+                endorsementArea.append(area)
                 
-        # Check the test requirements have valid tests and dates
-        for item in data['testRequirements']:
-            # TODO check date
-            date = item['date']
-            #if not (item['exam'] in ['Praxis','VCLA','RVE']):
-            #    return jsonify({'status':'Failure','message':'A test requirement entry is invalid.'})
+        # Check the test requirements have valid tests and dates?
+        # for item in data['testRequirements']:
+        #     date = item['date']
+        #     if not (item['exam'] in ['Praxis','VCLA','RVE']):
+        #         return jsonify({'status':'Failure','message':'A test requirement entry is invalid.'})
                 
         # Check graduation
         checkGrad = data['graduation'].split()
@@ -68,19 +69,23 @@ def continuationForm():
         db.session.add(userform)
         db.session.commit()
         
-        endorsement = models.Endorsement(
-            user_id = current_user.id,
-            form_id = userform.form_id,
-            area = endorsementArea
-        )
-        if len(data['testRequirements']) >= 1:
-            exams = models.FifthYearExamsNeeded(
+        for item in endorsementArea:
+            endorsement = models.Endorsement(
                 user_id = current_user.id,
                 form_id = userform.form_id,
-                examname = data['testRequirements'][0]['exam'],
-                examdate = data['testRequirements'][0]['date']
+                area = item
             )
-            db.session.add(exams)
+            db.session.add(endorsement)
+            db.session.commit()
+        for item in data['testRequirements']:
+            exam = models.FifthYearExamsNeeded(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                examname = item['exam'],
+                examdate = item['date']
+            )
+            db.session.add(exam)
+            db.session.commit()
         masters = models.FifthYearMasters(
             user_id = current_user.id,
             form_id = userform.form_id,
@@ -90,18 +95,12 @@ def continuationForm():
         finalform = models.Form_FifthYear(
             user_id = current_user.id,
             form_id = userform.form_id,
-            #endorsementarea = endorsementArea,
-            #examsneeded = exams.id,
-            #mastersinfo = masters.id,
-            #practicuminfo = practicum.id,
             termgraduating = data['graduation'],
             #preferedcountry = data['country'],
             #preferedgradelevel = data['level'],
         )
         
-        db.session.add(endorsement)
         db.session.add(masters)
-        #db.session.add(practicum)
         db.session.add(finalform)
         db.session.commit()
         
@@ -122,16 +121,20 @@ def internshipForm():
             return jsonify({'status':'Failure','message':'No request data.'})
         print(data)
         
-        # Check endorsement area
+        # Check endorsementarea
+        endorsementArea = []
         for endorsement in data['endorsementArea']:
-            endorsementArea = helpers.getEndorsementArea(endorsement)
+            area = helpers.getEndorsementArea(endorsement)
             if (endorsementArea == 0):
                 return jsonify({'status':'Failure','message':'An endorsement area is invalid.'})
+            else:
+                endorsementArea.append(area)
         
         # Add data to database
         form = models.Forms(
             user_id = current_user.id,
-            name = "Form_FifthYear"
+            name = "Form_Postbac",
+            datesubmitted = datetime.date.today()
         )
         db.session.add(form)
         db.session.commit()
@@ -143,6 +146,51 @@ def internshipForm():
         db.session.add(userform)
         db.session.commit()
         
+        for item in endorsementArea:
+            endorsement = models.Endorsement(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                area = item
+            )
+            db.session.add(endorsement)
+            db.session.commit()
+        for item in data['practicums']:
+            grade = models.PracticumGrades(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                subject = item['subject'],
+                grade = item['grade']
+            )
+            db.session.add(grade)
+            practicum = models.PracticumHistory(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                practicumgrades = grade.id,
+                schoolname = item['school'],
+                schooldivision = item['division']
+            )
+            db.session.add(practicum)
+            db.session.commit()
+        for item in data['relationships']:
+            relationship = models.PostbacRelationships(
+                user_id = current_user.id,
+                form_id = userform.form_id,
+                personname = item['name'],
+                schoolname = item['school'],
+                relationshiptype = item['rel']
+            )
+            db.session.add(relationship)
+            db.session.commit()
+        finalform = models.Form_Postbac(
+            user_id = userform.user_id,
+            form_id = userform.form_id,
+            #preferedcountry = None,
+            #preferedgradelevel = None,
+            requirementssatisfied = data['tests']
+        )
+        
+        db.session.add(finalform)
+        db.session.commit()
         
         return jsonify({'status':'Success','message':'Your form was submitted successfully!'})
     else:
