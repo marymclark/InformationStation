@@ -110,16 +110,18 @@ def delApplication():
                 print('del practicumgrades')
                 db.session.delete(practicumgrades)
                 db.session.commit()
-                
             if userformentry:
                 print('del userform')
                 db.session.delete(userformentry)
                 db.session.commit()
-            
+                
             if form:
                 print('del form')
-                Forms.query.filter_by(id=form.id).delete()
+                db.session.delete(form)
                 db.session.commit()
+
+                
+            db.session.commit()
             
             #print(form.name)
 
@@ -173,7 +175,7 @@ def exApplication():
                     
             print('yargh')
             out.writerow(['Submission Date', 'Last Name', 'First Name', 'Term Graduating', 'Prefered County', 'Prefered Grade Level',
-                                'Endorsement Area', 'Exam Needed name', 'Examn Needed Date', 'Continue Study?', 'Reason for not Continuing',
+                                'Endorsement Area', 'Exam Needed name', 'Exam Needed Date', 'Continue Study?', 'Reason for not Continuing',
                                 'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade'])
     
         #Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
