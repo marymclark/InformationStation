@@ -23,7 +23,6 @@
                         <li><a href="{{ url_for('admin.users') }}">Users</a></li>
                         <li><a href="{{ url_for('admin.export') }}">Export</a></li>
                         <li><a href="{{ url_for('admin.delete') }}">Delete</a></li>
-                        <li><a href="{{ url_for('admin.database') }}">Database</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                         <li><a><i class="fa fa-user"></i>  Hi, {{ current_user.email[:-13] }}!</a></li>
                     {% else %}
