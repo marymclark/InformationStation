@@ -2,6 +2,26 @@
 
 {% block content %}
 
+<style>
+    h2   {
+        color: DarkBlue;
+        text-decoration: none;
+        display: inline;
+    }
+    
+    p   {
+        color: blue;
+        text-decoration: none;
+        display: inline;
+    }
+    
+    h5   {
+        color: black;
+        text-decoration: none;
+    }
+    
+</style>
+
 <div id="wrapper">
     <br><br><br><br>
         <center>
@@ -16,7 +36,15 @@
                     
                     <div class="col-md-2">
                         <div class="well well-lg">
+                            <center>
+                                <h2>DEADLINES</h2><hr><br>
+                                <p>to set/extend deadlines for application submissions, go to </p>
+                                
+                                <p><a href="{{ url_for('admin.deadlines') }}" style="color:DarkBlue"> deadlines.</p>
+                                
+                                <hr>
                             
+                            </center>
                         </div>
                         
                         <br><br>
@@ -25,6 +53,16 @@
                     <div class="col-md-2">
                         <div class="well well-lg">
                             
+                            <center>
+                                <h2>USERS</h2><hr><br>
+                                <p>to view, filter or delete inactive users, please go to </p>
+                                
+                                <p><a href="{{ url_for('admin.users') }}" style="color:DarkBlue"> users.</p>
+                                
+                                <hr>
+                            
+                            </center>
+                            
                         </div>
                         
                         <br><br>
@@ -33,6 +71,16 @@
                     
                     <div class="col-md-2">
                         <div class="well well-lg">
+                            
+                            <center>
+                                <h2>EXPORT</h2><hr><br>
+                                <p>to sort/export student application submissions, go to </p>
+                                
+                                <p><a href="{{ url_for('admin.export') }}" style="color:DarkBlue"> export.</p>
+                                
+                                <hr>
+                            
+                            </center>
                             
                         </div>
                         
@@ -52,6 +100,16 @@
                     
                     <div class="col-md-2">
                         <div class="well well-lg">
+                            
+                            <center>
+                                <h2>DELETE</h2><hr><br>
+                                <p>to delete student application submissions, go to </p>
+                                
+                                <p><a href="{{ url_for('admin.delete') }}" style="color:DarkBlue"> delete.</p>
+                                
+                                <hr>
+                            
+                            </center>
                             
                         </div>
                         
