@@ -185,7 +185,7 @@ def exApplication():
         
             print('userEmail: ', user.email)
             print('formName: ', form.name)
-            userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+            userformentry = db.session.query(UserForms).filter(UserForms.user_id==form.user_id, UserForms.form_id==form.id).first()
             print(str(userformentry.user_id), ' ', str(userformentry.form_id))
             
             print('form: ', form)
@@ -208,6 +208,8 @@ def exApplication():
 
             
             print(os.getcwd())
+            
+            print('termtest:', fifthyear.termgraduating)
             
                     
             #try:
