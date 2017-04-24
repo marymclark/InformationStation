@@ -12,7 +12,7 @@ from datatables import ColumnDT, DataTables
 
 from . import admin
 from .. import db
-from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory, PracticumGrades
+from ..models import User, ApplicationInformation, Forms, UserForms, Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory, PracticumGrades, Form_Postbac, PostbacRelationships
 
 """
 Prevent non-admins from accessing the page
@@ -160,7 +160,7 @@ def exApplication():
         for d in data:
             if (d['2'] == 'Form_FifthYear'):
                 fifthyears.append(d)
-            if (d['2'] == 'Form_Post-bac'):
+            if (d['2'] == 'Form_Postbac'):
                 postbacs.append(d)
                 
         print('len fifthyear: ', len(fifthyears))
@@ -179,6 +179,19 @@ def exApplication():
             out.writerow(['Submission Date', 'Last Name', 'First Name', 'Term Graduating', 'Prefered County', 'Prefered Grade Level',
                                 'Endorsement Area', 'Exam Needed name', 'Exam Needed Date', 'Continue Study?', 'Reason for not Continuing',
                                 'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade'])
+                                
+        if len(postbacs) > 0:
+            #with open('app/static/dump.csv', 'wb') as f:
+            fileName = 'postbac.csv'
+            print('filename: ', fileName)
+            f  = open('app/static/' + fileName, 'wb') 
+            csv.field_size_limit(500 * 1024 * 1024)
+            out = csv.writer(f)
+                    
+            print('yargh')
+            out.writerow(['Submission Date', 'Last Name', 'First Name', 'Prefered County', 'Prefered Grade Level', 'Requirements Satisfied',
+                                'Endorsement Area', 'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade',
+                                'Practicum Person Name', 'Practicum School Name', 'Practicum Relationship Type'])
     
         #Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
         #EXPORT FIFTHYEAR FORM
@@ -244,11 +257,61 @@ def exApplication():
             
             
             #return jsonify({'status':'Success','filename':fileName, 'strcsv':csv_file})
+        
+        for thisform in postbacs:
+            user = db.session.query(User).filter(User.email==str(thisform['3'])).first()
+            print('user email: ', str(thisform['3']))
+            print('formid:', int(thisform['0']))
+            form = db.session.query(Forms).filter(Forms.user_id==user.id, Forms.id==int(thisform['0'])).first()
+            
+            fileName = 'postbac.csv'
+        
+            print('date: ', form.datesubmitted)
+        
+            print('userEmail: ', user.email)
+            print('formName: ', form.name)
+            userformentry = db.session.query(UserForms).filter(UserForms.user_id==form.user_id, UserForms.form_id==form.id).first()
+            print(str(userformentry.user_id), ' ', str(userformentry.form_id))
+            
+            print('form: ', form)
+            postbac = db.session.query(Form_Postbac).filter(Form_Postbac.user_id==userformentry.user_id, Form_Postbac.form_id==userformentry.form_id).first()
+            endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
+            practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            postbacrelationships = db.session.query(PostbacRelationships).filter(PostbacRelationships.user_id==userformentry.user_id, PostbacRelationships.form_id==userformentry.form_id).first()
+            practicumgrades = db.session.query(PracticumGrades).filter(PracticumGrades.user_id==userformentry.user_id, PracticumGrades.form_id==userformentry.form_id).first()
+            
+                
+            if practicumgrades is None:
+                practicumgrades = PracticumGrades()
+                
+            if practicumhistory is None:
+                practicumhistory = PracticumHistory()
+                
+            if postbacrelationships is None:
+                postbacrelationships = PracticumRelationship()
+            
+            print(os.getcwd())
+            
+            
+                    
+            #try:
+                #return send_file('../myDump.csv', attachment_filename=fileName)
+            with open('app/static/postbac.csv', 'a') as f:
+                
+                csv.field_size_limit(500 * 1024 * 1024)
+                out = csv.writer(f)
+                
+                print('file open')
+                    
+                out.writerow([form.datesubmitted, user.last_name, user.first_name, postbac.preferedcountry, postbac.preferedgradelevel, postbac.requirementssatisfied,
+                                    endorsement.area, practicumgrades.subject, practicumgrades.grade, practicumhistory.schoolname, practicumhistory.schooldivision,
+                                    postbacrelationships.personname, postbacrelationships.schoolname, postbacrelationships.relationshiptype])
+                    #out.writerow([fifthyearmasters.])
             
         if len(fifthyears) > 0:
             files.append("fifthYear.csv")
         if len(postbacs) > 0:
-            files.append("post-bac.csv")
+            files.append("postbac.csv")
         if len(undergrads) > 0:
             files.append("undergrad.csv")
             

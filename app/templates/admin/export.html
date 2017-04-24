@@ -54,7 +54,7 @@ table.dataTable thead th:first-child {
                                     <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="fy">
                                         <button type="button" id="downloadfy" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
                                     </a>
-                                    <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="pb">
+                                    <a href="{{ url_for('static', filename='postbac.csv') }}" download="dump.csv" id="pb">
                                         <button type="button" id="downloadpb" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
                                     </a>
                                 </center>
@@ -82,7 +82,7 @@ table.dataTable thead th:first-child {
         $('#fy').attr('download', name)
         $('#downloadfy').trigger("click");   
       }
-      if (name=='post-bac.csv'){
+      if (name=='postbac.csv'){
         $('#pb').attr('download', name)
         $('#downloadpb').trigger("click");   
       }
