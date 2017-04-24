@@ -119,10 +119,15 @@ def delApplication():
             #print(form.name)
 
         return jsonify({'Success':'Request was valid.'})
+    
+    
         
 @admin.route('/exApplication', methods=['POST'])  
 @admin_required
 def exApplication():
+    
+    
+    
     print('exporting dat app!')
     
     if request.method == 'POST':
@@ -131,24 +136,59 @@ def exApplication():
         except:
             return jsonify({'Failure':'No request data.'})
             
-        print('data: ', data)
+        numFifthYear = 0
+        numBacs = 0
+        numUndergrad = 0
         
-        user = db.session.query(User).filter(User.email==str(data['3'])).first()
-        print('user email: ', str(data['3']))
-        print('formid:', int(data['1']))
-        form = db.session.query(Forms).filter(Forms.user_id==user.id, Forms.id==int(data['1'])).first()
+        fifthyears = []
+        postbacs = []
+        undergrads = []
+            
+        print(data)
+        print(data[0]['2'])
+        print('data: ', data[0])
         
-        print('date: ', form.datesubmitted)
+        for d in data:
+            if (d['2'] == 'Form_FifthYear'):
+                fifthyears.append(d)
+            if (d['2'] == 'Form_Post-bac'):
+                postbacs.append(d)
+                
+        print('len fifthyear: ', len(fifthyears))
         
-        print('userEmail: ', user.email)
-        print('formName: ', form.name)
-        userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
-        print(str(userformentry.user_id), ' ', str(userformentry.form_id))
+        print(fifthyears)
         
-        
+        if len(fifthyears) > 0:
+            #with open('app/static/dump.csv', 'wb') as f:
+            fileName = 'fifthYear.csv'
+            print('filename: ', fileName)
+            f  = open('app/static/' + fileName, 'wb') 
+            csv.field_size_limit(500 * 1024 * 1024)
+            out = csv.writer(f)
+                    
+            print('yargh')
+            out.writerow(['Submission Date', 'Last Name', 'First Name', 'Term Graduating', 'Prefered County', 'Prefered Grade Level',
+                                'Endorsement Area', 'Exam Needed name', 'Examn Needed Date', 'Continue Study?', 'Reason for not Continuing',
+                                'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade'])
+    
         #Form_FifthYear, FifthYearMasters, FifthYearExamsNeeded, Endorsement, PracticumHistory
         #EXPORT FIFTHYEAR FORM
-        if str(data['2'] == 'Form_FifthYear'):
+        for thisform in fifthyears:
+            user = db.session.query(User).filter(User.email==str(thisform['3'])).first()
+            print('user email: ', str(thisform['3']))
+            print('formid:', int(thisform['0']))
+            form = db.session.query(Forms).filter(Forms.user_id==user.id, Forms.id==int(thisform['0'])).first()
+            
+            fileName = 'fifthYear.csv'
+        
+            print('date: ', form.datesubmitted)
+        
+            print('userEmail: ', user.email)
+            print('formName: ', form.name)
+            userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+            print(str(userformentry.user_id), ' ', str(userformentry.form_id))
+            
+            print('form: ', form)
             fifthyear = db.session.query(Form_FifthYear).filter(Form_FifthYear.user_id==userformentry.user_id, Form_FifthYear.form_id==userformentry.form_id).first()
             print(fifthyear.termgraduating)
             fifthyearmasters = db.session.query(FifthYearMasters).filter(FifthYearMasters.user_id==userformentry.user_id, FifthYearMasters.form_id==userformentry.form_id).first()
@@ -172,22 +212,13 @@ def exApplication():
                     
             #try:
                 #return send_file('../myDump.csv', attachment_filename=fileName)
-            with open('app/static/dump.csv', 'wb') as f:
-                    
-                fileName = str(data['5']) + '_fifthYear.csv'
-                print('filename: ', fileName)
+            with open('app/static/fifthYear.csv', 'a') as f:
+                
                 csv.field_size_limit(500 * 1024 * 1024)
                 out = csv.writer(f)
-                    #out.writerow(['id', 'email'])
-                    #for item in db.session.query(User).all():
-                    #    out.writerow([item.id, item.email])
+                
+                print('file open')
                     
-                    
-                    
-                print('yargh')
-                out.writerow(['Submission Date', 'Last Name', 'First Name', 'Term Graduating', 'Prefered County', 'Prefered Grade Level',
-                                    'Endorsement Area', 'Exam Needed name', 'Examn Needed Date', 'Continue Study?', 'Reason for not Continuing',
-                                    'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade'])
                 out.writerow([form.datesubmitted, user.last_name, user.first_name, fifthyear.termgraduating, fifthyear.preferedcountry, fifthyear.preferedgradelevel,
                                     endorsement.area, fifthyearexamsneeded.examname, fifthyearexamsneeded.examdate, fifthyearmasters.continuestudy, fifthyearmasters.reasonfordiscontinue,
                                     practicumhistory.schoolname, practicumhistory.schooldivision, practicumgrades.subject, practicumgrades.grade])
@@ -260,8 +291,8 @@ def delApplicationTable():
     
     # defining columns
     columns = [
-        ColumnDT(Forms.datesubmitted),
         ColumnDT(Forms.id),
+        ColumnDT(Forms.datesubmitted),
         ColumnDT(Forms.name),
         ColumnDT(User.email),
         ColumnDT(User.first_name),
@@ -274,7 +305,7 @@ def delApplicationTable():
     
     # defining the initial query depending on your purpose
     #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
-    query = db.session.query(Forms.datesubmitted, Forms.id, Forms.name, User.email, User.first_name, User.last_name).\
+    query = db.session.query(Forms.id, Forms.datesubmitted, Forms.name, User.email, User.first_name, User.last_name).\
         filter(User.id==Forms.user_id)
     print('query: ', query)
     
@@ -297,8 +328,8 @@ def exApplicationTable():
     
     # defining columns
     columns = [
-        ColumnDT(Forms.datesubmitted),
         ColumnDT(Forms.id),
+        ColumnDT(Forms.datesubmitted),
         ColumnDT(Forms.name),
         ColumnDT(User.email),
         ColumnDT(User.first_name),
@@ -311,7 +342,7 @@ def exApplicationTable():
     
     # defining the initial query depending on your purpose
     #query = db.session.query(User.id, User.email, User.first_name, User.last_name, User.lastLoginDate).filter(User.is_admin==False)
-    query = db.session.query(Forms.datesubmitted, Forms.id, Forms.name, User.email, User.first_name, User.last_name).\
+    query = db.session.query(Forms.id, Forms.datesubmitted, Forms.name, User.email, User.first_name, User.last_name).\
         filter(User.id==Forms.user_id)
     print('query: ', query)
     

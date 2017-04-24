@@ -27,8 +27,8 @@ table.dataTable thead th:first-child {
                                     <table id="formTable" class="display" cellspacing="0" width="100%">
                                        <thead>
                                           <tr>
-                                             <th>Date Submitted</th>
                                              <th>Form ID</th>
+                                             <th>Date Submitted</th>
                                              <th>Form Name</th>
                                              <th>Email</th>
                                              <th>First Name</th>
@@ -37,8 +37,8 @@ table.dataTable thead th:first-child {
                                        </thead>
                                        <tfoot>
                                           <tr>
-                                             <th>Date Submitted</th>
                                              <th>Form ID</th>
+                                             <th>Date Submitted</th>
                                              <th>Form Name</th>
                                              <th>Email</th>
                                              <th>First Name</th>
@@ -51,7 +51,7 @@ table.dataTable thead th:first-child {
                                     <a class="btn btn-large btn-success" id="exportApplication">Export</a><hr>
                                 </center>
                                 <center>
-                                    <a href="{{ url_for('static', filename='dump.csv') }}" download="dump.csv" id="hrf">
+                                    <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="hrf">
                                         <button type="button" id="downloadform" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
                                     </a>
                                 </center>
@@ -84,6 +84,7 @@ table.dataTable thead th:first-child {
     $(document).ready(function(){
         
         var thisRow = {}
+        var selectedRows = []
         
       var table = $('#formTable').DataTable({
         "processing": true,
@@ -92,21 +93,38 @@ table.dataTable thead th:first-child {
       });
    
     $('#formTable tbody').on( 'click', 'tr', function () {
+        
+        var $row = $(this).closest('tr');
+        var data = table.row($row).data();
+        var rowId = data[0];
+        var index = $.inArray(rowId, selectedRows);
+        
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
+            selectedRows.splice(index, 1);
+            
         }
         else {
-            table.$('tr.selected').removeClass('selected');
+            //table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            thisRow = table.row(this).data()
+            selectedRows.push(thisRow)
         }
-        console.log( table.row( this ).data() );
-        thisRow = table.row(this).data()
+        //console.log( table.row( this ).data() );
+        //console.log(selectedRows)
+        for (var i = 0; i < selectedRows.length; i++) {
+            console.log(selectedRows[i]);
+        }
+        
+        console.log(rowId)
+        console.log('selectedRowsLength: ', selectedRows.length)
+        
     } );
  
     $('#exportApplication').click( function () {
         console.log('exporting')
         
-        data = thisRow
+        data = selectedRows
         
         console.log(data)
         
