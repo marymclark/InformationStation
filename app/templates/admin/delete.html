@@ -102,6 +102,7 @@ table.dataTable thead th:first-child {
             contentType:"application/json; charset=utf-8",
             dataType:"json",
             success: function(result) {
+                
                 console.log(result);
                 table.row('.selected').remove().draw( false );
             }

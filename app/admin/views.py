@@ -43,11 +43,16 @@ def deleteUser():
         
         print(str(data['1']))
         
-        user = db.session.query(User).filter(User.email==str(data['1'])).first()
-        db.session.delete(user)
-        db.session.commit()
+        try:
+        
+            user = db.session.query(User).filter(User.email==str(data['1'])).first()
+            db.session.delete(user)
+            db.session.commit()
 
-        return jsonify({'Success':'Request was valid.'})
+            return jsonify({'status':'Success','message':'Deleting successful!'})
+            
+        except:
+            return jsonify({'status':'Failure','message':'There is a form submitted by this user.!'})
         
         
 @admin.route('/delApplication', methods=['POST'])  

@@ -100,9 +100,14 @@ table.dataTable thead th:first-child {
             contentType:"application/json; charset=utf-8",
             dataType:"json",
             success: function(result) {
-                console.log(result);
-                table.row('.selected').remove().draw( false );
-            }
+                if (result["status"] == "Success"){
+                    console.log(result)
+                    table.row('.selected').remove().draw( false );
+                }
+                else{
+                    alert("There is a form submitted by that user!  Please delete that form before removing the user.")
+                }
+            },
         });
         
     } );
