@@ -74,10 +74,13 @@ def delApplication():
         print(str(data['2']))
         
         user = db.session.query(User).filter(User.email==str(data['3'])).first()
-        form = db.session.query(Forms).filter(Forms.user_id==user.id).first()
-        userformentry = db.session.query(UserForms).filter(form.user_id==UserForms.user_id, user.id==UserForms.form_id).first()
+        form = db.session.query(Forms).filter(Forms.user_id==user.id, Forms.id==int(data['0'])).first()
+        print(user.id)
+        print(form.id)
+        userformentry = db.session.query(UserForms).filter(UserForms.user_id==form.user_id, UserForms.form_id==form.id).first()
         
-        if str(data['2'] == 'Form_FifthYear'):
+        if str(data['2']) == 'Form_FifthYear':
+            print('fifthyearyes')
             print(userformentry.user_id, ' ', userformentry.form_id)
             fifthyear = db.session.query(Form_FifthYear).filter(Form_FifthYear.user_id==userformentry.user_id, Form_FifthYear.form_id==userformentry.form_id).first()
             #print(fifthyear.termgraduating)
@@ -109,6 +112,48 @@ def delApplication():
             if practicumgrades:
                 print('del practicumgrades')
                 db.session.delete(practicumgrades)
+                db.session.commit()
+            if userformentry:
+                print('del userform')
+                db.session.delete(userformentry)
+                db.session.commit()
+                
+            if form:
+                print('del form')
+                db.session.delete(form)
+                db.session.commit()
+
+                
+            db.session.commit()
+            
+        if str(data['2']) == 'Form_Postbac':
+            print('postbacyes')
+            print(userformentry.user_id, ' ', userformentry.form_id)
+            postbac = db.session.query(Form_Postbac).filter(Form_Postbac.user_id==userformentry.user_id, Form_Postbac.form_id==userformentry.form_id).first()
+            endorsement = db.session.query(Endorsement).filter(Endorsement.user_id==userformentry.user_id, Endorsement.form_id==userformentry.form_id).first()
+            practicumhistory = db.session.query(PracticumHistory).filter(PracticumHistory.user_id==userformentry.user_id, PracticumHistory.form_id==userformentry.form_id).first()
+            postbacrelationships = db.session.query(PostbacRelationships).filter(PostbacRelationships.user_id==userformentry.user_id, PostbacRelationships.form_id==userformentry.form_id).first()
+            practicumgrades = db.session.query(PracticumGrades).filter(PracticumGrades.user_id==userformentry.user_id, PracticumGrades.form_id==userformentry.form_id).first()
+            
+            if postbac:
+                db.session.delete(postbac)
+                print('del postbac')
+                db.session.commit()
+            if endorsement:
+                print('del endorsement')
+                db.session.delete(endorsement)
+                db.session.commit()
+            if practicumhistory:
+                print('del practicumhistory')
+                db.session.delete(practicumhistory)
+                db.session.commit()
+            if practicumgrades:
+                print('del practicumgrades')
+                db.session.delete(practicumgrades)
+                db.session.commit()
+            if postbacrelationships:
+                print('del postbacrelationships')
+                db.session.delete(postbacrelationships)
                 db.session.commit()
             if userformentry:
                 print('del userform')
