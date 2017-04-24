@@ -143,6 +143,8 @@ def exApplication():
         except:
             return jsonify({'Failure':'No request data.'})
             
+        files = []
+            
         numFifthYear = 0
         numBacs = 0
         numUndergrad = 0
@@ -242,7 +244,15 @@ def exApplication():
             
             
             #return jsonify({'status':'Success','filename':fileName, 'strcsv':csv_file})
-        return jsonify({'status':'Success','filename':fileName})
+            
+        if len(fifthyears) > 0:
+            files.append("fifthYear.csv")
+        if len(postbacs) > 0:
+            files.append("post-bac.csv")
+        if len(undergrads) > 0:
+            files.append("undergrad.csv")
+            
+        return jsonify({'status':'Success','files':files})
 
 
         

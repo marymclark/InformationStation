@@ -51,8 +51,11 @@ table.dataTable thead th:first-child {
                                     <a class="btn btn-large btn-success" id="exportApplication">Export</a><hr>
                                 </center>
                                 <center>
-                                    <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="hrf">
-                                        <button type="button" id="downloadform" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
+                                    <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="fy">
+                                        <button type="button" id="downloadfy" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
+                                    </a>
+                                    <a href="{{ url_for('static', filename='fifthYear.csv') }}" download="dump.csv" id="pb">
+                                        <button type="button" id="downloadpb" style="display:none" class="btn btn-primary btn-lg">Click here to download</button>
                                     </a>
                                 </center>
                                 
@@ -75,8 +78,14 @@ table.dataTable thead th:first-child {
   
   function downloadURI(name) {
       console.log('downloading')
-      $('#hrf').attr('download', name)
-      $('#downloadform').trigger("click");
+      if (name=='fifthYear.csv'){
+        $('#fy').attr('download', name)
+        $('#downloadfy').trigger("click");   
+      }
+      if (name=='post-bac.csv'){
+        $('#pb').attr('download', name)
+        $('#downloadpb').trigger("click");   
+      }
       console.log('yass')
       
 }
@@ -140,7 +149,11 @@ table.dataTable thead th:first-child {
                 
                 console.log(result)
                 
-                console.log(result['filename']);
+                console.log(result['files'][0]);
+                
+                for (i = 0; i < result['files'].length; i++) { 
+                    downloadURI(result['files'][i])
+                }
                 
                 //console.log(result['strcsv'])
                 
@@ -149,7 +162,7 @@ table.dataTable thead th:first-child {
                 //downloadURI("app/static/dump.csv", result['filename']);
                 //downloadURI("data:text/html,HelloWorld!", "helloWorld.txt");
                 
-                downloadURI(result['filename']);
+                //downloadURI(result['filename']);
                 
                 
 
