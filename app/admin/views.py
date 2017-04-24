@@ -302,9 +302,13 @@ def exApplication():
                 out = csv.writer(f)
                 
                 print('file open')
+                
+                #out.writerow(['Submission Date', 'Last Name', 'First Name', 'Prefered County', 'Prefered Grade Level', 'Requirements Satisfied',
+                #                'Endorsement Area', 'Practicum School Name', 'Practicum School Division', 'Practicum Subject', 'Practicum Grade',
+                #                'Practicum Person Name', 'Practicum School Name', 'Practicum Relationship Type'])
                     
                 out.writerow([form.datesubmitted, user.last_name, user.first_name, postbac.preferedcountry, postbac.preferedgradelevel, postbac.requirementssatisfied,
-                                    endorsement.area, practicumgrades.subject, practicumgrades.grade, practicumhistory.schoolname, practicumhistory.schooldivision,
+                                    endorsement.area, practicumhistory.schoolname, practicumhistory.schooldivision, practicumgrades.subject, practicumgrades.grade, 
                                     postbacrelationships.personname, postbacrelationships.schoolname, postbacrelationships.relationshiptype])
                     #out.writerow([fifthyearmasters.])
             
